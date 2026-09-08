@@ -81,8 +81,12 @@
     color:#EEF3F8; font-size: 42px;
     box-shadow: 0 20px 34px -18px rgba(16,20,27,0.5);
     overflow: hidden;
+    position: relative;
   }
-  .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .avatar img{
+    position: absolute; inset: 0;
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
   .profile h1{ font-size: 28px; margin: 0 0 8px; }
   .profile .bio{ color: var(--text-soft); max-width: 50ch; margin: 0 0 14px; font-size: 15px; }
   .stats{ display:flex; gap: 22px; font-size: 13.5px; color: var(--text-soft); margin-bottom: 12px; }
@@ -137,8 +141,9 @@
     flex-wrap: wrap; gap: 24px;
   }
   footer .links{ display:flex; gap: 22px; font-size: 14px; }
-  footer .links a{ text-decoration:none; color: var(--text-soft); transition: color .15s ease; }
+  footer .links a{ display:inline-flex; align-items:center; gap:6px; text-decoration:none; color: var(--text-soft); transition: color .15s ease; }
   footer .links a:hover{ color: var(--text); }
+  footer .links svg{ width:15px; height:15px; fill: currentColor; }
   footer .copy{ font-size: 13px; color: var(--text-soft); }
 
   #home.hidden{ display:none; }
@@ -190,7 +195,7 @@
 <div class="wrap">
   <header>
     <nav>
-      <a class="brand serif" href="#" onclick="go('home', event)">陆池</a>
+      <a class="brand serif" href="#" onclick="go('home', event)">YUU</a>
       <div class="navlinks">
         <a href="#" onclick="scrollToId('log', event)">手记</a>
         <a href="#" onclick="scrollToId('contact', event)">联系</a>
@@ -203,8 +208,10 @@
 
     <section class="profile">
       <div class="avatar">
-        <!-- 想换真实头像：把下面这行注释取消，并把 img 换成你的图片路径 -->
-         <img src="touxiang.jpg" alt="YUU"> 
+        <!-- 保底文字：图片加载失败时会自动露出这个字母 -->
+        <span class="serif">Y</span>
+        <!-- 真实头像：图片加载成功后会盖住上面的保底字母 -->
+        <img src="images/touxiang.jpg" alt="YUU" onerror="this.style.display='none'">
       </div>
       <div>
         <h1 class="serif">YUU</h1>
@@ -260,7 +267,12 @@
 
     <footer id="contact">
       <div class="links">
-        <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener"></a>
+        <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9.8 9.4c-3.6.4-6.4 2.7-6.2 5.3.2 2.6 3.4 4.4 7.1 4 3.6-.4 6.4-2.7 6.2-5.3-.2-2.6-3.4-4.4-7.1-4zm.9 6.9c-1.8.2-3.3-.5-3.4-1.6-.1-1.1 1.2-2.2 3-2.4 1.8-.2 3.3.5 3.4 1.6.1 1.1-1.2 2.2-3 2.4zm-.5-2.1c-.4.1-.7.4-.6.7.1.3.5.4.9.3.4-.1.7-.4.6-.7-.1-.3-.5-.4-.9-.3zm1.7-.4c-.2 0-.4.2-.3.4 0 .2.3.3.5.2.2 0 .3-.2.3-.4 0-.2-.3-.3-.5-.2zM17.6 8.3c.5-1.6-.6-2.3-1.7-1.6-.4.2-.5-.1-.4-.4.4-1.4-.7-2-1.8-1.4-.4.2-.6.1-.5-.3.1-.6-.4-1-1-.8-.5.2-.8.8-.6 1.3.1.4-.1.5-.4.4-.6-.2-1 .2-.9.7.1.4-.1.6-.5.5-1.3-.3-2.1.7-1.5 1.8.1.3 0 .4-.3.4-1 0-1.4.9-.8 1.6.2.3.1.4-.2.4-3.7.3-6.6 2.6-6.4 5.4.2 3 3.9 5 8.2 4.5 4.6-.5 8.1-3.5 7.8-6.7-.2-2.1-2-3.7-4.6-4.2.3-.4.5-.9.6-1.6z"/>
+          </svg>
+          微博
+        </a>
       </div>
       <div class="copy">© 2026 YUU</div>
     </footer>
