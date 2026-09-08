@@ -1,541 +1,563 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YUU · REPO</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg: #EEF2F7;
-    --surface: #FFFFFF;
-    --ink: #10141B;
-    --text: #12151C;
-    --text-soft: #626E7E;
-    --line: rgba(16,20,27,0.09);
-    --accent: #32475F;
-    --ice: #A9BED4;
-    --max: 960px;
-    --r: 6px;
-  }
-
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body{
-    margin:0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    font-size: 16px;
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-    position: relative;
-    overflow-x: hidden;
-  }
-
-  .glow{
-    position: fixed;
-    pointer-events: none;
-    z-index: -1;
-    filter: blur(70px);
-    opacity: .55;
-  }
-  .glow.g1{ top:-160px; left:-120px; width:520px; height:420px;
-    background: radial-gradient(circle, rgba(50,71,95,0.55), transparent 65%); }
-  .glow.g2{ top:280px; right:-180px; width:480px; height:420px;
-    background: radial-gradient(circle, rgba(34,80,95,0.4), transparent 65%); }
-
-  a { color: inherit; }
-  ::selection { background: var(--accent); color: #fff; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-  .serif{ font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; }
-
-  .wrap{ max-width: var(--max); margin: 0 auto; padding: 0 32px; position: relative; }
-
-  /* ---------- Nav ---------- */
-  header{ padding: 32px 0 0; }
-  nav{
-    display:flex; justify-content: space-between; align-items: center;
-    padding-bottom: 20px; border-bottom: 1px solid var(--line);
-  }
-  .brand{ font-size: 21px; letter-spacing: 0.2px; text-decoration:none; }
-  .navlinks{ display:flex; gap: 30px; font-size: 14px; color: var(--text-soft); }
-  .navlinks a{ text-decoration:none; transition: color .15s ease; }
-  .navlinks a:hover{ color: var(--text); }
-
-  /* ---------- Profile ---------- */
-  .profile{
-    display:flex; align-items:center; gap: 30px;
-    padding: 72px 0 40px;
-  }
-  .avatar{
-    flex: none;
-    width: 104px; height: 104px;
-    border-radius: 50%;
-    background: linear-gradient(155deg,#2E4157,#4F7B93);
-    display:flex; align-items:center; justify-content:center;
-    color:#EEF3F8; font-size: 42px;
-    box-shadow: 0 20px 34px -18px rgba(16,20,27,0.5);
-    overflow: hidden;
-    position: relative;
-  }
-  .avatar img{
-    position: absolute; inset: 0;
-    width:100%; height:100%; object-fit:cover; display:block;
-  }
-  .profile h1{ font-size: 28px; margin: 0 0 8px; }
-  .profile .bio{ color: var(--text-soft); max-width: 50ch; margin: 0 0 14px; font-size: 15px; }
-  .stats{ display:flex; gap: 22px; font-size: 13.5px; color: var(--text-soft); margin-bottom: 12px; }
-  .stats b{ color: var(--text); font-weight: 600; }
-  .tags{ display:flex; flex-wrap: wrap; gap: 8px; }
-  .tag{
-    font-size: 12.5px; padding: 5px 12px; border-radius: 100px;
-    border: 1px solid var(--line); color: var(--text-soft); background: var(--surface);
-  }
-
-  /* ---------- Section head ---------- */
-  .section-head{
-    padding-top: 44px; border-top: 1px solid var(--line);
-    display:flex; align-items: baseline; justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  .section-head h2{ font-size: 24px; margin:0; }
-  .section-head span{ font-size: 13px; color: var(--text-soft); }
-
-  /* ---------- Grid (ins style) ---------- */
-  .tilegrid{
-    display:grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
-    padding-bottom: 60px;
-  }
-  .tile{
-    position: relative; aspect-ratio: 1/1; border-radius: var(--r);
-    overflow: hidden; display:block; text-decoration:none;
-  }
-  .tile .tilemood{
-    position:absolute; left:14px; bottom:14px; color:#EEF3F8; font-size:22px;
-  }
-  .tile .tileinfo{
-    position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end;
-    padding:16px; color:#fff; opacity:0; transition: opacity .25s ease;
-    background: linear-gradient(180deg, rgba(10,14,20,0) 44%, rgba(10,14,20,0.62));
-  }
-  .tile:hover .tileinfo{ opacity:1; }
-  .tile .tileinfo b{ font-size:15px; font-weight:600; }
-  .tile .tileinfo span{ font-size:12px; opacity:.85; }
-
-  .t1{ background: linear-gradient(160deg,#1B2A3D,#3A5470); }
-  .t2{ background: linear-gradient(160deg,#14181E,#2C3541); }
-  .t3{ background: linear-gradient(160deg,#182A2E,#375861); }
-  .t4{ background: linear-gradient(160deg,#1B1E36,#3A3F72); }
-  .t5{ background: linear-gradient(160deg,#1D232C,#4A5768); }
-  .t6{ background: linear-gradient(160deg,#0F2028,#22505F); }
-
-  /* ---------- Footer ---------- */
-  footer{
-    padding: 40px 0 60px; border-top: 1px solid var(--line);
-    display:flex; justify-content: space-between; align-items: flex-end;
-    flex-wrap: wrap; gap: 24px;
-  }
-  footer .links{ display:flex; gap: 22px; font-size: 14px; }
-  footer .links a{ display:inline-flex; align-items:center; gap:6px; text-decoration:none; color: var(--text-soft); transition: color .15s ease; }
-  footer .links a:hover{ color: var(--text); }
-  footer .links svg{ width:15px; height:15px; fill: currentColor; }
-  footer .copy{ font-size: 13px; color: var(--text-soft); }
-
-  #home.hidden{ display:none; }
-
-  /* ---------- Detail (single game page) ---------- */
-  .detail{ display:none; padding: 40px 0 60px; }
-  .detail.active{ display:block; }
-  .back{
-    display:inline-flex; align-items:center; gap:6px; font-size:14px;
-    color: var(--text-soft); text-decoration:none; margin-bottom: 26px;
-  }
-  .back:hover{ color: var(--text); }
-
-  .cover{
-    position: relative; border-radius: var(--r); overflow:hidden;
-    aspect-ratio: 16/7; box-shadow: 0 26px 46px -30px rgba(16,20,27,0.45);
-    margin-bottom: 32px;
-  }
-  .cover .dmeta{ position:absolute; left:28px; top:22px; font-size:12.5px; color:rgba(238,243,248,.8); }
-  .cover .dtitle{ position:absolute; left:28px; bottom:22px; color:#EEF3F8; font-size:38px; }
-
-  .entry{ padding: 26px 0; border-top: 1px solid var(--line); }
-  .entry:first-of-type{ border-top:none; padding-top: 0; }
-  .entry .edate{ font-size:13px; color: var(--text-soft); margin-bottom:10px; letter-spacing:.2px; }
-  .entry p{ margin:0 0 16px; color: var(--text-soft); max-width: 62ch; font-size:15px; }
-  .shots{ display:flex; gap:10px; flex-wrap:wrap; }
-  .shot{
-    width: 160px; aspect-ratio: 4/3; border-radius: 4px;
-    background-color: var(--line); background-size: cover; background-position: center;
-  }
-
-  @media (max-width: 760px){
-    .profile{ flex-direction:column; align-items:flex-start; text-align:left; padding-top:56px; }
-    .tilegrid{ gap:4px; }
-    .cover .dtitle{ font-size: 28px; }
-    .shot{ width: 30%; }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    * { transition: none !important; scroll-behavior: auto !important; }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YUU · REPO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #EEF2F7;
+      --surface: #FFFFFF;
+      --ink: #10141B;
+      --text: #12151C;
+      --text-soft: #626E7E;
+      --line: rgba(16, 20, 27, 0.09);
+      --accent: #32475F;
+      --ice: #A9BED4;
+      --max: 960px;
+      --r: 6px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+    a {
+      color: inherit;
+    }
+    ::selection {
+      background: var(--accent);
+      color: #fff;
+    }
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .serif {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+    .glow {
+      position: fixed;
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(70px);
+      opacity: .55;
+    }
+    .glow.g1 {
+      top: -160px;
+      left: -120px;
+      width: 520px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(50, 71, 95, 0.55), transparent 65%);
+    }
+    .glow.g2 {
+      top: 280px;
+      right: -180px;
+      width: 480px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(34, 80, 95, 0.4), transparent 65%);
+    }
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+    }
+    header {
+      padding: 32px 0 0;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      font-size: 21px;
+      letter-spacing: 0.2px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .navlinks {
+      display: flex;
+      gap: 30px;
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+    .navlinks a {
+      text-decoration: none;
+      transition: color .15s ease;
+      cursor: pointer;
+    }
+    .navlinks a:hover {
+      color: var(--text);
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      padding: 72px 0 40px;
+    }
+    .avatar {
+      flex: none;
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background: linear-gradient(155deg, #2E4157, #4F7B93);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #EEF3F8;
+      font-size: 42px;
+      box-shadow: 0 20px 34px -18px rgba(16, 20, 27, 0.5);
+      overflow: hidden;
+      position: relative;
+    }
+    .avatar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .profile h1 {
+      font-size: 28px;
+      margin: 0 0 8px;
+    }
+    .profile .bio {
+      color: var(--text-soft);
+      max-width: 50ch;
+      margin: 0 0 14px;
+      font-size: 15px;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      font-size: 12.5px;
+      padding: 5px 12px;
+      border-radius: 100px;
+      border: 1px solid var(--line);
+      color: var(--text-soft);
+      background: var(--surface);
+    }
+    .section-head {
+      padding-top: 44px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .section-head h2 {
+      font-size: 26px;
+      margin: 0;
+    }
+    .cardlist {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-bottom: 60px;
+    }
+    .game-card {
+      display: flex;
+      border-radius: var(--r);
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: 0 4px 14px rgba(16, 20, 27, 0.04);
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      height: 150px;
+      border: 1px solid var(--line);
+    }
+    .game-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -10px rgba(16, 20, 27, 0.12);
+    }
+    .game-card .card-img {
+      flex: 0 0 220px;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-color: var(--line);
+      position: relative;
+    }
+    .game-card .card-img .card-mood {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 20px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+    .game-card .card-body {
+      flex: 1;
+      padding: 18px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--surface);
+    }
+    .game-card .card-body .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 4px;
+      font-family: inherit;
+    }
+    .game-card .card-body .card-sub {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin: 0;
+    }
+    .game-card .card-body .card-tags {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .game-card .card-body .card-tags span {
+      font-size: 11.5px;
+      padding: 3px 12px;
+      border-radius: 100px;
+      border: 1px solid var(--line);
+      color: var(--text-soft);
+      background: var(--bg);
+    }
+    footer {
+      padding: 40px 0 60px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    footer .links {
+      display: flex;
+      gap: 22px;
+      font-size: 14px;
+    }
+    footer .links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: var(--text-soft);
+      transition: color .15s ease;
+    }
+    footer .links a:hover {
+      color: var(--text);
+    }
+    footer .copy {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+    #home.hidden {
+      display: none;
+    }
+    .detail {
+      display: none;
+      padding: 40px 0 60px;
+    }
+    .detail.active {
+      display: block;
+    }
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--text-soft);
+      text-decoration: none;
+      margin-bottom: 30px;
+      cursor: pointer;
+      transition: color .15s ease;
+    }
+    .back:hover {
+      color: var(--text);
+    }
+    .detail-header {
+      margin-bottom: 32px;
+    }
+    .detail-header .detail-game-title {
+      font-size: 34px;
+      font-weight: 600;
+      margin: 0 0 4px;
+      font-family: inherit;
+    }
+    .detail-header .detail-game-meta {
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .timeline-item {
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+    }
+    .timeline-item:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+    .timeline-item .tl-date {
+      font-size: 13px;
+      color: var(--text-soft);
+      letter-spacing: 0.2px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .timeline-item .tl-text {
+      margin: 0 0 14px;
+      color: var(--text-soft);
+      max-width: 62ch;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .timeline-item .tl-media {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .timeline-item .tl-media .tl-shot {
+      width: 180px;
+      aspect-ratio: 4/3;
+      border-radius: 4px;
+      background-color: var(--line);
+      background-size: cover;
+      background-position: center;
+      border: 1px solid var(--line);
+    }
+    .timeline-item .tl-media .tl-shot.multi {
+      width: 140px;
+    }
+    @media (max-width: 760px) {
+      .profile {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        padding-top: 56px;
+      }
+      .game-card {
+        height: 120px;
+      }
+      .game-card .card-img {
+        flex: 0 0 120px;
+      }
+      .game-card .card-body .card-title {
+        font-size: 16px;
+      }
+      .game-card .card-body {
+        padding: 14px 16px;
+      }
+      .detail-header .detail-game-title {
+        font-size: 26px;
+      }
+      .timeline-item .tl-media .tl-shot {
+        width: 140px;
+      }
+      .timeline-item .tl-media .tl-shot.multi {
+        width: 100px;
+      }
+      .wrap {
+        padding: 0 18px;
+      }
+      .section-head h2 {
+        font-size: 22px;
+      }
+    }
+    @media (max-width: 480px) {
+      .game-card {
+        height: 100px;
+        flex-direction: row;
+      }
+      .game-card .card-img {
+        flex: 0 0 90px;
+      }
+      .game-card .card-body .card-title {
+        font-size: 14px;
+      }
+      .game-card .card-body .card-sub {
+        font-size: 12px;
+      }
+      .game-card .card-body .card-tags span {
+        font-size: 10px;
+        padding: 2px 10px;
+      }
+      .detail-header .detail-game-title {
+        font-size: 22px;
+      }
+      .timeline-item .tl-media .tl-shot {
+        width: 100%;
+        aspect-ratio: 4/3;
+      }
+      .timeline-item .tl-media .tl-shot.multi {
+        width: 48%;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
 <body>
-
-<div class="glow g1"></div>
-<div class="glow g2"></div>
-
-<div class="wrap">
-  <header>
-    <nav>
-      <a class="brand serif" href="#" onclick="go('home', event)">YUU</a>
-      <div class="navlinks">
-        <a href="#" onclick="scrollToId('log', event)">手记</a>
-        <a href="#" onclick="scrollToId('contact', event)">联系</a>
-      </div>
-    </nav>
-  </header>
-
-  <!-- ========== 首页：个人主页 + 游戏宫格 ========== -->
-  <div id="home">
-
-    <section class="profile">
-      <div class="avatar">
-        <!-- 保底文字：图片加载失败时会自动露出这个字母 -->
-        <span class="serif">YUU</span>
-        <!-- 真实头像：图片加载成功后会盖住上面的保底字母 -->
-        <img src="images/touxiang.jpg" alt="YUU" onerror="this.style.display='none'">
-      </div>
-      <div>
-        <h1 class="serif">YUU</h1>
-        <p class="bio">摸鱼的时候传点游戏repo, 内容待建设中。</p>
-        <!--
-                <div class="stats">
-          <span><b>6</b> 款游戏</span>
-          <span><b>14</b> 篇手记</span>
-          <span>持续更新中</span>
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="wrap">
+    <header>
+      <nav>
+        <a class="brand serif" href="#" onclick="goHome(event)">YUU</a>
+        <div class="navlinks">
+          <a href="#" onclick="smartScroll('log', event)">REPO</a>
+          <a href="#" onclick="smartScroll('contact', event)">联系</a>
         </div>
-        -->
-        <div class="tags">
-          <span class="tag">乙女游戏</span>
-          <span class="tag">JRPG</span>
+      </nav>
+    </header>
+    <div id="home">
+      <section class="profile">
+        <div class="avatar">
+          <span class="serif">YUU</span>
+          <img src="images/touxiang.jpg" alt="YUU" onerror="this.style.display='none'" />
         </div>
-      
-
+        <div>
+          <h1 class="serif">YUU</h1>
+          <p class="bio">摸鱼的时候传点游戏 repo,内容待建设中。</p>
+          <div class="tags">
+            <span class="tag">PC</span>
+            <span class="tag">NS</span>
+            <span class="tag">PS5</span>
+          </div>
+        </div>
+      </section>
+      <div class="section-head" id="log">
+        <h2 class="serif">游戏 REPO</h2>
+      </div>
+      <div class="cardlist">
+        <a class="game-card" href="#game-1" onclick="goDetail('game-1', event)">
+          <div class="card-img" style="background-image:url('images/prince.jpg');">
+            <span class="card-mood serif">幸福</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">网球王子 学园祭的王子们</div>
+            <div class="card-sub">恋爱 · SWITCH</div>
+            <div class="card-tags">
+              <span>乙女</span>
+              <span>养成</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <footer id="contact">
+        <div class="links">
+          <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">微博</a>
+        </div>
+        <div class="copy">© 2026 YUU</div>
+      </footer>
+    </div>
+    <section class="detail" id="game-1">
+      <a class="back" href="#" onclick="goHome(event)">← 返回</a>
+      <div class="detail-header">
+        <h1 class="detail-game-title">网球王子 学园祭的王子们</h1>
+        <div class="detail-game-meta">恋爱 · SWITCH · 2026</div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-date">2026.07.30</div>
+          <p class="tl-text">终于发售了 OVO！</p>
+          <div class="tl-media">
+            <div class="tl-shot" style="background-image:url('images/prince.jpg');"></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-date">2026.08.02</div>
+          <p class="tl-text">玩了一整天，每条线路都好甜…… 手冢部长我来了！</p>
+          <div class="tl-media">
+            <div class="tl-shot" style="background-image:url('images/prince.jpg');"></div>
+            <div class="tl-shot" style="background-image:url('images/prince.jpg');"></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-date">2026.08.05</div>
+          <p class="tl-text">不二周助线通关，结局哭死我了 T_T 再打一遍。</p>
+          <div class="tl-media">
+            <div class="tl-shot" style="background-image:url('images/prince.jpg');"></div>
+          </div>
+        </div>
       </div>
     </section>
-
-    <div class="section-head" id="log">
-      <h2 class="serif">游戏REPO</h2>
-      <!--<span>点开任意一格，看完整时间线</span>-->
-    </div>
-
-<div class="tilegrid">
-  <a class="tile t1" href="#game-1" onclick="go('game-1', event)">
-    <span class="tilemood serif">幸福</span>
-    <div class="tileinfo"><b>网球王子 学园祭的王子们</b></div>
-  </a>
-</div>
-
-<!--
-   <div class="tilegrid">
-      <a class="tile t1" href="#game-1" onclick="go('game-1', event)">
-        <span class="tilemood serif">疲惫</span>
-        <div class="tileinfo"><b>艾尔登法环</b><span>3 篇记录</span></div>
-      </a>
-      <a class="tile t2" href="#game-2" onclick="go('game-2', event)">
-        <span class="tilemood serif">松弛</span>
-        <div class="tileinfo"><b>星露谷物语</b><span>2 篇记录</span></div>
-      </a>
-      <a class="tile t3" href="#game-3" onclick="go('game-3', event)">
-        <span class="tilemood serif">孤独</span>
-        <div class="tileinfo"><b>空洞骑士</b><span>2 篇记录</span></div>
-      </a>
-      <a class="tile t4" href="#game-4" onclick="go('game-4', event)">
-        <span class="tilemood serif">回味</span>
-        <div class="tileinfo"><b>极乐迪斯科</b><span>2 篇记录</span></div>
-      </a>
-      <a class="tile t5" href="#game-5" onclick="go('game-5', event)">
-        <span class="tilemood serif">陪伴</span>
-        <div class="tileinfo"><b>双人成行</b><span>2 篇记录</span></div>
-      </a>
-      <a class="tile t6" href="#game-6" onclick="go('game-6', event)">
-        <span class="tilemood serif">释然</span>
-        <div class="tileinfo"><b>蔚蓝</b><span>2 篇记录</span></div>
-      </a>
-    </div>    
--->
- 
-    <footer id="contact">
-      <div class="links">
-        <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">微博</a>
-      </div>
-      <div class="copy">© 2026 YUU</div>
-    </footer>
   </div>
-
-<!--
-  ==========================================================================
-  游戏日志详情页 —— 全部六个游戏的详情内容
-  包含：艾尔登法环、星露谷物语、空洞骑士、极乐迪斯科、双人成行、蔚蓝
-  每个游戏独立为一个 <section>，内含封面、返回按钮和多篇日志条目
-  ==========================================================================
--->
-
-
-<section class="detail t1cover" id="game-1">
-  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-  <div class="cover t1">
-    <span class="dmeta">恋爱 · SWITCH</span>
-    <span class="dtitle serif">网球王子 学园祭的王子们</span>
-  </div>
-
-  <article class="entry">
-    <div class="edate">2026.07.30</div>
-    <p>终于发售了OVO!</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/prince.jpg')"></div>
-    </div>
-  </article>
-<!--  <article class="entry">
-    <div class="edate">2026.01.20</div>
-    <p>打通了火山官邸，开始享受被支配的感觉。地图设计真的很坏，但坏得让人上瘾。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/eldenring-3.jpg')"></div>
-      <div class="shot" style="background-image:url('images/eldenring-4.jpg')"></div>
-      <div class="shot" style="background-image:url('images/eldenring-5.jpg')"></div>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="edate">2026.03.14</div>
-    <p>通关。回头看存档时长吓了自己一跳，赢的那一刻没有想象中兴奋，只是很安静地松了口气。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/eldenring-6.jpg')"></div>
-    </div>
-  </article>-->
-</section>
-
-
-<!--
-  ============================== 艾尔登法环 ==============================
--->
-<!--
-<section class="detail t1cover" id="game-1">
-  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-  <div class="cover t1">
-    <span class="dmeta">动作 RPG · PC</span>
-    <span class="dtitle serif">艾尔登法环</span>
-  </div>
-
-  <article class="entry">
-    <div class="edate">2025.12.02</div>
-    <p>刚入坑，被门神打到怀疑人生，删档重开了两次。但奇怪的是越输越想再来一把。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/eldenring-1.jpg')"></div>
-      <div class="shot" style="background-image:url('images/eldenring-2.jpg')"></div>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="edate">2026.01.20</div>
-    <p>打通了火山官邸，开始享受被支配的感觉。地图设计真的很坏，但坏得让人上瘾。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/eldenring-3.jpg')"></div>
-      <div class="shot" style="background-image:url('images/eldenring-4.jpg')"></div>
-      <div class="shot" style="background-image:url('images/eldenring-5.jpg')"></div>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="edate">2026.03.14</div>
-    <p>通关。回头看存档时长吓了自己一跳，赢的那一刻没有想象中兴奋，只是很安静地松了口气。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/eldenring-6.jpg')"></div>
-    </div>
-  </article>
-</section>
--->
-
-<!--
-  ============================== 星露谷物语 ==============================
--->
-<!--
-<section class="detail" id="game-2">
-  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-  <div class="cover t2">
-    <span class="dmeta">模拟经营 · Switch</span>
-    <span class="dtitle serif">星露谷物语</span>
-  </div>
-
-  <article class="entry">
-    <div class="edate">2025.11.10</div>
-    <p>第一年秋天，农场还乱糟糟的，作物种得东倒西歪，但每天浇水的仪式感莫名让人安心。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/stardew-1.jpg')"></div>
-      <div class="shot" style="background-image:url('images/stardew-2.jpg')"></div>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="edate">2026.01.05</div>
-    <p>农场终于像样了，开始有空钓鱼收集图鉴。这游戏教会我，慢一点也没关系。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/stardew-3.jpg')"></div>
-    </div>
-  </article>
-</section>
--->
-
-<!--
-  ============================== 空洞骑士 ==============================
--->
-<!--
-<section class="detail" id="game-3">
-  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-  <div class="cover t3">
-    <span class="dmeta">银河恶魔城 · PC</span>
-    <span class="dtitle serif">空洞骑士</span>
-  </div>
-
-  <article class="entry">
-    <div class="edate">2025.10.02</div>
-    <p>地图很大，音乐很轻，第一次打开就迷路了三个小时，但完全不想开攻略。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/hollowknight-1.jpg')"></div>
-      <div class="shot" style="background-image:url('images/hollowknight-2.jpg')"></div>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="edate">2025.11.18</div>
-    <p>很长一段时间里我都是一个人在赶路。奇怪的是，这种孤独让我很平静。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/hollowknight-3.jpg')"></div>
-    </div>
-  </article>
-</section>
--->
-
-<!--
-  ============================== 极乐迪斯科 ==============================
--->
-<!--
-<section class="detail" id="game-4">
-  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-  <div class="cover t4">
-    <span class="dmeta">叙事解谜 · PC</span>
-    <span class="dtitle serif">极乐迪斯科</span>
-  </div>
-
-  <article class="entry">
-    <div class="edate">2025.08.20</div>
-    <p>没有战斗，全靠选择和对话，第一小时几乎都花在读文字上，但完全停不下来。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/disco-1.jpg')"></div>
-      <div class="shot" style="background-image:url('images/disco-2.jpg')"></div>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="edate">2025.09.15</div>
-    <p>通关之后还在想那句台词，比很多动作游戏都更让我心里堵得慌。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/disco-3.jpg')"></div>
-    </div>
-  </article>
-</section>
--->
-
-<!--
-  ============================== 双人成行 ==============================
--->
-<!--
-<section class="detail" id="game-5">
-  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-  <div class="cover t5">
-    <span class="dmeta">双人合作 · PS5</span>
-    <span class="dtitle serif">双人成行</span>
-  </div>
-
-  <article class="entry">
-    <div class="edate">2025.07.02</div>
-    <p>很久没和朋友一起玩游戏了，两个人对着一台屏幕笑到停不下来。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/itsy-1.jpg')"></div>
-      <div class="shot" style="background-image:url('images/itsy-2.jpg')"></div>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="edate">2025.07.09</div>
-    <p>通关那晚我们聊到很晚，说好了下次再一起玩点别的。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/itsy-3.jpg')"></div>
-    </div>
-  </article>
-</section>
--->
-
-<!--
-  ============================== 蔚蓝 ==============================
--->
-<!--
-<section class="detail" id="game-6">
-  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-  <div class="cover t6">
-    <span class="dmeta">平台跳跃 · Switch</span>
-    <span class="dtitle serif">蔚蓝</span>
-  </div>
-
-  <article class="entry">
-    <div class="edate">2025.04.28</div>
-    <p>难度很高，摔了无数次，甚至有点烦躁，但每次重开都还是想再试一次。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/celeste-1.jpg')"></div>
-      <div class="shot" style="background-image:url('images/celeste-2.jpg')"></div>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="edate">2025.05.20</div>
-    <p>爬到山顶那一下，突然想哭，感觉像是解决了游戏之外的什么事情。</p>
-    <div class="shots">
-      <div class="shot" style="background-image:url('images/celeste-3.jpg')"></div>
-    </div>
-  </article>
-</section>
--->
-  
-  
-<script>
-  // 纯前端切换首页/详情页，不修改地址栏 URL（不写 hash，不 pushState）
-  function activate(id){
-    var isHome = (id === 'home');
-    document.getElementById('home').classList.toggle('hidden', !isHome);
-    var details = document.querySelectorAll('.detail');
-    for (var i = 0; i < details.length; i++) {
-      details[i].classList.toggle('active', details[i].id === id);
+  <script>
+    function activate(id) {
+      var isHome = (id === 'home');
+      var homeEl = document.getElementById('home');
+      if (homeEl) {
+        homeEl.classList.toggle('hidden', !isHome);
+      }
+      var details = document.querySelectorAll('.detail');
+      for (var i = 0; i < details.length; i++) {
+        details[i].classList.toggle('active', details[i].id === id);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    window.scrollTo(0, 0);
-  }
-  function go(id, evt){
-    if (evt) evt.preventDefault();
-    activate(id);
-  }
-  function scrollToId(id, evt){
-    if (evt) evt.preventDefault();
-    var el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-</script>
-
+    function goHome(evt) {
+      if (evt) evt.preventDefault();
+      activate('home');
+    }
+    function goDetail(id, evt) {
+      if (evt) evt.preventDefault();
+      activate(id);
+    }
+    function smartScroll(targetId, evt) {
+      if (evt) evt.preventDefault();
+      var homeEl = document.getElementById('home');
+      var isHomeVisible = homeEl && !homeEl.classList.contains('hidden');
+      if (isHomeVisible) {
+        var el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        activate('home');
+        setTimeout(function() {
+          var el = document.getElementById(targetId);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 180);
+      }
+    }
+    window.goHome = goHome;
+    window.goDetail = goDetail;
+    window.smartScroll = smartScroll;
+    window.activate = activate;
+  </script>
 </body>
 </html>
