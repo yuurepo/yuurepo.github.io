@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YUU · 游戏手记(test)</title>
+<title>YUU · REPO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -190,10 +190,10 @@
 <div class="wrap">
   <header>
     <nav>
-      <a class="brand serif" href="#" onclick="go('home', event)">YUU</a>
+      <a class="brand serif" href="#" onclick="go('home', event)">陆池</a>
       <div class="navlinks">
-        <a href="#log">手记</a>
-        <a href="#contact">联系</a>
+        <a href="#" onclick="scrollToId('log', event)">手记</a>
+        <a href="#" onclick="scrollToId('contact', event)">联系</a>
       </div>
     </nav>
   </header>
@@ -204,33 +204,32 @@
     <section class="profile">
       <div class="avatar">
         <!-- 想换真实头像：把下面这行注释取消，并把 img 换成你的图片路径 -->
-        <!-- <img src="avatar.jpg" alt="陆池"> -->
-        <span class="serif">陆</span>
+         <img src="touxiang.jpg" alt="YUU"> 
       </div>
       <div>
-        <h1 class="serif">陆池</h1>
-        <p class="bio">写代码，也打游戏。这里记录每一款打过的游戏在不同时间给我的感受——不是评测，只是留给自己的手记。</p>
-        <div class="stats">
+        <h1 class="serif">YUU</h1>
+        <p class="bio">摸鱼的时候传点游戏repo,内容待建设中。</p>
+        <!--
+                <div class="stats">
           <span><b>6</b> 款游戏</span>
           <span><b>14</b> 篇手记</span>
           <span>持续更新中</span>
         </div>
         <div class="tags">
-          <span class="tag">开放世界</span>
-          <span class="tag">解谜</span>
-          <span class="tag">独立叙事</span>
-          <span class="tag">Roguelike</span>
-          <span class="tag">合作向</span>
+          <span class="tag">乙女游戏</span>
+          <span class="tag">JRPG</span>
         </div>
+        -->
+
       </div>
     </section>
 
     <div class="section-head" id="log">
       <h2 class="serif">游戏手记</h2>
-      <span>点开任意一格，看完整时间线</span>
+      <!--<span>点开任意一格，看完整时间线</span>-->
     </div>
-
-    <div class="tilegrid">
+<!--
+   <div class="tilegrid">
       <a class="tile t1" href="#game-1" onclick="go('game-1', event)">
         <span class="tilemood serif">疲惫</span>
         <div class="tileinfo"><b>艾尔登法环</b><span>3 篇记录</span></div>
@@ -255,187 +254,219 @@
         <span class="tilemood serif">释然</span>
         <div class="tileinfo"><b>蔚蓝</b><span>2 篇记录</span></div>
       </a>
-    </div>
+    </div>    
+-->
+ 
 
     <footer id="contact">
       <div class="links">
-        <a href="yuunaovo@outlook.com">邮箱</a>
-        <a href="https://github.com/yuurepo" target="_blank" rel="noopener">GitHub</a>
-        <a href="#">小红书</a>
+        <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener"></a>
       </div>
       <div class="copy">© 2026 YUU</div>
     </footer>
   </div>
 
-  <!-- ========== 详情页：艾尔登法环 ========== -->
-  <section class="detail t1cover" id="game-1">
-    <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-    <div class="cover t1">
-      <span class="dmeta">动作 RPG · PC</span>
-      <span class="dtitle serif">艾尔登法环</span>
+<!--
+  ==========================================================================
+  游戏日志详情页 —— 全部六个游戏的详情内容
+  包含：艾尔登法环、星露谷物语、空洞骑士、极乐迪斯科、双人成行、蔚蓝
+  每个游戏独立为一个 <section>，内含封面、返回按钮和多篇日志条目
+  ==========================================================================
+-->
+
+<!--
+  ============================== 艾尔登法环 ==============================
+-->
+<!--
+<section class="detail t1cover" id="game-1">
+  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
+  <div class="cover t1">
+    <span class="dmeta">动作 RPG · PC</span>
+    <span class="dtitle serif">艾尔登法环</span>
+  </div>
+
+  <article class="entry">
+    <div class="edate">2025.12.02</div>
+    <p>刚入坑，被门神打到怀疑人生，删档重开了两次。但奇怪的是越输越想再来一把。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/eldenring-1.jpg')"></div>
+      <div class="shot" style="background-image:url('images/eldenring-2.jpg')"></div>
     </div>
+  </article>
 
-    <article class="entry">
-      <div class="edate">2025.12.02</div>
-      <p>刚入坑，被门神打到怀疑人生，删档重开了两次。但奇怪的是越输越想再来一把。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/eldenring-1.jpg')"></div>
-        <div class="shot" style="background-image:url('images/eldenring-2.jpg')"></div>
-      </div>
-    </article>
-
-    <article class="entry">
-      <div class="edate">2026.01.20</div>
-      <p>打通了火山官邸，开始享受被支配的感觉。地图设计真的很坏，但坏得让人上瘾。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/eldenring-3.jpg')"></div>
-        <div class="shot" style="background-image:url('images/eldenring-4.jpg')"></div>
-        <div class="shot" style="background-image:url('images/eldenring-5.jpg')"></div>
-      </div>
-    </article>
-
-    <article class="entry">
-      <div class="edate">2026.03.14</div>
-      <p>通关。回头看存档时长吓了自己一跳，赢的那一刻没有想象中兴奋，只是很安静地松了口气。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/eldenring-6.jpg')"></div>
-      </div>
-    </article>
-  </section>
-
-  <!-- ========== 详情页：星露谷物语 ========== -->
-  <section class="detail" id="game-2">
-    <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-    <div class="cover t2">
-      <span class="dmeta">模拟经营 · Switch</span>
-      <span class="dtitle serif">星露谷物语</span>
+  <article class="entry">
+    <div class="edate">2026.01.20</div>
+    <p>打通了火山官邸，开始享受被支配的感觉。地图设计真的很坏，但坏得让人上瘾。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/eldenring-3.jpg')"></div>
+      <div class="shot" style="background-image:url('images/eldenring-4.jpg')"></div>
+      <div class="shot" style="background-image:url('images/eldenring-5.jpg')"></div>
     </div>
+  </article>
 
-    <article class="entry">
-      <div class="edate">2025.11.10</div>
-      <p>第一年秋天，农场还乱糟糟的，作物种得东倒西歪，但每天浇水的仪式感莫名让人安心。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/stardew-1.jpg')"></div>
-        <div class="shot" style="background-image:url('images/stardew-2.jpg')"></div>
-      </div>
-    </article>
-
-    <article class="entry">
-      <div class="edate">2026.01.05</div>
-      <p>农场终于像样了，开始有空钓鱼收集图鉴。这游戏教会我，慢一点也没关系。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/stardew-3.jpg')"></div>
-      </div>
-    </article>
-  </section>
-
-  <!-- ========== 详情页：空洞骑士 ========== -->
-  <section class="detail" id="game-3">
-    <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-    <div class="cover t3">
-      <span class="dmeta">银河恶魔城 · PC</span>
-      <span class="dtitle serif">空洞骑士</span>
+  <article class="entry">
+    <div class="edate">2026.03.14</div>
+    <p>通关。回头看存档时长吓了自己一跳，赢的那一刻没有想象中兴奋，只是很安静地松了口气。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/eldenring-6.jpg')"></div>
     </div>
+  </article>
+</section>
+-->
 
-    <article class="entry">
-      <div class="edate">2025.10.02</div>
-      <p>地图很大，音乐很轻，第一次打开就迷路了三个小时，但完全不想开攻略。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/hollowknight-1.jpg')"></div>
-        <div class="shot" style="background-image:url('images/hollowknight-2.jpg')"></div>
-      </div>
-    </article>
+<!--
+  ============================== 星露谷物语 ==============================
+-->
+<!--
+<section class="detail" id="game-2">
+  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
+  <div class="cover t2">
+    <span class="dmeta">模拟经营 · Switch</span>
+    <span class="dtitle serif">星露谷物语</span>
+  </div>
 
-    <article class="entry">
-      <div class="edate">2025.11.18</div>
-      <p>很长一段时间里我都是一个人在赶路。奇怪的是，这种孤独让我很平静。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/hollowknight-3.jpg')"></div>
-      </div>
-    </article>
-  </section>
-
-  <!-- ========== 详情页：极乐迪斯科 ========== -->
-  <section class="detail" id="game-4">
-    <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-    <div class="cover t4">
-      <span class="dmeta">叙事解谜 · PC</span>
-      <span class="dtitle serif">极乐迪斯科</span>
+  <article class="entry">
+    <div class="edate">2025.11.10</div>
+    <p>第一年秋天，农场还乱糟糟的，作物种得东倒西歪，但每天浇水的仪式感莫名让人安心。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/stardew-1.jpg')"></div>
+      <div class="shot" style="background-image:url('images/stardew-2.jpg')"></div>
     </div>
+  </article>
 
-    <article class="entry">
-      <div class="edate">2025.08.20</div>
-      <p>没有战斗，全靠选择和对话，第一小时几乎都花在读文字上，但完全停不下来。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/disco-1.jpg')"></div>
-        <div class="shot" style="background-image:url('images/disco-2.jpg')"></div>
-      </div>
-    </article>
-
-    <article class="entry">
-      <div class="edate">2025.09.15</div>
-      <p>通关之后还在想那句台词，比很多动作游戏都更让我心里堵得慌。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/disco-3.jpg')"></div>
-      </div>
-    </article>
-  </section>
-
-  <!-- ========== 详情页：双人成行 ========== -->
-  <section class="detail" id="game-5">
-    <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-    <div class="cover t5">
-      <span class="dmeta">双人合作 · PS5</span>
-      <span class="dtitle serif">双人成行</span>
+  <article class="entry">
+    <div class="edate">2026.01.05</div>
+    <p>农场终于像样了，开始有空钓鱼收集图鉴。这游戏教会我，慢一点也没关系。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/stardew-3.jpg')"></div>
     </div>
+  </article>
+</section>
+-->
 
-    <article class="entry">
-      <div class="edate">2025.07.02</div>
-      <p>很久没和朋友一起玩游戏了，两个人对着一台屏幕笑到停不下来。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/itsy-1.jpg')"></div>
-        <div class="shot" style="background-image:url('images/itsy-2.jpg')"></div>
-      </div>
-    </article>
+<!--
+  ============================== 空洞骑士 ==============================
+-->
+<!--
+<section class="detail" id="game-3">
+  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
+  <div class="cover t3">
+    <span class="dmeta">银河恶魔城 · PC</span>
+    <span class="dtitle serif">空洞骑士</span>
+  </div>
 
-    <article class="entry">
-      <div class="edate">2025.07.09</div>
-      <p>通关那晚我们聊到很晚，说好了下次再一起玩点别的。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/itsy-3.jpg')"></div>
-      </div>
-    </article>
-  </section>
-
-  <!-- ========== 详情页：蔚蓝 ========== -->
-  <section class="detail" id="game-6">
-    <a class="back" href="#" onclick="go('home', event)">← 返回</a>
-    <div class="cover t6">
-      <span class="dmeta">平台跳跃 · Switch</span>
-      <span class="dtitle serif">蔚蓝</span>
+  <article class="entry">
+    <div class="edate">2025.10.02</div>
+    <p>地图很大，音乐很轻，第一次打开就迷路了三个小时，但完全不想开攻略。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/hollowknight-1.jpg')"></div>
+      <div class="shot" style="background-image:url('images/hollowknight-2.jpg')"></div>
     </div>
+  </article>
 
-    <article class="entry">
-      <div class="edate">2025.04.28</div>
-      <p>难度很高，摔了无数次，甚至有点烦躁，但每次重开都还是想再试一次。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/celeste-1.jpg')"></div>
-        <div class="shot" style="background-image:url('images/celeste-2.jpg')"></div>
-      </div>
-    </article>
+  <article class="entry">
+    <div class="edate">2025.11.18</div>
+    <p>很长一段时间里我都是一个人在赶路。奇怪的是，这种孤独让我很平静。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/hollowknight-3.jpg')"></div>
+    </div>
+  </article>
+</section>
+-->
 
-    <article class="entry">
-      <div class="edate">2025.05.20</div>
-      <p>爬到山顶那一下，突然想哭，感觉像是解决了游戏之外的什么事情。</p>
-      <div class="shots">
-        <div class="shot" style="background-image:url('images/celeste-3.jpg')"></div>
-      </div>
-    </article>
-  </section>
+<!--
+  ============================== 极乐迪斯科 ==============================
+-->
+<!--
+<section class="detail" id="game-4">
+  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
+  <div class="cover t4">
+    <span class="dmeta">叙事解谜 · PC</span>
+    <span class="dtitle serif">极乐迪斯科</span>
+  </div>
 
-</div>
+  <article class="entry">
+    <div class="edate">2025.08.20</div>
+    <p>没有战斗，全靠选择和对话，第一小时几乎都花在读文字上，但完全停不下来。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/disco-1.jpg')"></div>
+      <div class="shot" style="background-image:url('images/disco-2.jpg')"></div>
+    </div>
+  </article>
 
+  <article class="entry">
+    <div class="edate">2025.09.15</div>
+    <p>通关之后还在想那句台词，比很多动作游戏都更让我心里堵得慌。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/disco-3.jpg')"></div>
+    </div>
+  </article>
+</section>
+-->
+
+<!--
+  ============================== 双人成行 ==============================
+-->
+<!--
+<section class="detail" id="game-5">
+  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
+  <div class="cover t5">
+    <span class="dmeta">双人合作 · PS5</span>
+    <span class="dtitle serif">双人成行</span>
+  </div>
+
+  <article class="entry">
+    <div class="edate">2025.07.02</div>
+    <p>很久没和朋友一起玩游戏了，两个人对着一台屏幕笑到停不下来。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/itsy-1.jpg')"></div>
+      <div class="shot" style="background-image:url('images/itsy-2.jpg')"></div>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="edate">2025.07.09</div>
+    <p>通关那晚我们聊到很晚，说好了下次再一起玩点别的。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/itsy-3.jpg')"></div>
+    </div>
+  </article>
+</section>
+-->
+
+<!--
+  ============================== 蔚蓝 ==============================
+-->
+<!--
+<section class="detail" id="game-6">
+  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
+  <div class="cover t6">
+    <span class="dmeta">平台跳跃 · Switch</span>
+    <span class="dtitle serif">蔚蓝</span>
+  </div>
+
+  <article class="entry">
+    <div class="edate">2025.04.28</div>
+    <p>难度很高，摔了无数次，甚至有点烦躁，但每次重开都还是想再试一次。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/celeste-1.jpg')"></div>
+      <div class="shot" style="background-image:url('images/celeste-2.jpg')"></div>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="edate">2025.05.20</div>
+    <p>爬到山顶那一下，突然想哭，感觉像是解决了游戏之外的什么事情。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/celeste-3.jpg')"></div>
+    </div>
+  </article>
+</section>
+-->
+  
+  
 <script>
+  // 纯前端切换首页/详情页，不修改地址栏 URL（不写 hash，不 pushState）
   function activate(id){
     var isHome = (id === 'home');
     document.getElementById('home').classList.toggle('hidden', !isHome);
@@ -448,20 +479,12 @@
   function go(id, evt){
     if (evt) evt.preventDefault();
     activate(id);
-    var url = (id === 'home') ? location.pathname : ('#' + id);
-    history.pushState(null, '', url);
   }
-  function routeFromHash(){
-    var h = location.hash.replace('#', '');
-    var el = h ? document.getElementById(h) : null;
-    if (el && el.classList.contains('detail')) {
-      activate(h);
-    } else {
-      activate('home');
-    }
+  function scrollToId(id, evt){
+    if (evt) evt.preventDefault();
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-  window.addEventListener('popstate', routeFromHash);
-  window.addEventListener('DOMContentLoaded', routeFromHash);
 </script>
 
 </body>
