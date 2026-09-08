@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="apple-touch-icon" href="images/system/logo.png" />
   <style>
     :root {
       --bg: #EEF2F7;
@@ -346,22 +347,32 @@
     }
     .timeline-item .tl-media .tl-shot {
       width: 180px;
-      aspect-ratio: 4/3;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
       border-radius: 4px;
-      background-color: var(--line);
-      background-size: cover;
-      background-position: center;
       border: 1px solid var(--line);
-    }
-    .timeline-item .tl-media .tl-shot.multi {
-      width: 140px;
+      cursor: pointer;
+      background-color: var(--line);
     }
     @media (max-width: 760px) {
       .profile {
-        flex-direction: column;
-        align-items: flex-start;
-        text-align: left;
-        padding-top: 56px;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+        padding: 56px 0 32px;
+      }
+      .avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+      }
+      .profile h1 {
+        font-size: 22px;
+        margin-bottom: 4px;
+      }
+      .profile .bio {
+        font-size: 14px;
+        margin-bottom: 10px;
       }
       .game-card {
         height: 120px;
@@ -381,9 +392,6 @@
       .timeline-item .tl-media .tl-shot {
         width: 140px;
       }
-      .timeline-item .tl-media .tl-shot.multi {
-        width: 100px;
-      }
       .wrap {
         padding: 0 18px;
       }
@@ -392,6 +400,26 @@
       }
     }
     @media (max-width: 480px) {
+      .profile {
+        gap: 14px;
+        padding: 40px 0 24px;
+      }
+      .avatar {
+        width: 64px;
+        height: 64px;
+        font-size: 26px;
+      }
+      .profile h1 {
+        font-size: 18px;
+      }
+      .profile .bio {
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .tags .tag {
+        font-size: 11px;
+        padding: 4px 10px;
+      }
       .game-card {
         height: 100px;
         flex-direction: row;
@@ -414,10 +442,7 @@
       }
       .timeline-item .tl-media .tl-shot {
         width: 100%;
-        aspect-ratio: 4/3;
-      }
-      .timeline-item .tl-media .tl-shot.multi {
-        width: 48%;
+        aspect-ratio: 16 / 9;
       }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -445,7 +470,7 @@
       <section class="profile">
         <div class="avatar">
           <span class="serif">YUU</span>
-          <img src="images/touxiang.jpg" alt="YUU" onerror="this.style.display='none'" />
+          <img src="images/system/touxiang.jpg" alt="YUU" onerror="this.style.display='none'" />
         </div>
         <div>
           <h1 class="serif">YUU</h1>
@@ -462,8 +487,7 @@
       </div>
       <div class="cardlist">
         <a class="game-card" href="#game-1" onclick="goDetail('game-1', event)">
-          <div class="card-img" style="background-image:url('images/prince.jpg');">
-            <span class="card-mood serif">幸福</span>
+          <div class="card-img" style="background-image:url('images/The Prince of Tennis Sweet School Festival/prince.jpg');">
           </div>
           <div class="card-body">
             <div class="card-title">网球王子 学园祭的王子们</div>
@@ -491,30 +515,55 @@
       <div class="timeline">
         <div class="timeline-item">
           <div class="tl-date">2026.07.30</div>
-          <p class="tl-text">终于发售了 OVO！</p>
+          <p class="tl-text">终于发售了 OVO!</p>
           <div class="tl-media">
-            <div class="tl-shot" style="background-image:url('images/prince.jpg');"></div>
+            <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/prince.jpg" alt="游戏截图" onclick="openImage(this.src)" />
           </div>
         </div>
         <div class="timeline-item">
           <div class="tl-date">2026.08.02</div>
           <p class="tl-text">玩了一整天，每条线路都好甜…… 手冢部长我来了！</p>
           <div class="tl-media">
-            <div class="tl-shot" style="background-image:url('images/prince.jpg');"></div>
-            <div class="tl-shot" style="background-image:url('images/prince.jpg');"></div>
+            <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/prince.jpg" alt="游戏截图" onclick="openImage(this.src)" />
+            <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/prince.jpg" alt="游戏截图" onclick="openImage(this.src)" />
           </div>
         </div>
         <div class="timeline-item">
           <div class="tl-date">2026.08.05</div>
           <p class="tl-text">不二周助线通关，结局哭死我了 T_T 再打一遍。</p>
           <div class="tl-media">
-            <div class="tl-shot" style="background-image:url('images/prince.jpg');"></div>
+            <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/prince.jpg" alt="游戏截图" onclick="openImage(this.src)" />
           </div>
         </div>
       </div>
     </section>
   </div>
   <script>
+    function openImage(src) {
+      var overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.backgroundColor = 'rgba(0,0,0,0.85)';
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'center';
+      overlay.style.justifyContent = 'center';
+      overlay.style.zIndex = '9999';
+      overlay.style.cursor = 'pointer';
+      var img = document.createElement('img');
+      img.src = src;
+      img.style.maxWidth = '90%';
+      img.style.maxHeight = '90%';
+      img.style.objectFit = 'contain';
+      img.style.borderRadius = '6px';
+      overlay.appendChild(img);
+      overlay.onclick = function() {
+        document.body.removeChild(overlay);
+      };
+      document.body.appendChild(overlay);
+    }
     function activate(id) {
       var isHome = (id === 'home');
       var homeEl = document.getElementById('home');
@@ -554,6 +603,7 @@
         }, 180);
       }
     }
+    window.openImage = openImage;
     window.goHome = goHome;
     window.goDetail = goDetail;
     window.smartScroll = smartScroll;
