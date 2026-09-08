@@ -209,32 +209,40 @@
     <section class="profile">
       <div class="avatar">
         <!-- 保底文字：图片加载失败时会自动露出这个字母 -->
-        <span class="serif">Y</span>
+        <span class="serif">YUU</span>
         <!-- 真实头像：图片加载成功后会盖住上面的保底字母 -->
         <img src="images/touxiang.jpg" alt="YUU" onerror="this.style.display='none'">
       </div>
       <div>
         <h1 class="serif">YUU</h1>
-        <p class="bio">摸鱼的时候传点游戏repo,内容待建设中。</p>
+        <p class="bio">摸鱼的时候传点游戏repo, 内容待建设中。</p>
         <!--
                 <div class="stats">
           <span><b>6</b> 款游戏</span>
           <span><b>14</b> 篇手记</span>
           <span>持续更新中</span>
         </div>
+        -->
         <div class="tags">
           <span class="tag">乙女游戏</span>
           <span class="tag">JRPG</span>
         </div>
-        -->
+      
 
       </div>
     </section>
 
     <div class="section-head" id="log">
-      <h2 class="serif">游戏手记</h2>
+      <h2 class="serif">游戏REPO</h2>
       <!--<span>点开任意一格，看完整时间线</span>-->
     </div>
+
+       <div class="tilegrid">
+      <a class="tile t1" href="#game-1" onclick="go('game-1', event)">
+        <span class="tilemood serif">幸福</span>
+        <div class="tileinfo"><b>网球王子 学园祭的王子们</b>
+      </a>
+       </div>
 <!--
    <div class="tilegrid">
       <a class="tile t1" href="#game-1" onclick="go('game-1', event)">
@@ -264,15 +272,9 @@
     </div>    
 -->
  
-
     <footer id="contact">
       <div class="links">
-        <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M9.8 9.4c-3.6.4-6.4 2.7-6.2 5.3.2 2.6 3.4 4.4 7.1 4 3.6-.4 6.4-2.7 6.2-5.3-.2-2.6-3.4-4.4-7.1-4zm.9 6.9c-1.8.2-3.3-.5-3.4-1.6-.1-1.1 1.2-2.2 3-2.4 1.8-.2 3.3.5 3.4 1.6.1 1.1-1.2 2.2-3 2.4zm-.5-2.1c-.4.1-.7.4-.6.7.1.3.5.4.9.3.4-.1.7-.4.6-.7-.1-.3-.5-.4-.9-.3zm1.7-.4c-.2 0-.4.2-.3.4 0 .2.3.3.5.2.2 0 .3-.2.3-.4 0-.2-.3-.3-.5-.2zM17.6 8.3c.5-1.6-.6-2.3-1.7-1.6-.4.2-.5-.1-.4-.4.4-1.4-.7-2-1.8-1.4-.4.2-.6.1-.5-.3.1-.6-.4-1-1-.8-.5.2-.8.8-.6 1.3.1.4-.1.5-.4.4-.6-.2-1 .2-.9.7.1.4-.1.6-.5.5-1.3-.3-2.1.7-1.5 1.8.1.3 0 .4-.3.4-1 0-1.4.9-.8 1.6.2.3.1.4-.2.4-3.7.3-6.6 2.6-6.4 5.4.2 3 3.9 5 8.2 4.5 4.6-.5 8.1-3.5 7.8-6.7-.2-2.1-2-3.7-4.6-4.2.3-.4.5-.9.6-1.6z"/>
-          </svg>
-          微博
-        </a>
+        <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">微博</a>
       </div>
       <div class="copy">© 2026 YUU</div>
     </footer>
@@ -285,6 +287,41 @@
   每个游戏独立为一个 <section>，内含封面、返回按钮和多篇日志条目
   ==========================================================================
 -->
+
+
+<section class="detail t1cover" id="game-1">
+  <a class="back" href="#" onclick="go('home', event)">← 返回</a>
+  <div class="cover t1">
+    <span class="dmeta">恋爱 · SWITCH</span>
+    <span class="dtitle serif">网球王子 学园祭的王子们</span>
+  </div>
+
+  <article class="entry">
+    <div class="edate">2026.07.30</div>
+    <p>终于发售了OVO!</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/prince.jpg')"></div>
+    </div>
+  </article>
+<!--  <article class="entry">
+    <div class="edate">2026.01.20</div>
+    <p>打通了火山官邸，开始享受被支配的感觉。地图设计真的很坏，但坏得让人上瘾。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/eldenring-3.jpg')"></div>
+      <div class="shot" style="background-image:url('images/eldenring-4.jpg')"></div>
+      <div class="shot" style="background-image:url('images/eldenring-5.jpg')"></div>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="edate">2026.03.14</div>
+    <p>通关。回头看存档时长吓了自己一跳，赢的那一刻没有想象中兴奋，只是很安静地松了口气。</p>
+    <div class="shots">
+      <div class="shot" style="background-image:url('images/eldenring-6.jpg')"></div>
+    </div>
+  </article>-->
+</section>
+
 
 <!--
   ============================== 艾尔登法环 ==============================
