@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yuu,测试界面</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F1F4F8;
+    --surface: #FFFFFF;
+    --ink: #10141B;
+    --text: #12151C;
+    --text-soft: #626E7E;
+    --line: rgba(16,20,27,0.09);
+    --accent: #32475F;
+    --ice: #A9BED4;
+    --max: 960px;
+    --r: 4px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+  ::selection { background: var(--accent); color: #fff; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .serif{ font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; }
+
+  .wrap{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- Nav ---------- */
+  header{ padding: 32px 0 0; }
+  nav{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand{ font-size: 21px; letter-spacing: 0.2px; }
+  .navlinks{ display:flex; gap: 30px; font-size: 14px; color: var(--text-soft); }
+  .navlinks a{ text-decoration:none; transition: color .15s ease; }
+  .navlinks a:hover{ color: var(--text); }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 88px 0 72px;
+    position: relative;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    left:0; top: 92px;
+    width: 3px; height: 64px;
+    background: var(--accent);
+  }
+  .hero .inner{ padding-left: 28px; }
+  .hero .kicker{ font-size: 14px; color: var(--text-soft); margin: 0 0 16px; }
+  .hero h1{
+    font-size: clamp(42px, 6.6vw, 66px);
+    line-height: 1.08;
+    margin: 0 0 24px;
+    max-width: 11ch;
+  }
+  .hero p{ max-width: 46ch; color: var(--text-soft); font-size: 17px; margin: 0; }
+
+  /* ---------- About ---------- */
+  .about{
+    padding: 64px 0 68px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 0.85fr 1.6fr;
+    gap: 52px;
+  }
+  .about h2{ font-size: 26px; margin: 0; }
+  .about-body p{ margin: 0 0 18px; color: var(--text-soft); max-width: 58ch; }
+  .tags{ display:flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .tag{
+    font-size: 13px; padding: 6px 14px; border-radius: 100px;
+    border: 1px solid var(--line); color: var(--text-soft); background: var(--surface);
+  }
+
+  /* ---------- Log intro ---------- */
+  .section-head{
+    padding-top: 64px;
+    border-top: 1px solid var(--line);
+    display:flex; align-items: baseline; justify-content: space-between;
+  }
+  .section-head h2{ font-size: 26px; margin:0; }
+  .section-head span{ font-size: 13px; color: var(--text-soft); }
+
+  /* ---------- Game sections ---------- */
+  .log{ padding-bottom: 40px; }
+
+  .game{
+    display:flex;
+    align-items: stretch;
+    gap: 56px;
+    padding: 64px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .game:last-child{ border-bottom: none; }
+  .game.reverse{ flex-direction: row-reverse; }
+
+  .panel{
+    flex: 1 1 46%;
+    min-height: 360px;
+    border-radius: var(--r);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 26px 46px -30px rgba(16,20,27,0.45);
+  }
+  .panel .mood{
+    position: absolute;
+    left: 26px; bottom: 26px;
+    color: #EEF3F8;
+    font-size: 34px;
+    line-height: 1;
+  }
+  .panel .stamp{
+    position: absolute;
+    right: 20px; top: 20px;
+    font-size: 12px;
+    color: rgba(238,243,248,0.75);
+    letter-spacing: 0.4px;
+  }
+
+  .content{
+    flex: 1 1 54%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4px 0;
+  }
+  .content .meta{
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-bottom: 12px;
+  }
+  .content h3{
+    font-size: 30px;
+    margin: 0 0 16px;
+  }
+  .content p{
+    font-size: 15.5px;
+    color: var(--text-soft);
+    max-width: 46ch;
+    margin: 0;
+  }
+
+  .p1{ background: linear-gradient(160deg,#1B2A3D,#3A5470); }
+  .p2{ background: linear-gradient(160deg,#14181E,#2C3541); }
+  .p3{ background: linear-gradient(160deg,#182A2E,#375861); }
+  .p4{ background: linear-gradient(160deg,#1B1E36,#3A3F72); }
+  .p5{ background: linear-gradient(160deg,#1D232C,#4A5768); }
+  .p6{ background: linear-gradient(160deg,#0F2028,#22505F); }
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding: 44px 0 60px;
+    border-top: 1px solid var(--line);
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  footer .links{ display:flex; gap: 22px; font-size: 14px; }
+  footer .links a{ text-decoration:none; color: var(--text-soft); transition: color .15s ease; }
+  footer .links a:hover{ color: var(--text); }
+  footer .copy{ font-size: 13px; color: var(--text-soft); }
+
+  @media (max-width: 860px){
+    .about{ grid-template-columns: 1fr; gap: 22px; }
+    .game, .game.reverse{ flex-direction: column; gap: 28px; padding: 48px 0; }
+    .panel{ min-height: 260px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    * { transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <nav>
+      <div class="brand serif">陆池</div>
+      <div class="navlinks">
+        <a href="#log">手记</a>
+        <a href="#about">关于</a>
+        <a href="#contact">联系</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="inner">
+      <p class="kicker">一份私人的游戏日记</p>
+      <h1 class="serif">玩过的游戏，<br>留下的心情</h1>
+      <p>这里记录我打完一款游戏后的真实感受——不是评测，也不打分，只是想把当时的情绪写下来，留给以后的自己看。</p>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <h2 class="serif">关于我</h2>
+    <div class="about-body">
+      <p>大部分时间在写代码，业余时间几乎都花在游戏里。比起通关率和成就点数，我更在意一款游戏在某个瞬间给我的感觉——可能是深夜里的一句台词，也可能是某个关卡反复失败后终于过去的那一下。</p>
+      <p>这个页面就是把这些瞬间攒下来的地方，想到什么就写什么，更新没有固定节奏。</p>
+      <div class="tags">
+        <span class="tag">开放世界</span>
+        <span class="tag">解谜</span>
+        <span class="tag">独立叙事</span>
+        <span class="tag">Roguelike</span>
+        <span class="tag">合作向</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-head" id="log">
+    <h2 class="serif">游戏手记</h2>
+    <span>共 6 篇 · 按时间排序</span>
+  </div>
+
+  <div class="log">
+
+    <article class="game">
+      <div class="panel p1">
+        <span class="stamp">2026.03</span>
+        <span class="mood serif">疲惫</span>
+      </div>
+      <div class="content">
+        <div class="meta">动作 RPG · PC</div>
+        <h3 class="serif">艾尔登法环</h3>
+        <p>某个 Boss 打到凌晨三点，手指都在抖。赢的那一刻没有想象中兴奋，只是很安静地松了口气。</p>
+      </div>
+    </article>
+
+    <article class="game reverse">
+      <div class="panel p2">
+        <span class="stamp">2026.01</span>
+        <span class="mood serif">松弛</span>
+      </div>
+      <div class="content">
+        <div class="meta">模拟经营 · Switch</div>
+        <h3 class="serif">星露谷物语</h3>
+        <p>浇完水、喂完鸡，剩下的时间就用来钓鱼。这个游戏教会我，慢一点也没关系。</p>
+      </div>
+    </article>
+
+    <article class="game">
+      <div class="panel p3">
+        <span class="stamp">2025.11</span>
+        <span class="mood serif">孤独</span>
+      </div>
+      <div class="content">
+        <div class="meta">银河恶魔城 · PC</div>
+        <h3 class="serif">空洞骑士</h3>
+        <p>地图很大，音乐很轻，很长一段时间里我都是一个人。奇怪的是，这种孤独让我很平静。</p>
+      </div>
+    </article>
+
+    <article class="game reverse">
+      <div class="panel p4">
+        <span class="stamp">2025.09</span>
+        <span class="mood serif">回味</span>
+      </div>
+      <div class="content">
+        <div class="meta">叙事解谜 · PC</div>
+        <h3 class="serif">极乐迪斯科</h3>
+        <p>没有战斗，全靠选择和对话，但比很多动作游戏都更让我心里堵得慌。</p>
+      </div>
+    </article>
+
+    <article class="game">
+      <div class="panel p5">
+        <span class="stamp">2025.07</span>
+        <span class="mood serif">陪伴</span>
+      </div>
+      <div class="content">
+        <div class="meta">双人合作 · PS5</div>
+        <h3 class="serif">双人成行</h3>
+        <p>两个人对着一台屏幕笑到停不下来，通关那晚我们聊到很晚，说好了下次再一起玩。</p>
+      </div>
+    </article>
+
+    <article class="game reverse">
+      <div class="panel p6">
+        <span class="stamp">2025.05</span>
+        <span class="mood serif">释然</span>
+      </div>
+      <div class="content">
+        <div class="meta">平台跳跃 · Switch</div>
+        <h3 class="serif">蔚蓝</h3>
+        <p>难度很高，摔了无数次。但爬上去的瞬间，感觉像是解决了游戏之外的什么事情。</p>
+      </div>
+    </article>
+
+  </div>
+
+  <footer id="contact">
+    <div class="links">
+      <a href="yuunaowo@Outlook.com">邮箱</a>
+      <a href="https://github.com/yuunaowo" target="_blank" rel="noopener">GitHub</a>
+      <a href="#">小红书</a>
+    </div>
+    <div class="copy">© 2026 yuu</div>
+  </footer>
+</div>
+
+</body>
+</html>
