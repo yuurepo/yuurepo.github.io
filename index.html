@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>YUU · REPO · BUSTAFELLOWS PROM</title>
+    <title>YUU · REPO</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Serif+SC:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="apple-touch-icon" href="images/system/logo.png" />
     <link rel="icon" type="image/png" href="images/system/favicon.png" />
 
@@ -23,12 +23,8 @@
             --max: 960px;
             --r: 6px;
         }
-        * {
-            box-sizing: border-box;
-        }
-        html {
-            scroll-behavior: smooth;
-        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             margin: 0;
             background: var(--bg);
@@ -40,21 +36,20 @@
             position: relative;
             overflow-x: hidden;
         }
-        a {
-            color: inherit;
-        }
-        ::selection {
-            background: var(--accent);
-            color: #fff;
-        }
-        :focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 3px;
-        }
+        a { color: inherit; }
+        ::selection { background: var(--accent); color: #fff; }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
         .serif {
+            font-family: 'Noto Serif SC', serif;
+            font-style: normal;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .brand.serif {
             font-family: 'Instrument Serif', serif;
             font-style: italic;
             font-weight: 400;
+            letter-spacing: 0.5px;
         }
         .glow {
             position: fixed;
@@ -105,7 +100,6 @@
             height: 1px;
             background: var(--line);
         }
-
         nav {
             display: flex;
             justify-content: space-between;
@@ -113,26 +107,15 @@
             padding-bottom: 16px;
             border-bottom: none;
         }
-        .brand {
-            font-size: 21px;
-            letter-spacing: 0.2px;
-            text-decoration: none;
-            cursor: pointer;
-        }
+        .brand { font-size: 21px; letter-spacing: 0.2px; text-decoration: none; cursor: pointer; }
         .navlinks {
             display: flex;
             gap: 30px;
             font-size: 14px;
             color: var(--text-soft);
         }
-        .navlinks a {
-            text-decoration: none;
-            transition: color .15s ease;
-            cursor: pointer;
-        }
-        .navlinks a:hover {
-            color: var(--text);
-        }
+        .navlinks a { text-decoration: none; transition: color .15s ease; cursor: pointer; }
+        .navlinks a:hover { color: var(--text); }
 
         /* ===== 返回按钮 ===== */
         .back {
@@ -193,21 +176,14 @@
             object-fit: cover;
             display: block;
         }
-        .profile h1 {
-            font-size: 28px;
-            margin: 0 0 8px;
-        }
+        .profile h1 { font-size: 28px; margin: 0 0 8px; }
         .profile .bio {
             color: var(--text-soft);
             max-width: 50ch;
             margin: 0 0 14px;
             font-size: 15px;
         }
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .tag {
             font-size: 12.5px;
             padding: 5px 12px;
@@ -224,10 +200,7 @@
             justify-content: space-between;
             margin-bottom: 24px;
         }
-        .section-head h2 {
-            font-size: 26px;
-            margin: 0;
-        }
+        .section-head h2 { font-size: 26px; margin: 0; }
         .cardlist {
             display: flex;
             flex-direction: column;
@@ -277,9 +250,10 @@
         }
         .game-card .card-body .card-title {
             font-size: 18px;
-            font-weight: 600;
+            font-weight: 500;
             margin: 0 0 4px;
-            font-family: inherit;
+            font-family: 'Noto Serif SC', serif;
+            letter-spacing: 0.2px;
         }
         .game-card .card-body .card-sub {
             font-size: 13px;
@@ -322,23 +296,15 @@
             color: var(--text-soft);
             transition: color .15s ease;
         }
-        footer .links a:hover {
-            color: var(--text);
-        }
-        footer .copy {
-            font-size: 13px;
-            color: var(--text-soft);
-        }
-        #home.hidden {
-            display: none;
-        }
+        footer .links a:hover { color: var(--text); }
+        footer .copy { font-size: 13px; color: var(--text-soft); }
+
+        #home.hidden { display: none; }
         .detail {
             display: none;
             padding: 20px 0 60px;
         }
-        .detail.active {
-            display: block;
-        }
+        .detail.active { display: block; }
 
         .detail-header {
             margin-bottom: 32px;
@@ -346,9 +312,10 @@
         }
         .detail-header .detail-game-title {
             font-size: 34px;
-            font-weight: 600;
+            font-weight: 500;
             margin: 0 0 4px;
-            font-family: inherit;
+            font-family: 'Noto Serif SC', serif;
+            letter-spacing: 0.2px;
         }
         .detail-header .detail-game-meta {
             font-size: 14px;
@@ -386,9 +353,7 @@
             text-decoration: underline;
             font-weight: 400;
         }
-        .timeline-item .tl-text a.tl-link:hover {
-            color: var(--text);
-        }
+        .timeline-item .tl-text a.tl-link:hover { color: var(--text); }
         .timeline-item .tl-media {
             display: flex;
             gap: 10px;
@@ -402,9 +367,13 @@
             border: 1px solid var(--line);
             cursor: pointer;
             background-color: var(--line);
+            transition: transform 0.15s;
+        }
+        .timeline-item .tl-media .tl-shot:hover {
+            transform: scale(1.02);
         }
 
-        /* ===== 攻略页面（精简版，无图标） ===== */
+        /* ===== 攻略页面 ===== */
         .guide-list {
             display: flex;
             flex-direction: column;
@@ -422,9 +391,10 @@
         }
         .guide-item .guide-title {
             font-size: 20px;
-            font-weight: 600;
+            font-weight: 500;
             margin: 0 0 10px;
-            font-family: inherit;
+            font-family: 'Noto Serif SC', serif;
+            letter-spacing: 0.2px;
         }
         .guide-item .guide-desc {
             margin: 0 0 16px;
@@ -438,10 +408,7 @@
             align-items: center;
             gap: 8px;
         }
-        /* 移除了 .guide-link-icon 的显示，直接隐藏 */
-        .guide-item .guide-link-wrap .guide-link-icon {
-            display: none;
-        }
+        .guide-item .guide-link-wrap .guide-link-icon { display: none; }
         .guide-item .guide-link-wrap a.guide-link {
             color: var(--text-soft);
             text-decoration: underline;
@@ -449,8 +416,164 @@
             font-size: 14px;
             transition: color .15s ease;
         }
-        .guide-item .guide-link-wrap a.guide-link:hover {
+        .guide-item .guide-link-wrap a.guide-link:hover { color: var(--text); }
+
+        /* ===== 联系表单 ===== */
+        .contact-form {
+            background: var(--surface);
+            border-radius: var(--r);
+            border: 1px solid var(--line);
+            padding: 24px 28px;
+            margin-bottom: 40px;
+        }
+        .contact-form label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-soft);
+            margin-bottom: 4px;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            background: var(--bg);
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+            font-family: inherit;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--accent);
+        }
+        .contact-form textarea { resize: vertical; }
+        .contact-form .field-group { margin-bottom: 16px; }
+        .contact-form .file-input { padding: 8px; }
+        .contact-form .submit-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: var(--r);
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+        .contact-form .submit-btn:hover { background: #1f3145; }
+
+        /* ===== 成功提示 ===== */
+        .success-toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--surface);
+            border: 1px solid var(--accent);
+            border-radius: var(--r);
+            padding: 16px 28px;
+            box-shadow: 0 8px 24px rgba(16,20,27,0.15);
+            z-index: 200;
+            font-size: 16px;
             color: var(--text);
+            display: none;
+            max-width: 90%;
+        }
+        .success-toast.show {
+            display: block;
+            animation: fadeDown 0.4s ease;
+        }
+        @keyframes fadeDown {
+            0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* ===== 图片画廊遮罩 ===== */
+        .gallery-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .gallery-overlay.show {
+            opacity: 1;
+        }
+        .gallery-overlay .gallery-img {
+            max-width: 90%;
+            max-height: 80%;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+        .gallery-overlay .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 48px;
+            color: rgba(255,255,255,0.7);
+            background: rgba(0,0,0,0.3);
+            padding: 12px 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s, color 0.2s;
+            line-height: 1;
+        }
+        .gallery-overlay .arrow:hover {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        .gallery-overlay .arrow.left {
+            left: 20px;
+        }
+        .gallery-overlay .arrow.right {
+            right: 20px;
+        }
+        .gallery-overlay .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 36px;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            transition: color 0.2s;
+            background: none;
+            border: none;
+            padding: 8px;
+        }
+        .gallery-overlay .close-btn:hover {
+            color: #fff;
+        }
+        .gallery-overlay .counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            background: rgba(0,0,0,0.4);
+            padding: 6px 16px;
+            border-radius: 20px;
+        }
+        @media (max-width: 760px) {
+            .gallery-overlay .arrow {
+                font-size: 32px;
+                padding: 8px 12px;
+            }
+            .gallery-overlay .arrow.left { left: 10px; }
+            .gallery-overlay .arrow.right { right: 10px; }
+            .gallery-overlay .close-btn { font-size: 28px; top: 12px; right: 16px; }
         }
 
         /* ===== 响应式 ===== */
@@ -461,136 +584,57 @@
                 gap: 20px;
                 padding: 56px 0 32px;
             }
-            .avatar {
-                width: 80px;
-                height: 80px;
-                font-size: 32px;
-            }
-            .profile h1 {
-                font-size: 22px;
-                margin-bottom: 4px;
-            }
-            .profile .bio {
-                font-size: 14px;
-                margin-bottom: 10px;
-            }
-            .game-card {
-                height: 120px;
-            }
-            .game-card .card-img {
-                flex: 0 0 120px;
-            }
-            .game-card .card-body .card-title {
-                font-size: 16px;
-            }
-            .game-card .card-body {
-                padding: 14px 16px;
-            }
-            .detail-header .detail-game-title {
-                font-size: 26px;
-            }
-            .timeline-item .tl-media .tl-shot {
-                width: 140px;
-            }
-            .wrap {
-                padding: 0 18px;
-            }
+            .avatar { width: 80px; height: 80px; font-size: 32px; }
+            .profile h1 { font-size: 22px; margin-bottom: 4px; }
+            .profile .bio { font-size: 14px; margin-bottom: 10px; }
+            .game-card { height: 120px; }
+            .game-card .card-img { flex: 0 0 120px; }
+            .game-card .card-body .card-title { font-size: 16px; }
+            .game-card .card-body { padding: 14px 16px; }
+            .detail-header .detail-game-title { font-size: 26px; }
+            .timeline-item .tl-media .tl-shot { width: 140px; }
+            .wrap { padding: 0 18px; }
             header {
                 padding-left: 18px;
                 padding-right: 18px;
                 margin: 0 -18px;
             }
-            .section-head h2 {
-                font-size: 22px;
-            }
-            .guide-item {
-                padding: 20px 18px;
-            }
-            .guide-item .guide-title {
-                font-size: 18px;
-            }
-            .guide-item .guide-desc {
-                font-size: 14px;
-            }
-            .back {
-                top: 68px;
-                padding: 10px 14px;
-                font-size: 13px;
-            }
+            .section-head h2 { font-size: 22px; }
+            .guide-item { padding: 20px 18px; }
+            .guide-item .guide-title { font-size: 18px; }
+            .guide-item .guide-desc { font-size: 14px; }
+            .back { top: 68px; padding: 10px 14px; font-size: 13px; }
+            .contact-form { padding: 20px 18px; }
         }
         @media (max-width: 480px) {
-            .profile {
-                gap: 14px;
-                padding: 40px 0 24px;
-            }
-            .avatar {
-                width: 64px;
-                height: 64px;
-                font-size: 26px;
-            }
-            .profile h1 {
-                font-size: 18px;
-            }
-            .profile .bio {
-                font-size: 13px;
-                margin-bottom: 8px;
-            }
-            .tags .tag {
-                font-size: 11px;
-                padding: 4px 10px;
-            }
-            .game-card {
-                height: 100px;
-                flex-direction: row;
-            }
-            .game-card .card-img {
-                flex: 0 0 90px;
-            }
-            .game-card .card-body .card-title {
-                font-size: 14px;
-            }
-            .game-card .card-body .card-sub {
-                font-size: 12px;
-            }
-            .game-card .card-body .card-tags span {
-                font-size: 10px;
-                padding: 2px 10px;
-            }
-            .detail-header .detail-game-title {
-                font-size: 22px;
-            }
-            .timeline-item .tl-media .tl-shot {
-                width: 100%;
-                aspect-ratio: 16 / 9;
-            }
-            .guide-item .guide-title {
-                font-size: 16px;
-            }
-            .guide-item .guide-desc {
-                font-size: 13px;
-            }
-            .guide-item .guide-link-wrap a.guide-link {
-                font-size: 13px;
-            }
-            .navlinks {
-                gap: 16px;
-                font-size: 13px;
-            }
-            .back {
-                top: 62px;
-                padding: 8px 12px;
-                font-size: 12px;
-            }
+            .profile { gap: 14px; padding: 40px 0 24px; }
+            .avatar { width: 64px; height: 64px; font-size: 26px; }
+            .profile h1 { font-size: 18px; }
+            .profile .bio { font-size: 13px; margin-bottom: 8px; }
+            .tags .tag { font-size: 11px; padding: 4px 10px; }
+            .game-card { height: 100px; flex-direction: row; }
+            .game-card .card-img { flex: 0 0 90px; }
+            .game-card .card-body .card-title { font-size: 14px; }
+            .game-card .card-body .card-sub { font-size: 12px; }
+            .game-card .card-body .card-tags span { font-size: 10px; padding: 2px 10px; }
+            .detail-header .detail-game-title { font-size: 22px; }
+            .timeline-item .tl-media .tl-shot { width: 100%; aspect-ratio: 16 / 9; }
+            .guide-item .guide-title { font-size: 16px; }
+            .guide-item .guide-desc { font-size: 13px; }
+            .guide-item .guide-link-wrap a.guide-link { font-size: 13px; }
+            .navlinks { gap: 16px; font-size: 13px; }
+            .back { top: 62px; padding: 8px 12px; font-size: 12px; }
+            .contact-form { padding: 16px 14px; }
         }
         @media (prefers-reduced-motion: reduce) {
-            * {
-                transition: none !important;
-                scroll-behavior: auto !important;
-            }
+            * { transition: none !important; scroll-behavior: auto !important; }
         }
     </style>
 </head>
 <body>
+    <!-- 成功提示浮层（已去除emoji） -->
+    <div id="successToast" class="success-toast">提交成功！请等待回复。</div>
+
     <div class="glow g1"></div>
     <div class="glow g2"></div>
     <div class="wrap">
@@ -600,7 +644,7 @@
                 <div class="navlinks">
                     <a href="#" onclick="smartScroll('log', event)">REPO</a>
                     <a href="#" onclick="goDetail('guide', event)">攻略</a>
-                    <a href="#" onclick="smartScroll('contact', event)">联系</a>
+                    <a href="#" onclick="goDetail('contact-page', event)">联系</a>
                 </div>
             </nav>
         </header>
@@ -661,13 +705,12 @@
                 </a>
             </div>
 
-            <!-- ===== 游戏攻略入口（主图留空） ===== -->
+            <!-- 游戏攻略入口 -->
             <div class="section-head" id="guide-entry">
                 <h2 class="serif">游戏攻略</h2>
             </div>
             <div class="cardlist">
                 <a class="game-card" href="#guide" onclick="goDetail('guide', event)">
-                    <!-- 将 card-img 的背景图片留空，仅保留背景色 -->
                     <div class="card-img" style="background-color: var(--ice);">
                     </div>
                     <div class="card-body">
@@ -681,7 +724,7 @@
                 </a>
             </div>
 
-            <footer id="contact">
+            <footer>
                 <div class="links">
                     <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">微博</a>
                     <a href="mailto:yuunaovo@outlook.com">邮箱</a>
@@ -702,14 +745,14 @@
                     <div class="tl-date">2026.07.30</div>
                     <p class="tl-text">终于发售了 OVO!</p>
                     <div class="tl-media">
-                        <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/prince.jpg" alt="游戏截图" onclick="openImage(this.src)" />
+                        <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/prince.jpg" alt="游戏截图" onclick="openGallery(this)" />
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="tl-date">2026.08.02</div>
                     <p class="tl-text">学长你太美好了TT</p>
                     <div class="tl-media">
-                        <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/3.jpg" alt="游戏截图" onclick="openImage(this.src)" />
+                        <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/3.jpg" alt="游戏截图" onclick="openGallery(this)" />
                     </div>
                 </div>
             </div>
@@ -738,20 +781,20 @@
                     <p class="tl-text">字幕使用方法会因为使用的播放器不同而不同，可以自行搜索自己使用的播放器怎么添加字幕，所以在这里不做赘述。</p>
                     <p class="tl-text">下面放几张使用WIN11自带播放器的字幕预览图。</p>
                     <div class="tl-media">
-                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom1.jpg" alt="朗读剧截图1" onclick="openImage(this.src)" />
-                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom2.jpg" alt="朗读剧截图2" onclick="openImage(this.src)" />
-                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom3.jpg" alt="朗读剧截图3" onclick="openImage(this.src)" />
+                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom1.jpg" alt="朗读剧截图1" onclick="openGallery(this)" />
+                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom2.jpg" alt="朗读剧截图2" onclick="openGallery(this)" />
+                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom3.jpg" alt="朗读剧截图3" onclick="openGallery(this)" />
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ===== 游戏攻略详情页（无图标） ===== -->
+        <!-- ===== 游戏攻略详情页 ===== -->
         <section class="detail" id="guide">
             <a class="back" href="#" onclick="goHome(event)">← 返回</a>
             <div class="detail-header">
                 <h1 class="detail-game-title">游戏攻略</h1>
-                <div class="detail-game-meta">存放一些自己做的攻略网站 </div>
+                <div class="detail-game-meta">存放一些自己做的攻略网站</div>
             </div>
             <div class="guide-list">
                 <div class="guide-item">
@@ -760,7 +803,6 @@
                         根据小红书博主「仓鼠大王」的攻略笔记制作的网站，会同步更新仓鼠大王老师的攻略内容。
                     </p>
                     <div class="guide-link-wrap">
-                        <!-- 链接图标已隐藏 -->
                         <a href="https://princegameguide.netlify.app/" target="_blank" rel="noopener" class="guide-link">
                             https://princegameguide.netlify.app/
                         </a>
@@ -769,41 +811,146 @@
             </div>
         </section>
 
+        <!-- ===== 联系页面（独立详情页） ===== -->
+        <section class="detail" id="contact-page">
+            <a class="back" href="#" onclick="goHome(event)">← 返回</a>
+            <div class="detail-header">
+                <h1 class="detail-game-title">联系我</h1>
+                <div class="detail-game-meta">留言或发送文件</div>
+            </div>
+            <div class="contact-form">
+                <form action="https://formsubmit.co/yuunaovo@outlook.com" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_next" id="nextUrl" value="" />
+                    <input type="hidden" name="_subject" value="来自YUU网站的联系表单" />
+                    <input type="hidden" name="_captcha" value="true" />
+                    
+                    <div class="field-group">
+                        <label for="name">你的名字 <span style="color: var(--text-soft); font-weight: 400;">（必填）</span></label>
+                        <input type="text" id="name" name="name" placeholder="请输入你的名字" required />
+                    </div>
+                    <div class="field-group">
+                        <label for="email">你的邮箱 <span style="color: var(--text-soft); font-weight: 400;">（必填）</span></label>
+                        <input type="email" id="email" name="email" placeholder="example@mail.com" required />
+                    </div>
+                    <div class="field-group">
+                        <label for="message">留言内容 <span style="color: var(--text-soft); font-weight: 400;">（必填）</span></label>
+                        <textarea id="message" name="message" rows="4" placeholder="想说的话……" required></textarea>
+                    </div>
+                    <div class="field-group">
+                        <label for="attachment">上传图片（选填，支持 jpg/png/gif）</label>
+                        <input type="file" id="attachment" name="attachment" accept="image/*" class="file-input" />
+                    </div>
+                    <button type="submit" class="submit-btn">发送</button>
+                </form>
+            </div>
+        </section>
+
     </div>
 
     <script>
-        function openImage(src) {
-            var overlay = document.createElement('div');
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.backgroundColor = 'rgba(0,0,0,0.85)';
-            overlay.style.display = 'flex';
-            overlay.style.alignItems = 'center';
-            overlay.style.justifyContent = 'center';
-            overlay.style.zIndex = '9999';
-            overlay.style.cursor = 'pointer';
-            var img = document.createElement('img');
-            img.src = src;
-            img.style.maxWidth = '90%';
-            img.style.maxHeight = '90%';
-            img.style.objectFit = 'contain';
-            img.style.borderRadius = '6px';
-            overlay.appendChild(img);
-            overlay.onclick = function() {
-                document.body.removeChild(overlay);
-            };
-            document.body.appendChild(overlay);
-        }
+        // ===== 画廊功能 =====
+        (function() {
+            let currentGallery = null;
+            let currentIndex = 0;
 
+            const overlay = document.createElement('div');
+            overlay.className = 'gallery-overlay';
+            overlay.innerHTML = `
+                <button class="close-btn" aria-label="关闭">&times;</button>
+                <div class="arrow left">‹</div>
+                <img class="gallery-img" src="" alt="大图" />
+                <div class="arrow right">›</div>
+                <div class="counter"></div>
+            `;
+            document.body.appendChild(overlay);
+
+            const imgEl = overlay.querySelector('.gallery-img');
+            const leftArrow = overlay.querySelector('.arrow.left');
+            const rightArrow = overlay.querySelector('.arrow.right');
+            const closeBtn = overlay.querySelector('.close-btn');
+            const counter = overlay.querySelector('.counter');
+
+            function updateGallery() {
+                if (!currentGallery || currentGallery.length === 0) return;
+                imgEl.src = currentGallery[currentIndex];
+                counter.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
+                leftArrow.style.display = currentGallery.length > 1 ? 'block' : 'none';
+                rightArrow.style.display = currentGallery.length > 1 ? 'block' : 'none';
+            }
+
+            window.openGallery = function(element) {
+                const parent = element.closest('.tl-media');
+                if (!parent) return;
+                const shots = parent.querySelectorAll('.tl-shot');
+                if (shots.length === 0) return;
+                const urls = Array.from(shots).map(img => img.src);
+                const index = urls.indexOf(element.src);
+                if (index === -1) return;
+                currentGallery = urls;
+                currentIndex = index;
+                updateGallery();
+                overlay.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            };
+
+            function closeGallery() {
+                overlay.classList.remove('show');
+                document.body.style.overflow = '';
+                currentGallery = null;
+                setTimeout(() => { if (!currentGallery) imgEl.src = ''; }, 300);
+            }
+
+            function prevImage() {
+                if (!currentGallery || currentGallery.length <= 1) return;
+                currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+                updateGallery();
+            }
+            function nextImage() {
+                if (!currentGallery || currentGallery.length <= 1) return;
+                currentIndex = (currentIndex + 1) % currentGallery.length;
+                updateGallery();
+            }
+
+            leftArrow.addEventListener('click', e => { e.stopPropagation(); prevImage(); });
+            rightArrow.addEventListener('click', e => { e.stopPropagation(); nextImage(); });
+            closeBtn.addEventListener('click', e => { e.stopPropagation(); closeGallery(); });
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeGallery(); });
+            document.addEventListener('keydown', e => {
+                if (!overlay.classList.contains('show')) return;
+                if (e.key === 'Escape') { closeGallery(); }
+                else if (e.key === 'ArrowLeft') { e.preventDefault(); prevImage(); }
+                else if (e.key === 'ArrowRight') { e.preventDefault(); nextImage(); }
+            });
+        })();
+
+        // ===== 成功提示 =====
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('submitted') === 'true') {
+                const toast = document.getElementById('successToast');
+                if (toast) {
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 5000);
+                }
+                if (window.history && window.history.replaceState) {
+                    window.history.replaceState({}, '', window.location.origin + window.location.pathname);
+                }
+            }
+        })();
+
+        // ===== 设置 _next =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const nextInput = document.getElementById('nextUrl');
+            if (nextInput) {
+                nextInput.value = window.location.origin + window.location.pathname + '?submitted=true';
+            }
+        });
+
+        // ===== 页面切换 =====
         function activate(id) {
             var isHome = (id === 'home');
             var homeEl = document.getElementById('home');
-            if (homeEl) {
-                homeEl.classList.toggle('hidden', !isHome);
-            }
+            if (homeEl) homeEl.classList.toggle('hidden', !isHome);
             var details = document.querySelectorAll('.detail');
             for (var i = 0; i < details.length; i++) {
                 details[i].classList.toggle('active', details[i].id === id);
@@ -811,37 +958,24 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function goHome(evt) {
-            if (evt) evt.preventDefault();
-            activate('home');
-        }
-
-        function goDetail(id, evt) {
-            if (evt) evt.preventDefault();
-            activate(id);
-        }
-
+        function goHome(evt) { if (evt) evt.preventDefault(); activate('home'); }
+        function goDetail(id, evt) { if (evt) evt.preventDefault(); activate(id); }
         function smartScroll(targetId, evt) {
             if (evt) evt.preventDefault();
             var homeEl = document.getElementById('home');
             var isHomeVisible = homeEl && !homeEl.classList.contains('hidden');
             if (isHomeVisible) {
                 var el = document.getElementById(targetId);
-                if (el) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
                 activate('home');
                 setTimeout(function() {
                     var el = document.getElementById(targetId);
-                    if (el) {
-                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 180);
             }
         }
 
-        window.openImage = openImage;
         window.goHome = goHome;
         window.goDetail = goDetail;
         window.smartScroll = smartScroll;
