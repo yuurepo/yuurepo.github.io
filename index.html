@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YUU · REPO</title>
+  <title>YUU · REPO · BUSTAFELLOWS PROM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -11,6 +11,8 @@
   <link rel="icon" type="image/png" href="images/system/favicon.png" />
 
   <style>
+    /* 样式完全保持不变，此处省略以节省篇幅，实际使用时请保留完整样式 */
+    /* 您提供的样式已全部保留，未做任何修改 */
     :root {
       --bg: #EEF2F7;
       --surface: #FFFFFF;
@@ -484,6 +486,8 @@
           </div>
         </div>
       </section>
+
+      <!-- 游戏 REPO 标题及卡片 -->
       <div class="section-head" id="log">
         <h2 class="serif">游戏 REPO</h2>
       </div>
@@ -501,6 +505,27 @@
           </div>
         </a>
       </div>
+
+      <!-- 新增：朗读剧 REPO 标题及卡片 -->
+      <div class="section-head" id="reading">
+        <h2 class="serif">BUSTAFELLOWS朗读剧 中文字幕</h2>
+      </div>
+      <div class="cardlist">
+        <a class="game-card" href="#game-2" onclick="goDetail('game-2', event)">
+          <div class="card-img" style="background-image:url('images/BUSTAFELLOWS PROM/prom.jpg');">
+          </div>
+          <div class="card-body">
+            <div class="card-title">BUSTAFELLOWS PROM 朗读剧</div>
+            <div class="card-sub">朗读剧 · 中文字幕</div>
+            <div class="card-tags">
+              <span>剧情</span>
+              <span>声优</span>
+              <span>文字</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
       <footer id="contact">
         <div class="links">
           <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">微博</a>
@@ -508,6 +533,8 @@
         <div class="copy">© 2026 YUU</div>
       </footer>
     </div>
+
+    <!-- 网球王子详情页 -->
     <section class="detail" id="game-1">
       <a class="back" href="#" onclick="goHome(event)">← 返回</a>
       <div class="detail-header">
@@ -531,7 +558,37 @@
         </div>
       </div>
     </section>
+
+    <!-- BUSTAFELLOWS PROM 朗读剧详情页 -->
+    <section class="detail" id="game-2">
+      <a class="back" href="#" onclick="goHome(event)">← 返回</a>
+      <div class="detail-header">
+        <h1 class="detail-game-title">BUSTAFELLOWS PROM 朗读剧</h1>
+        <div class="detail-game-meta">朗读剧 · 中文字幕 · 2026</div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-date">2026.09.09</div>
+          <p class="tl-text">之前有做了bf朗读剧的中文机翻字幕，大概的正确率是90%左右，部分对话声音重叠在一起可能会没翻译出来。</p>
+          <p class="tl-text">其次就是主角名字和声优名字以及游戏名字会识别的不够准确，但是大部分人应该能听出来吧，所以就没有做精校。</p>
+          <p class="tl-text">想使用字幕就必须把购买的朗读剧扒档，扒档这个操作可能会有争议，所以我没有发布在一些社交平台上，只放在了自己的github主页。</p>
+          <p class="tl-text">我把字幕下载链接放在网站上，如果有缘分能搜索到我的主页，可以给我发邮件，提供正版朗读剧的购买记录，我会把字幕下载密码发给你。</p>
+          <p class="tl-text">https://yuurepo.lanzouq.com/iElPQ47knfqb</p>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-date">2026.09.09</div>
+          <p class="tl-text">字幕使用方法会因为使用的播放器不同而不同，可以自行搜索自己使用的播放器怎么添加字幕，所以在这里不做赘述。</p>
+          <p class="tl-text">下面放几张使用WIN11自带播放器的字幕预览图。</p>
+          <div class="tl-media">
+            <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom1.jpg" alt="朗读剧截图1" onclick="openImage(this.src)" />
+            <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom2.jpg" alt="朗读剧截图2" onclick="openImage(this.src)" />
+            <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom3.jpg" alt="朗读剧截图3" onclick="openImage(this.src)" />
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
+
   <script>
     function openImage(src) {
       var overlay = document.createElement('div');
