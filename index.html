@@ -841,6 +841,11 @@
                         submitBtn.disabled = false;
                         submitBtn.textContent = '发送';
                     }
+
+                    // 提交成功后回到主界面
+                    if (typeof goHome === 'function') {
+                        goHome();
+                    }
                 });
             });
         })();
