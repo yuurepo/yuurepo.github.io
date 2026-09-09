@@ -447,6 +447,12 @@
         .contact-form textarea { resize: vertical; }
         .contact-form .field-group { margin-bottom: 16px; }
         .contact-form .file-input { padding: 8px; }
+        .contact-form .file-name {
+            font-size: 12.5px;
+            color: var(--text-soft);
+            margin-top: 6px;
+            word-break: break-all;
+        }
         .contact-form .submit-btn {
             background: var(--accent);
             color: #fff;
@@ -729,9 +735,10 @@
                 <div class="detail-game-meta">留言或发送文件</div>
             </div>
             <div class="contact-form">
-                <form id="contactForm" action="https://formsubmit.co/ajax/yuunaovo@outlook.com" method="POST" enctype="multipart/form-data">
+                <form id="contactForm" action="https://formsubmit.co/yuunaovo@outlook.com" method="POST" enctype="multipart/form-data" target="contactFrame">
                     <input type="hidden" name="_subject" value="来自YUU网站的联系表单" />
                     <input type="hidden" name="_captcha" value="false" />
+                    <input type="hidden" name="_template" value="table" />
                     
                     <div class="field-group">
                         <label for="name">你的名字 <span style="color: var(--text-soft); font-weight: 400;">（必填）</span></label>
@@ -746,44 +753,80 @@
                         <textarea id="message" name="message" rows="4" placeholder="想说的话……" required></textarea>
                     </div>
                     <div class="field-group">
-                        <label for="attachment">上传图片（选填，支持 jpg/png/gif）</label>
-                        <input type="file" id="attachment" name="attachment" accept="image/*" class="file-input" />
+                        <label for="attachment">上传图片/文件（选填，支持图片、PDF、Word、压缩包等，单个文件不超过 10MB，可多选）</label>
+                        <input type="file" id="attachment" name="attachment" accept="image/*,.pdf,.doc,.docx,.txt,.zip,.rar" class="file-input" multiple />
+                        <div class="file-name" id="attachmentName"></div>
                     </div>
                     <button type="submit" class="submit-btn">发送</button>
                 </form>
+                <!--
+                  说明：formsubmit.co 的 /ajax/ 接口只适合纯文本字段，用 fetch 提交带附件的
+                  FormData 时附件经常会被后台忽略（文字能收到，文件收不到）。
+                  这里改成表单直接提交到 formsubmit 的普通（非 ajax）端点，但把提交目标
+                  指向下面这个隐藏 iframe（target="contactFrame"），这样浏览器会按标准
+                  multipart/form-data 把所有文件真正发出去，同时页面本身不会跳转。
+                -->
+                <iframe name="contactFrame" id="contactFrame" style="display:none" title="表单提交"></iframe>
             </div>
         </section>
+
 
     </div>
 
     <script>
-        // ===== 表单 AJAX 提交（不跳转页面，原地提示） =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('contactForm');
-            if (!form) return;
+        // ===== 表单提交（隐藏 iframe + 原生表单，支持附件，页面不跳转） =====
+        // 说明：/ajax/ 接口发 FormData 时附件常被后台忽略；改成表单本身直接提交到
+        // formsubmit 的普通端点，但 target 指向隐藏 iframe，浏览器会按标准
+        // multipart/form-data 把所有文件真正发出去，同时页面不会跳转。
+        // 注意：本地用 file:// 直接双击打开该文件会因为没有合法来源被拒绝，
+        // 需要部署到 http/https 网址（或本地起个静态服务器）才能正常收到邮件。
+        (function() {
+            const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB，formsubmit 免费版单文件上限
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('contactForm');
+                const iframe = document.getElementById('contactFrame');
+                const fileInput = document.getElementById('attachment');
+                const fileNameEl = document.getElementById('attachmentName');
+                const submitBtn = form ? form.querySelector('.submit-btn') : null;
+                if (!form || !iframe) return;
 
-                const submitBtn = form.querySelector('.submit-btn');
-                const originalBtnText = submitBtn ? submitBtn.textContent : '';
-                if (submitBtn) {
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = '发送中…';
+                let submitted = false;
+
+                if (fileInput && fileNameEl) {
+                    fileInput.addEventListener('change', function() {
+                        const files = Array.from(fileInput.files || []);
+                        if (!files.length) {
+                            fileNameEl.textContent = '';
+                            return;
+                        }
+                        const tooBig = files.find(function(f) { return f.size > MAX_FILE_SIZE; });
+                        if (tooBig) {
+                            alert('「' + tooBig.name + '」超过 10MB，请重新选择。');
+                            fileInput.value = '';
+                            fileNameEl.textContent = '';
+                            return;
+                        }
+                        fileNameEl.textContent = '已选择：' + files.map(function(f) {
+                            return f.name + '（' + (f.size / 1024 / 1024).toFixed(2) + 'MB）';
+                        }).join('，');
+                    });
                 }
 
-                const formData = new FormData(form);
+                form.addEventListener('submit', function() {
+                    submitted = true;
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = '发送中…';
+                    }
+                    // 不 preventDefault：让表单正常提交，只是提交目标是隐藏 iframe，
+                    // 所以当前页面不会跳转。
+                });
 
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
-                })
-                .then(function(response) {
-                    if (!response.ok) throw new Error('提交失败');
-                    return response.json();
-                })
-                .then(function() {
+                iframe.addEventListener('load', function() {
+                    if (!submitted) return; // 忽略 iframe 初始的空白页加载
+                    submitted = false;
+
                     const toast = document.getElementById('successToast');
                     if (toast) {
                         toast.classList.add('show');
@@ -791,19 +834,16 @@
                             toast.classList.remove('show');
                         }, 5000);
                     }
+
                     form.reset();
-                })
-                .catch(function() {
-                    alert('发送失败，请稍后重试或直接发邮件联系。');
-                })
-                .finally(function() {
+                    if (fileNameEl) fileNameEl.textContent = '';
                     if (submitBtn) {
                         submitBtn.disabled = false;
-                        submitBtn.textContent = originalBtnText;
+                        submitBtn.textContent = '发送';
                     }
                 });
             });
-        });
+        })();
 
         // ===== 图片放大 =====
         function openImage(src) {
