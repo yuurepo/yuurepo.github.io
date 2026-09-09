@@ -367,10 +367,6 @@
             border: 1px solid var(--line);
             cursor: pointer;
             background-color: var(--line);
-            transition: transform 0.15s;
-        }
-        .timeline-item .tl-media .tl-shot:hover {
-            transform: scale(1.02);
         }
 
         /* ===== 攻略页面 ===== */
@@ -418,7 +414,7 @@
         }
         .guide-item .guide-link-wrap a.guide-link:hover { color: var(--text); }
 
-        /* ===== 联系表单 ===== */
+        /* ===== 联系表单（独立页面） ===== */
         .contact-form {
             background: var(--surface);
             border-radius: var(--r);
@@ -464,7 +460,7 @@
         }
         .contact-form .submit-btn:hover { background: #1f3145; }
 
-        /* ===== 成功提示 ===== */
+        /* ===== 成功提示浮层 ===== */
         .success-toast {
             position: fixed;
             top: 80px;
@@ -488,92 +484,6 @@
         @keyframes fadeDown {
             0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
             100% { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-
-        /* ===== 图片画廊遮罩 ===== */
-        .gallery-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: default;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .gallery-overlay.show {
-            opacity: 1;
-        }
-        .gallery-overlay .gallery-img {
-            max-width: 90%;
-            max-height: 80%;
-            object-fit: contain;
-            border-radius: 4px;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
-        }
-        .gallery-overlay .arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 48px;
-            color: rgba(255,255,255,0.7);
-            background: rgba(0,0,0,0.3);
-            padding: 12px 16px;
-            border-radius: 50%;
-            cursor: pointer;
-            user-select: none;
-            transition: background 0.2s, color 0.2s;
-            line-height: 1;
-        }
-        .gallery-overlay .arrow:hover {
-            background: rgba(255,255,255,0.15);
-            color: #fff;
-        }
-        .gallery-overlay .arrow.left {
-            left: 20px;
-        }
-        .gallery-overlay .arrow.right {
-            right: 20px;
-        }
-        .gallery-overlay .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 36px;
-            color: rgba(255,255,255,0.6);
-            cursor: pointer;
-            transition: color 0.2s;
-            background: none;
-            border: none;
-            padding: 8px;
-        }
-        .gallery-overlay .close-btn:hover {
-            color: #fff;
-        }
-        .gallery-overlay .counter {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255,255,255,0.6);
-            font-size: 14px;
-            background: rgba(0,0,0,0.4);
-            padding: 6px 16px;
-            border-radius: 20px;
-        }
-        @media (max-width: 760px) {
-            .gallery-overlay .arrow {
-                font-size: 32px;
-                padding: 8px 12px;
-            }
-            .gallery-overlay .arrow.left { left: 10px; }
-            .gallery-overlay .arrow.right { right: 10px; }
-            .gallery-overlay .close-btn { font-size: 28px; top: 12px; right: 16px; }
         }
 
         /* ===== 响应式 ===== */
@@ -632,8 +542,8 @@
     </style>
 </head>
 <body>
-    <!-- 成功提示浮层（已去除emoji） -->
-    <div id="successToast" class="success-toast">提交成功！请等待回复。</div>
+    <!-- 成功提示浮层 -->
+    <div id="successToast" class="success-toast">✅ 提交成功！请等待回复。</div>
 
     <div class="glow g1"></div>
     <div class="glow g2"></div>
@@ -745,14 +655,14 @@
                     <div class="tl-date">2026.07.30</div>
                     <p class="tl-text">终于发售了 OVO!</p>
                     <div class="tl-media">
-                        <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/prince.jpg" alt="游戏截图" onclick="openGallery(this)" />
+                        <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/prince.jpg" alt="游戏截图" onclick="openImage(this.src)" />
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="tl-date">2026.08.02</div>
                     <p class="tl-text">学长你太美好了TT</p>
                     <div class="tl-media">
-                        <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/3.jpg" alt="游戏截图" onclick="openGallery(this)" />
+                        <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/3.jpg" alt="游戏截图" onclick="openImage(this.src)" />
                     </div>
                 </div>
             </div>
@@ -781,9 +691,9 @@
                     <p class="tl-text">字幕使用方法会因为使用的播放器不同而不同，可以自行搜索自己使用的播放器怎么添加字幕，所以在这里不做赘述。</p>
                     <p class="tl-text">下面放几张使用WIN11自带播放器的字幕预览图。</p>
                     <div class="tl-media">
-                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom1.jpg" alt="朗读剧截图1" onclick="openGallery(this)" />
-                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom2.jpg" alt="朗读剧截图2" onclick="openGallery(this)" />
-                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom3.jpg" alt="朗读剧截图3" onclick="openGallery(this)" />
+                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom1.jpg" alt="朗读剧截图1" onclick="openImage(this.src)" />
+                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom2.jpg" alt="朗读剧截图2" onclick="openImage(this.src)" />
+                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom3.jpg" alt="朗读剧截图3" onclick="openImage(this.src)" />
                     </div>
                 </div>
             </div>
@@ -820,6 +730,7 @@
             </div>
             <div class="contact-form">
                 <form action="https://formsubmit.co/yuunaovo@outlook.com" method="POST" enctype="multipart/form-data">
+                    <!-- 隐藏字段：成功跳转地址（由JS动态设置） -->
                     <input type="hidden" name="_next" id="nextUrl" value="" />
                     <input type="hidden" name="_subject" value="来自YUU网站的联系表单" />
                     <input type="hidden" name="_captcha" value="true" />
@@ -848,109 +759,72 @@
     </div>
 
     <script>
-        // ===== 画廊功能 =====
+        // ===== 成功提示逻辑 =====
         (function() {
-            let currentGallery = null;
-            let currentIndex = 0;
-
-            const overlay = document.createElement('div');
-            overlay.className = 'gallery-overlay';
-            overlay.innerHTML = `
-                <button class="close-btn" aria-label="关闭">&times;</button>
-                <div class="arrow left">‹</div>
-                <img class="gallery-img" src="" alt="大图" />
-                <div class="arrow right">›</div>
-                <div class="counter"></div>
-            `;
-            document.body.appendChild(overlay);
-
-            const imgEl = overlay.querySelector('.gallery-img');
-            const leftArrow = overlay.querySelector('.arrow.left');
-            const rightArrow = overlay.querySelector('.arrow.right');
-            const closeBtn = overlay.querySelector('.close-btn');
-            const counter = overlay.querySelector('.counter');
-
-            function updateGallery() {
-                if (!currentGallery || currentGallery.length === 0) return;
-                imgEl.src = currentGallery[currentIndex];
-                counter.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
-                leftArrow.style.display = currentGallery.length > 1 ? 'block' : 'none';
-                rightArrow.style.display = currentGallery.length > 1 ? 'block' : 'none';
-            }
-
-            window.openGallery = function(element) {
-                const parent = element.closest('.tl-media');
-                if (!parent) return;
-                const shots = parent.querySelectorAll('.tl-shot');
-                if (shots.length === 0) return;
-                const urls = Array.from(shots).map(img => img.src);
-                const index = urls.indexOf(element.src);
-                if (index === -1) return;
-                currentGallery = urls;
-                currentIndex = index;
-                updateGallery();
-                overlay.classList.add('show');
-                document.body.style.overflow = 'hidden';
-            };
-
-            function closeGallery() {
-                overlay.classList.remove('show');
-                document.body.style.overflow = '';
-                currentGallery = null;
-                setTimeout(() => { if (!currentGallery) imgEl.src = ''; }, 300);
-            }
-
-            function prevImage() {
-                if (!currentGallery || currentGallery.length <= 1) return;
-                currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
-                updateGallery();
-            }
-            function nextImage() {
-                if (!currentGallery || currentGallery.length <= 1) return;
-                currentIndex = (currentIndex + 1) % currentGallery.length;
-                updateGallery();
-            }
-
-            leftArrow.addEventListener('click', e => { e.stopPropagation(); prevImage(); });
-            rightArrow.addEventListener('click', e => { e.stopPropagation(); nextImage(); });
-            closeBtn.addEventListener('click', e => { e.stopPropagation(); closeGallery(); });
-            overlay.addEventListener('click', e => { if (e.target === overlay) closeGallery(); });
-            document.addEventListener('keydown', e => {
-                if (!overlay.classList.contains('show')) return;
-                if (e.key === 'Escape') { closeGallery(); }
-                else if (e.key === 'ArrowLeft') { e.preventDefault(); prevImage(); }
-                else if (e.key === 'ArrowRight') { e.preventDefault(); nextImage(); }
-            });
-        })();
-
-        // ===== 成功提示 =====
-        (function() {
+            // 检测 URL 参数
             const params = new URLSearchParams(window.location.search);
             if (params.get('submitted') === 'true') {
                 const toast = document.getElementById('successToast');
                 if (toast) {
                     toast.classList.add('show');
-                    setTimeout(() => toast.classList.remove('show'), 5000);
+                    // 5秒后自动隐藏
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 5000);
                 }
+                // 清除参数，避免刷新后重复出现
                 if (window.history && window.history.replaceState) {
-                    window.history.replaceState({}, '', window.location.origin + window.location.pathname);
+                    const cleanUrl = window.location.origin + window.location.pathname;
+                    window.history.replaceState({}, '', cleanUrl);
                 }
             }
         })();
 
-        // ===== 设置 _next =====
+        // ===== 动态设置 _next =====
         document.addEventListener('DOMContentLoaded', function() {
             const nextInput = document.getElementById('nextUrl');
             if (nextInput) {
-                nextInput.value = window.location.origin + window.location.pathname + '?submitted=true';
+                // 构建跳转地址：当前网站首页 + ?submitted=true
+                const base = window.location.origin + window.location.pathname;
+                const nextUrl = base + '?submitted=true';
+                nextInput.value = nextUrl;
             }
         });
+
+        // ===== 图片放大 =====
+        function openImage(src) {
+            var overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0,0,0,0.85)';
+            overlay.style.display = 'flex';
+            overlay.style.alignItems = 'center';
+            overlay.style.justifyContent = 'center';
+            overlay.style.zIndex = '9999';
+            overlay.style.cursor = 'pointer';
+            var img = document.createElement('img');
+            img.src = src;
+            img.style.maxWidth = '90%';
+            img.style.maxHeight = '90%';
+            img.style.objectFit = 'contain';
+            img.style.borderRadius = '6px';
+            overlay.appendChild(img);
+            overlay.onclick = function() {
+                document.body.removeChild(overlay);
+            };
+            document.body.appendChild(overlay);
+        }
 
         // ===== 页面切换 =====
         function activate(id) {
             var isHome = (id === 'home');
             var homeEl = document.getElementById('home');
-            if (homeEl) homeEl.classList.toggle('hidden', !isHome);
+            if (homeEl) {
+                homeEl.classList.toggle('hidden', !isHome);
+            }
             var details = document.querySelectorAll('.detail');
             for (var i = 0; i < details.length; i++) {
                 details[i].classList.toggle('active', details[i].id === id);
@@ -958,24 +832,37 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function goHome(evt) { if (evt) evt.preventDefault(); activate('home'); }
-        function goDetail(id, evt) { if (evt) evt.preventDefault(); activate(id); }
+        function goHome(evt) {
+            if (evt) evt.preventDefault();
+            activate('home');
+        }
+
+        function goDetail(id, evt) {
+            if (evt) evt.preventDefault();
+            activate(id);
+        }
+
         function smartScroll(targetId, evt) {
             if (evt) evt.preventDefault();
             var homeEl = document.getElementById('home');
             var isHomeVisible = homeEl && !homeEl.classList.contains('hidden');
             if (isHomeVisible) {
                 var el = document.getElementById(targetId);
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             } else {
                 activate('home');
                 setTimeout(function() {
                     var el = document.getElementById(targetId);
-                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }, 180);
             }
         }
 
+        window.openImage = openImage;
         window.goHome = goHome;
         window.goDetail = goDetail;
         window.smartScroll = smartScroll;
