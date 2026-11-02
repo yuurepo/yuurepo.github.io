@@ -716,6 +716,7 @@
             word-break: break-word;
         }
         .msg-reply b { color: var(--accent); font-weight: 600; margin-right: 6px; }
+        .reply-edited { display: inline-block; margin-left: 6px; color: var(--text-soft); font-size: 11px; }
         .msg-more { margin-top: 16px; text-align: center; }
 
         @media (max-width: 760px) {
@@ -752,7 +753,6 @@
                 <div class="navlinks">
                     <a href="#guides" onclick="smartScroll('guides', event)">攻略</a>
                     <a href="#downloads" onclick="smartScroll('downloads', event)">下载</a>
-                    <a href="#repo" onclick="smartScroll('repo', event)">REPO</a>
                     <a href="#guestbook" onclick="smartScroll('guestbook', event)">留言</a>
                 </div>
             </nav>
@@ -760,22 +760,6 @@
 
         <!-- ===== 首页 ===== -->
         <div id="home">
-            <section class="profile">
-                <div class="avatar">
-                    <span class="serif">YUU</span>
-                    <img src="images/system/touxiang.jpg" alt="YUU" onerror="this.style.display='none'" />
-                </div>
-                <div>
-                    <h1 class="serif">YUU</h1>
-                    <p class="bio">做一些自己想玩的游戏的攻略网站，也会放点 repo 和小文件。欢迎留言。</p>
-                    <div class="tags">
-                        <span class="tag">PC</span>
-                        <span class="tag">NS</span>
-                        <span class="tag">PS5</span>
-                    </div>
-                </div>
-            </section>
-
             <!-- 我做的攻略网站 -->
             <div class="section-head" id="guides">
                 <h2 class="serif">攻略网站</h2>
@@ -790,48 +774,10 @@
             </div>
             <div class="dl-list" id="dlList"></div>
 
-            <!-- 游戏 REPO -->
-            <div class="section-head" id="repo">
-                <h2 class="serif">游戏 REPO</h2>
-            </div>
-            <div class="cardlist">
-                <a class="game-card" href="#game-1" onclick="goDetail('game-1', event)">
-                    <div class="card-img" style="background-image:url('images/The Prince of Tennis Sweet School Festival/prince.jpg');">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">网球王子 学园祭的王子们</div>
-                        <div class="card-sub">恋爱 · SWITCH</div>
-                        <div class="card-tags">
-                            <span>乙女</span>
-                            <span>养成</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- 朗读剧 REPO -->
-            <div class="section-head" id="reading">
-                <h2 class="serif">BUSTAFELLOWS 朗读剧 中文字幕</h2>
-            </div>
-            <div class="cardlist">
-                <a class="game-card" href="#game-2" onclick="goDetail('game-2', event)">
-                    <div class="card-img" style="background-image:url('images/BUSTAFELLOWS PROM/prom.jpg');">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">BUSTAFELLOWS PROM 朗读剧</div>
-                        <div class="card-sub">朗读剧 · 中文字幕</div>
-                        <div class="card-tags">
-                            <span>剧情</span>
-                            <span>声优</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
             <!-- 留言板 -->
             <div class="section-head" id="guestbook">
-                <h2 class="serif">留言板</h2>
-                <span class="section-sub">公开留言大家都能看到 · 私密留言只有我能看到</span>
+                <h2 class="serif">留言与查看留言</h2>
+                <span class="section-sub">公开留言大家都能看到 · 私密留言只有我能看到 · IP 仅管理员可查看</span>
             </div>
             <div class="gb-wrap">
                 <div class="gb-offline" id="gbOffline" hidden>留言板还在搭建中，暂时不能留言。想联系我可以发邮件，或者去微博找我。</div>
@@ -886,62 +832,6 @@
             </footer>
         </div>
 
-        <!-- ===== 网球王子详情页 ===== -->
-        <section class="detail" id="game-1">
-            <a class="back" href="#" onclick="goHome(event)">← 返回</a>
-            <div class="detail-header">
-                <h1 class="detail-game-title">网球王子 学园祭的王子们</h1>
-                <div class="detail-game-meta">恋爱 · SWITCH · 2026</div>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="tl-date">2026.07.30</div>
-                    <p class="tl-text">终于发售了 OVO!</p>
-                    <div class="tl-media">
-                        <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/prince.jpg" alt="游戏截图" onclick="openImage(this.src)" />
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="tl-date">2026.08.02</div>
-                    <p class="tl-text">学长你太美好了TT</p>
-                    <div class="tl-media">
-                        <img class="tl-shot" src="images/The Prince of Tennis Sweet School Festival/3.jpg" alt="游戏截图" onclick="openImage(this.src)" />
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== BUSTAFELLOWS PROM 朗读剧详情页 ===== -->
-        <section class="detail" id="game-2">
-            <a class="back" href="#" onclick="goHome(event)">← 返回</a>
-            <div class="detail-header">
-                <h1 class="detail-game-title">BUSTAFELLOWS PROM 朗读剧</h1>
-                <div class="detail-game-meta">朗读剧 · 中文字幕 · 2026</div>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="tl-date">2026.09.09</div>
-                    <p class="tl-text">之前有做了bf朗读剧的中文机翻字幕，大概的正确率是90%左右，部分对话声音重叠在一起可能会没翻译出来。</p>
-                    <p class="tl-text">其次就是主角名字和声优名字以及游戏名字会识别的不够准确，但是大部分人应该能听出来吧，所以就没有做精校。</p>
-                    <p class="tl-text">想使用字幕就必须把购买的朗读剧扒档，扒档这个操作可能会有争议，所以我没有发布在一些社交平台上，只放在了自己的github主页。</p>
-                    <p class="tl-text">我把字幕下载链接放在网站上，如果有缘分能搜索到我的主页，可以给我发邮件，提供正版朗读剧的购买记录，我会把字幕下载密码发给你。</p>
-                    <p class="tl-text">现在也可以直接在首页的<a href="#guestbook" class="tl-link" onclick="smartScroll('guestbook', event)">留言板</a>发一条私密留言，附上购买记录截图，我看到后会回复你。</p>
-                    <p class="tl-text">点击链接可直接跳转到下载界面</p>
-                    <p class="tl-text">
-                        <a href="https://yuurepo.lanzouq.com/iElPQ47knfqb" target="_blank" class="tl-link">https://yuurepo.lanzouq.com/iElPQ47knfqb</a>
-                    </p>
-                </div>
-                <div class="timeline-item">
-                    <p class="tl-text">字幕使用方法会因为使用的播放器不同而不同，可以自行搜索自己使用的播放器怎么添加字幕，所以在这里不做赘述。</p>
-                    <p class="tl-text">下面放几张使用WIN11自带播放器的字幕预览图。</p>
-                    <div class="tl-media">
-                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom1.jpg" alt="朗读剧截图1" onclick="openImage(this.src)" />
-                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom2.jpg" alt="朗读剧截图2" onclick="openImage(this.src)" />
-                        <img class="tl-shot" src="images/BUSTAFELLOWS PROM/prom3.jpg" alt="朗读剧截图3" onclick="openImage(this.src)" />
-                    </div>
-                </div>
-            </div>
-        </section>
 
     </div>
 
@@ -969,7 +859,7 @@
         function fmtDate(ms) {
             var d = new Date(ms);
             var p = function (n) { return String(n).padStart(2, '0'); };
-            return d.getFullYear() + '.' + p(d.getMonth() + 1) + '.' + p(d.getDate());
+            return d.getFullYear() + '.' + p(d.getMonth() + 1) + '.' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
         }
 
         // 只放行 http(s) 和站内相对路径，避免配置里混进 javascript: 之类的链接
@@ -1091,6 +981,7 @@
                     var r = el('div', 'msg-reply');
                     r.appendChild(el('b', null, 'YUU 回复'));
                     r.appendChild(document.createTextNode(m.reply));
+                    if (m.reply_edited_at) r.appendChild(el('span', 'reply-edited', ' · 已修改回复'));
                     card.appendChild(r);
                 }
                 box.appendChild(card);

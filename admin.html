@@ -60,6 +60,10 @@
         .tab[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
 
         .list { display: flex; flex-direction: column; gap: 12px; }
+        .toolbar { display:flex; gap:10px; margin: 0 0 16px; flex-wrap:wrap; }
+        .toolbar input { flex:1; min-width:220px; padding:9px 12px; border:1px solid var(--line); border-radius:var(--r); background:var(--surface); font:inherit; }
+        .ipline { color:var(--text-soft); font-size:12px; margin: 4px 0 10px; overflow-wrap:anywhere; }
+        .reply-state { color:var(--text-soft); font-size:12px; margin-top:5px; }
         .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
         .who { font-weight: 600; word-break: break-all; }
         .who small { font-weight: 400; color: var(--text-soft); margin-left: 8px; }
@@ -109,6 +113,7 @@
             </div>
         </header>
         <div class="tabs" id="tabs"></div>
+        <div class="toolbar"><input id="searchInput" type="search" placeholder="搜索昵称、留言内容或 IP 地址" aria-label="搜索留言" /><button class="btn ghost" id="searchBtn" type="button">搜索</button><button class="btn ghost" id="resetSearch" type="button">清空</button></div>
         <div class="list" id="list"></div>
         <div style="text-align:center;margin-top:18px"><button class="btn ghost" id="more" type="button" hidden>加载更多</button></div>
     </div>
@@ -119,12 +124,12 @@
     var API = ((window.SITE || {}).apiBase || '').replace(/\/+$/, '');
     var token = '';
     try { token = sessionStorage.getItem('yuu_admin') || ''; } catch (e) {}
-    var filter = 'all', before = null;
+    var filter = 'all', before = null, searchText = '';
 
     var $ = function (id) { return document.getElementById(id); };
     function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
     function toast(t) { var x = $('toast'); x.textContent = t; x.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(function () { x.classList.remove('show'); }, 2500); }
-    function fmt(ms) { var d = new Date(ms), p = function (n) { return String(n).padStart(2, '0'); }; return d.getFullYear() + '.' + p(d.getMonth() + 1) + '.' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()); }
+    function fmt(ms) { var d = new Date(ms), p = function (n) { return String(n).padStart(2, '0'); }; return d.getFullYear() + '.' + p(d.getMonth() + 1) + '.' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds()); }
     function size(n) { return n > 1048576 ? (n / 1048576).toFixed(1) + 'MB' : Math.max(1, Math.round(n / 1024)) + 'KB'; }
 
     function api(path, opts) {
@@ -146,7 +151,7 @@
     }
     function logout() { try { sessionStorage.removeItem('yuu_admin'); } catch (e) {} token = ''; showLogin(''); }
 
-    var TABS = [['all', '全部'], ['private', '私密'], ['public', '公开'], ['pending', '待审核'], ['hidden', '已隐藏']];
+    var TABS = [['all', '全部'], ['private', '私密'], ['public', '公开'], ['pending', '待审核'], ['hidden', '已隐藏'], ['replied', '已回复'], ['unreplied', '未回复']];
     function renderTabs() {
         var box = $('tabs'); box.textContent = '';
         TABS.forEach(function (t) {
@@ -176,6 +181,7 @@
         head.appendChild(el('div', 'when', '#' + m.id + ' · ' + fmt(m.created_at)));
         c.appendChild(head);
         c.appendChild(el('p', 'body', m.content));
+        c.appendChild(el('div', 'ipline', '访客 IP：' + (m.ip_address || '旧留言未记录 / 不可用')));
 
         if (m.attachments && m.attachments.length) {
             var files = el('div', 'files');
@@ -190,13 +196,15 @@
         var rb = el('div', 'reply-box');
         var ta = el('textarea'); ta.rows = 2; ta.maxLength = 2000; ta.value = m.reply || '';
         ta.placeholder = m.is_private ? '私密留言的回复不会显示在网站上，请直接发邮件回复。这里可作笔记。' : '公开回复会显示在这条留言下面';
+        var replyState = el('div', 'reply-state', m.reply ? ('当前状态：已回复' + (m.reply_edited_at ? ' · 曾修改于 ' + fmt(m.reply_edited_at) : '')) : '当前状态：尚未回复');
         ta.setAttribute('aria-label', '回复');
-        rb.appendChild(ta); c.appendChild(rb);
+        rb.appendChild(ta); rb.appendChild(replyState); c.appendChild(rb);
 
         var act = el('div', 'actions');
-        var save = el('button', 'btn', '保存回复'); save.type = 'button';
-        save.onclick = function () { patch(m.id, { reply: ta.value }, save, '已保存'); };
+        var save = el('button', 'btn', m.reply ? '保存修改' : '保存回复'); save.type = 'button';
+        save.onclick = function () { patch(m.id, { reply: ta.value }, save, '已保存').then(function (ok) { if (ok) load(false); }); };
         act.appendChild(save);
+        if (m.reply) { var clearReply = el('button', 'btn ghost', '删除回复'); clearReply.type = 'button'; clearReply.onclick = function () { if (!confirm('确定清空这条管理员回复吗？')) return; patch(m.id, { reply: '' }, clearReply, '回复已删除').then(function (ok) { if (ok) load(false); }); }; act.appendChild(clearReply); }
         if (!m.is_private) {
             var vis = m.status === 'visible';
             var tg = el('button', 'btn ghost', vis ? '隐藏' : (m.status === 'pending' ? '通过并显示' : '恢复显示')); tg.type = 'button';
@@ -219,8 +227,8 @@
     function patch(id, body, btn, okMsg) {
         btn.disabled = true;
         return api('/api/admin/messages/' + id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
-            .then(jsonOrThrow).then(function () { toast(okMsg); })
-            .catch(handle).then(function () { btn.disabled = false; });
+            .then(jsonOrThrow).then(function () { toast(okMsg); return true; })
+            .catch(function (e) { handle(e); return false; }).then(function (ok) { btn.disabled = false; return ok; });
     }
 
     function download(f) {
@@ -259,6 +267,9 @@
     });
     $('logout').onclick = logout;
     $('more').onclick = function () { load(true); };
+    $('searchBtn').onclick = function () { searchText = $('searchInput').value.trim(); load(false); };
+    $('searchInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') { searchText = this.value.trim(); load(false); } });
+    $('resetSearch').onclick = function () { $('searchInput').value = ''; searchText = ''; load(false); };
 
     renderTabs();
     if (!API) { showLogin('还没有配置后端地址：请先在 site-config.js 里填写 apiBase。'); }
