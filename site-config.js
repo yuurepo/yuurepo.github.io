@@ -11,18 +11,22 @@ window.SITE = {
   // 需要和 Worker 里的 TURNSTILE_SECRET 配套使用。
   turnstileSiteKey: '',
 
-  // ===== 我做的攻略网站 =====
-  // cover: 封面图（可不填，不填会用冷灰蓝底色）
   guides: [
     {
       title: '学园祭的王子们 攻略',
-      desc: '根据小红书博主「仓鼠大王」的攻略笔记制作，会同步更新仓鼠大王老师的攻略内容。',
-      url: 'https://princegameguide.netlify.app/',
+      desc: '38位王子加1位DLC王子攻略已全。',
+      url: 'https://princegameguide.yuuna.online/',
       cover: 'images/The Prince of Tennis Sweet School Festival/prince.jpg',
       tags: ['攻略', '乙女', 'SWITCH'],
     },
-    // 以后再加一个，复制上面整块、改内容即可：
-    // { title: '', desc: '', url: '', cover: '', tags: [] },
+    {
+      title: 'BUSTAFELLOWS Season2 攻略',
+      desc: 'Steam全线路中英对照攻略，点击立绘进入对应线路，包含推荐攻略顺序与序章选择说明。',
+      url: 'https://bfseason2.yuuna.online/',
+      cover: 'images/BUSTAFELLOWS SEASON 2/bf.png"', 
+      tags: ['攻略', '乙女', '中英对照','STEAM'],
+    },
+
   ],
 
   // ===== 下载区 =====
@@ -32,13 +36,20 @@ window.SITE = {
   // 若是网盘/外链，加上 external: true，按钮会显示"前往下载"并新窗口打开。
   downloads: [
     {
-      title: 'BUSTAFELLOWS PROM 朗读剧 · 中文字幕',
-      desc: '机翻字幕，正确率约 90%。需要提供正版购买记录后，我会私信发你提取密码。',
-      url: 'https://yuurepo.lanzouq.com/iElPQ47knfqb',
-      external: true,
-      size: '',
+      title: 'BUSTAFELLOWS PROM 朗读剧 中文字幕',
+      desc: '机翻字幕，正确率约90%。需要提供正版购买记录后，联系邮箱或者微博，我会私发你提取密码。',
+      file: 'BUSTAFELLOWS PROM机翻中文字幕.zip',
+      size: '170.01 KB',
       updated: '2026.09.09',
       tags: ['字幕'],
+    },
+    {
+      title: 'BUSTAFELLOWS Season2 Steam版英文汉化补丁下载',
+      desc: '适用于BUSTAFELLOWS Season2中文补丁下的攻略',
+      file: 'BF2汉化补丁v1.0.1.zip',
+      size: '195.86 MB',
+      updated: '2026.11.02',
+      tags: ['汉化补丁'],
     },
     // 例：托管在 R2 的文件（先把文件上传到 R2 的 public/ 目录）
     // {

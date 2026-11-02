@@ -542,6 +542,10 @@
             .back { top: 62px; padding: 8px 12px; font-size: 12px; }
             .contact-form { padding: 16px 14px; }
         }
+
+        .message-entry { margin:28px 0 10px; padding:20px 22px; background:rgba(255,255,255,.72); border:1px solid var(--line); border-radius:8px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+        .message-entry .section-sub { margin:0; }
+        @media(max-width:640px){.message-entry{padding:16px;align-items:flex-start;flex-direction:column;gap:8px;}}
         @media (prefers-reduced-motion: reduce) {
             * { transition: none !important; scroll-behavior: auto !important; }
         }
@@ -738,6 +742,199 @@
             .contact-form .seg { display: flex; }
             .contact-form .seg .seg-opt { flex: 1; text-align: center; }
         }
+
+
+        /* ===== YUU editorial polish · adapted with unslop ===== */
+        :root {
+            --bg: #F5F7FA;
+            --surface: #FFFFFF;
+            --ink: #111827;
+            --text: #17202B;
+            --text-soft: #596575;
+            --line: rgba(23, 32, 43, .10);
+            --accent: #344B63;
+            --ice: #DCE4EC;
+            --max: 1040px;
+            --r: 12px;
+        }
+        body { background: var(--bg); color: var(--text); }
+        .glow { display: none; }
+        .wrap { max-width: var(--max); }
+        header { background: rgba(245,247,250,.96); }
+        nav { padding-bottom: 12px; }
+        .brand.serif { font-size: 20px; color: var(--text); }
+        .navlinks { gap: 24px; }
+        .navlinks a { padding: 4px 0; }
+        .profile { gap: 24px; padding: 48px 0 32px; }
+        .avatar { width: 88px; height: 88px; box-shadow: 0 1px 3px rgba(17,24,39,.10); }
+        .profile h1 { font-size: 26px; }
+        .profile .bio { font-size: 14px; line-height: 1.65; }
+        .tag { background: #F8FAFC; padding: 4px 10px; border-radius: 6px; }
+        .section-head {
+            padding-top: 32px;
+            margin-bottom: 16px;
+            border-top-color: rgba(23,32,43,.10);
+        }
+        .section-head h2 { font-size: 24px; }
+        .section-sub { font-size: 12px; }
+        .cardlist {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            padding-bottom: 36px;
+        }
+        .game-card.auto {
+            min-width: 0;
+            min-height: 0;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            box-shadow: 0 1px 2px rgba(17,24,39,.035);
+            overflow: hidden;
+            background: var(--surface);
+            transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+        }
+        .game-card.auto:hover {
+            transform: none;
+            border-color: rgba(52,75,99,.28);
+            box-shadow: 0 5px 16px rgba(17,24,39,.07);
+        }
+        .game-card.auto .card-img {
+            flex: none;
+            width: 100%;
+            height: 116px;
+            min-height: 116px;
+            background-size: cover;
+            background-position: center 38%;
+        }
+        .game-card.auto .card-body {
+            width: 100%;
+            min-height: 112px;
+            padding: 12px 14px 14px;
+            justify-content: flex-start;
+            gap: 0;
+        }
+        .game-card .card-body .card-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 15px;
+            line-height: 1.45;
+            font-weight: 500;
+            margin: 0 0 5px;
+        }
+        .game-card .card-body .card-sub.clamp {
+            font-size: 12px;
+            line-height: 1.55;
+            -webkit-line-clamp: 2;
+            color: var(--text-soft);
+        }
+        .game-card .card-body .card-tags { gap: 5px; margin-top: 9px; }
+        .game-card .card-body .card-tags span {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: #F5F7FA;
+        }
+        .game-card .card-body .card-url { display: none; }
+        .dl-list { gap: 10px; padding-bottom: 36px; }
+        .dl-item {
+            padding: 14px 18px;
+            gap: 16px;
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgba(17,24,39,.035);
+        }
+        .dl-item:hover { box-shadow: 0 4px 14px rgba(17,24,39,.06); }
+        .dl-title { font-size: 15px; }
+        .dl-desc { font-size: 13px; margin-bottom: 6px; }
+        .btn, .contact-form .submit-btn {
+            border-radius: 8px;
+            padding: 9px 16px;
+            font-size: 13px;
+            transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+        }
+        .contact-form, .msg {
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgba(17,24,39,.025);
+        }
+        .contact-form { padding: 20px 22px; }
+        .contact-form input, .contact-form textarea { border-radius: 8px; background: #FAFBFC; }
+        .msg { padding: 14px 18px; }
+        .msg-list { gap: 8px; }
+        footer { padding: 28px 0 40px; }
+        footer .copy { font-size: 12px; }
+        .unslop-credit { display: block; margin-top: 5px; color: #7A8491; font-size: 11px; }
+        .unslop-credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+        @media (max-width: 760px) {
+            .wrap { padding: 0 20px; }
+            header { margin: 0 -20px; padding-left: 20px; padding-right: 20px; }
+            .profile { padding: 40px 0 28px; }
+            .avatar { width: 76px; height: 76px; }
+            .cardlist { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .game-card.auto .card-img { height: 108px; min-height: 108px; }
+            .game-card.auto .card-body { min-height: 108px; padding: 11px 12px 12px; }
+            .section-head { padding-top: 28px; margin-bottom: 14px; }
+            .dl-item { padding: 13px 15px; }
+        }
+        @media (max-width: 480px) {
+            .wrap { padding: 0 16px; }
+            header { margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+            .navlinks { gap: 14px; font-size: 12px; }
+            .profile { gap: 14px; padding: 32px 0 24px; }
+            .avatar { width: 64px; height: 64px; }
+            .profile h1 { font-size: 20px; }
+            .profile .bio { font-size: 12px; margin-bottom: 7px; }
+            .tags { gap: 5px; }
+            .tags .tag { font-size: 10px; padding: 3px 7px; }
+            .cardlist { grid-template-columns: 1fr; gap: 10px; }
+            .game-card.auto { flex-direction: row; min-height: 100px; }
+            .game-card.auto .card-img { width: 112px; height: auto; min-height: 100px; flex: 0 0 112px; }
+            .game-card.auto .card-body { min-height: 100px; padding: 11px 12px; justify-content: center; }
+            .game-card .card-body .card-title { font-size: 14px; }
+            .game-card .card-body .card-sub.clamp { font-size: 11px; -webkit-line-clamp: 2; }
+            .game-card .card-body .card-tags { margin-top: 6px; }
+            .game-card .card-body .card-tags span { font-size: 9px; }
+            .section-head h2 { font-size: 21px; }
+            .section-sub { font-size: 11px; }
+            .dl-item { flex-direction: row; align-items: center; gap: 10px; }
+            .dl-item .btn { width: auto; padding: 8px 11px; font-size: 12px; }
+            .dl-title { font-size: 14px; }
+            .dl-desc { font-size: 12px; }
+            .contact-form { padding: 16px 14px; }
+            .msg { padding: 12px 14px; }
+        }
+
+        .message-entry { margin:28px 0 10px; padding:20px 22px; background:rgba(255,255,255,.72); border:1px solid var(--line); border-radius:8px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+        .message-entry .section-sub { margin:0; }
+        @media(max-width:640px){.message-entry{padding:16px;align-items:flex-start;flex-direction:column;gap:8px;}}
+        @media (prefers-reduced-motion: reduce) {
+            .game-card.auto, .dl-item, .btn { transition: none !important; }
+        }
+    
+        /* ===== Restore original YUU background palette and glow rendering ===== */
+        :root {
+            --bg: #EEF2F7;
+            --surface: #FFFFFF;
+            --ink: #10141B;
+            --text: #12151C;
+            --text-soft: #626E7E;
+            --line: rgba(16, 20, 27, 0.09);
+            --accent: #32475F;
+            --ice: #A9BED4;
+            --r: 6px;
+        }
+        body { background: var(--bg); color: var(--text); }
+        .glow { display: block; opacity: .55; filter: blur(70px); }
+        .glow.g1 {
+            background: radial-gradient(circle, rgba(50, 71, 95, 0.55), transparent 65%);
+        }
+        .glow.g2 {
+            background: radial-gradient(circle, rgba(34, 80, 95, 0.4), transparent 65%);
+        }
+        header { background-color: rgba(238, 242, 247, 0.94); }
+        .back { background: rgba(238, 242, 247, 0.82); }
+        .back:hover { background: rgba(238, 242, 247, 0.94); }
     </style>
 </head>
 <body>
@@ -753,17 +950,33 @@
                 <div class="navlinks">
                     <a href="#guides" onclick="smartScroll('guides', event)">攻略</a>
                     <a href="#downloads" onclick="smartScroll('downloads', event)">下载</a>
-                    <a href="#guestbook" onclick="smartScroll('guestbook', event)">留言</a>
+                    <a href="message.html">留言板</a>
                 </div>
             </nav>
         </header>
+
+        <!-- 个人头像与简介：保留原主页资料 -->
+        <section class="profile">
+                <div class="avatar">
+                    <span class="serif">YUU</span>
+                    <img src="images/system/touxiang.jpg" alt="YUU" onerror="this.style.display='none'" />
+                </div>
+                <div>
+                    <h1 class="serif">YUU</h1>
+                    <p class="bio">做一些自己想玩的游戏的攻略网站，也会放点 repo 和小文件。欢迎留言。</p>
+                    <div class="tags">
+                        <span class="tag">PC</span>
+                        <span class="tag">NS</span>
+                        <span class="tag">PS5</span>
+                    </div>
+                </div>
+            </section>
 
         <!-- ===== 首页 ===== -->
         <div id="home">
             <!-- 我做的攻略网站 -->
             <div class="section-head" id="guides">
                 <h2 class="serif">攻略网站</h2>
-                <span class="section-sub">自己做的，只做自己想玩的游戏</span>
             </div>
             <div class="cardlist" id="guideCards"></div>
 
@@ -774,54 +987,7 @@
             </div>
             <div class="dl-list" id="dlList"></div>
 
-            <!-- 留言板 -->
-            <div class="section-head" id="guestbook">
-                <h2 class="serif">留言与查看留言</h2>
-                <span class="section-sub">公开留言大家都能看到 · 私密留言只有我能看到 · IP 仅管理员可查看</span>
-            </div>
-            <div class="gb-wrap">
-                <div class="gb-offline" id="gbOffline" hidden>留言板还在搭建中，暂时不能留言。想联系我可以发邮件，或者去微博找我。</div>
-                <div class="contact-form" id="gbBox">
-                    <form id="gbForm" novalidate>
-                        <div class="field-group">
-                            <div class="seg" role="radiogroup" aria-label="留言可见范围">
-                                <label class="seg-opt"><input type="radio" name="visibility" value="public" checked /><span>公开留言</span></label>
-                                <label class="seg-opt"><input type="radio" name="visibility" value="private" /><span>私密留言</span></label>
-                            </div>
-                            <p class="form-note" id="gbVisNote"></p>
-                        </div>
-                        <div class="field-group">
-                            <label for="gbName">你的名字 <span class="req">（必填）</span></label>
-                            <input type="text" id="gbName" name="name" maxlength="30" placeholder="想让大家怎么称呼你" autocomplete="nickname" required />
-                        </div>
-                        <div class="field-group">
-                            <label for="gbContact" id="gbContactLabel">你的邮箱</label>
-                            <input type="text" id="gbContact" name="contact" maxlength="100" placeholder="example@mail.com" autocomplete="email" />
-                        </div>
-                        <div class="field-group">
-                            <label for="gbContent">留言内容 <span class="req">（必填）</span></label>
-                            <textarea id="gbContent" name="content" rows="4" maxlength="2000" placeholder="想说的话……" required></textarea>
-                        </div>
-                        <div class="field-group" id="gbFileGroup" hidden>
-                            <label for="gbFiles">附件 <span class="req">（选填，最多 3 个，总共不超过 10MB；图片、PDF、Word、压缩包等）</span></label>
-                            <input type="file" id="gbFiles" class="file-input" multiple accept="image/*,.pdf,.doc,.docx,.txt,.zip,.rar,.7z" />
-                            <div class="file-name" id="gbFileName"></div>
-                        </div>
-                        <!-- 蜜罐：真人看不到，别填 -->
-                        <div class="hp" aria-hidden="true">
-                            <label>请勿填写 <input type="text" name="hp_q7x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore /></label>
-                        </div>
-                        <div class="cf-turnstile-box" id="gbTurnstile"></div>
-                        <p class="form-error" id="gbError" role="alert"></p>
-                        <div class="form-actions">
-                            <button type="submit" class="submit-btn" id="gbSubmit">发送</button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="msg-list" id="msgList" aria-live="polite"></div>
-                <div class="msg-more"><button type="button" class="btn ghost" id="msgMore" hidden>加载更多</button></div>
-            </div>
+            <div class="message-entry"><a class="btn" href="message.html">进入留言板 ↗</a><p class="section-sub">发表留言、查看公开留言及 YUU的回复</p></div>
 
             <footer>
                 <div class="links">
@@ -931,8 +1097,12 @@
 
                 var href = downloadHref(d);
                 var ext = isExternal(href) && !d.file;
-                var btn = el('a', 'btn', ext ? '前往下载 ↗' : '↓ 下载');
-                if (href) {
+                var btn = el('a', 'btn', d.placeholder ? '即将开放' : (ext ? '前往下载 ↗' : '↓ 下载'));
+                if (d.placeholder) {
+                    btn.setAttribute('aria-disabled', 'true');
+                    btn.title = '补丁下载入口暂未开放';
+                    btn.addEventListener('click', function (e) { e.preventDefault(); });
+                } else if (href) {
                     btn.href = href;
                     if (ext) { btn.target = '_blank'; btn.rel = 'noopener'; }
                     else btn.setAttribute('download', '');
@@ -1130,7 +1300,7 @@
 
         renderGuides();
         renderDownloads();
-        setupGuestbook();
+        // 留言板已移至独立页面 message.html
 
         // ===== 图片放大 =====
         function openImage(src) {

@@ -1,0 +1,1357 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>留言板 · YUU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Serif+SC:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/><link rel="apple-touch-icon" href="images/system/logo.png"/><link rel="icon" type="image/png" href="images/system/favicon.png"/><style>
+        :root {
+            --bg: #EEF2F7;
+            --surface: #FFFFFF;
+            --ink: #10141B;
+            --text: #12151C;
+            --text-soft: #626E7E;
+            --line: rgba(16, 20, 27, 0.09);
+            --accent: #32475F;
+            --ice: #A9BED4;
+            --max: 960px;
+            --r: 6px;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow-x: hidden;
+        }
+        a { color: inherit; }
+        ::selection { background: var(--accent); color: #fff; }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+        .serif {
+            font-family: 'Noto Serif SC', serif;
+            font-style: normal;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .brand.serif {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+        .glow {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(70px);
+            opacity: .55;
+        }
+        .glow.g1 {
+            top: -160px;
+            left: -120px;
+            width: 520px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(50, 71, 95, 0.55), transparent 65%);
+        }
+        .glow.g2 {
+            top: 280px;
+            right: -180px;
+            width: 480px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(34, 80, 95, 0.4), transparent 65%);
+        }
+        .wrap {
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 0 32px;
+            position: relative;
+        }
+
+        /* ===== 固定表头 ===== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--bg);
+            padding: 16px 0 0;
+            margin: 0 -32px;
+            padding-left: 32px;
+            padding-right: 32px;
+            transition: box-shadow 0.2s;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--line);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: none;
+        }
+        .brand { font-size: 21px; letter-spacing: 0.2px; text-decoration: none; cursor: pointer; }
+        .navlinks {
+            display: flex;
+            gap: 30px;
+            font-size: 14px;
+            color: var(--text-soft);
+        }
+        .navlinks a { text-decoration: none; transition: color .15s ease; cursor: pointer; }
+        .navlinks a:hover { color: var(--text); }
+
+        /* ===== 返回按钮 ===== */
+        .back {
+            position: sticky;
+            top: 72px;
+            z-index: 99;
+            background: rgba(238, 242, 247, 0.82);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            padding: 12px 18px;
+            margin: 0 -10px 0 0;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--text-soft);
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s, color 0.15s;
+            width: auto;
+            box-sizing: border-box;
+            box-shadow: 0 2px 8px rgba(16, 20, 27, 0.04);
+            border: 1px solid rgba(16, 20, 27, 0.04);
+        }
+        .back:hover {
+            color: var(--text);
+            background: rgba(238, 242, 247, 0.94);
+            border-color: rgba(16, 20, 27, 0.08);
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            padding: 72px 0 40px;
+        }
+        .avatar {
+            flex: none;
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            background: linear-gradient(155deg, #2E4157, #4F7B93);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #EEF3F8;
+            font-size: 42px;
+            box-shadow: 0 20px 34px -18px rgba(16, 20, 27, 0.5);
+            overflow: hidden;
+            position: relative;
+        }
+        .avatar img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .profile h1 { font-size: 28px; margin: 0 0 8px; }
+        .profile .bio {
+            color: var(--text-soft);
+            max-width: 50ch;
+            margin: 0 0 14px;
+            font-size: 15px;
+        }
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag {
+            font-size: 12.5px;
+            padding: 5px 12px;
+            border-radius: 100px;
+            border: 1px solid var(--line);
+            color: var(--text-soft);
+            background: var(--surface);
+        }
+        .section-head {
+            padding-top: 44px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .section-head h2 { font-size: 26px; margin: 0; }
+        .cardlist {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding-bottom: 60px;
+        }
+        .game-card {
+            display: flex;
+            border-radius: var(--r);
+            overflow: hidden;
+            background: var(--surface);
+            box-shadow: 0 4px 14px rgba(16, 20, 27, 0.04);
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            height: 150px;
+            border: 1px solid var(--line);
+        }
+        .game-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px -10px rgba(16, 20, 27, 0.12);
+        }
+        .game-card .card-img {
+            flex: 0 0 220px;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-color: var(--line);
+            position: relative;
+        }
+        .game-card .card-img .card-mood {
+            position: absolute;
+            left: 14px;
+            bottom: 14px;
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 20px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+        }
+        .game-card .card-body {
+            flex: 1;
+            padding: 18px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--surface);
+        }
+        .game-card .card-body .card-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0 0 4px;
+            font-family: 'Noto Serif SC', serif;
+            letter-spacing: 0.2px;
+        }
+        .game-card .card-body .card-sub {
+            font-size: 13px;
+            color: var(--text-soft);
+            margin: 0;
+        }
+        .game-card .card-body .card-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .game-card .card-body .card-tags span {
+            font-size: 11.5px;
+            padding: 3px 12px;
+            border-radius: 100px;
+            border: 1px solid var(--line);
+            color: var(--text-soft);
+            background: var(--bg);
+        }
+        footer {
+            padding: 40px 0 60px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        footer .links {
+            display: flex;
+            gap: 22px;
+            font-size: 14px;
+        }
+        footer .links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--text-soft);
+            transition: color .15s ease;
+        }
+        footer .links a:hover { color: var(--text); }
+        footer .copy { font-size: 13px; color: var(--text-soft); }
+
+        #home.hidden { display: none; }
+        .detail {
+            display: none;
+            padding: 20px 0 60px;
+        }
+        .detail.active { display: block; }
+
+        .detail-header {
+            margin-bottom: 32px;
+            padding-top: 12px;
+        }
+        .detail-header .detail-game-title {
+            font-size: 34px;
+            font-weight: 500;
+            margin: 0 0 4px;
+            font-family: 'Noto Serif SC', serif;
+            letter-spacing: 0.2px;
+        }
+        .detail-header .detail-game-meta {
+            font-size: 14px;
+            color: var(--text-soft);
+        }
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .timeline-item {
+            padding: 28px 0;
+            border-top: 1px solid var(--line);
+        }
+        .timeline-item:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+        .timeline-item .tl-date {
+            font-size: 13px;
+            color: var(--text-soft);
+            letter-spacing: 0.2px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .timeline-item .tl-text {
+            margin: 0 0 14px;
+            color: var(--text-soft);
+            max-width: 62ch;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        .timeline-item .tl-text a.tl-link {
+            color: var(--text-soft);
+            text-decoration: underline;
+            font-weight: 400;
+        }
+        .timeline-item .tl-text a.tl-link:hover { color: var(--text); }
+        .timeline-item .tl-media {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .timeline-item .tl-media .tl-shot {
+            width: 180px;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid var(--line);
+            cursor: pointer;
+            background-color: var(--line);
+        }
+
+        /* ===== 攻略页面 ===== */
+        .guide-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .guide-item {
+            background: var(--surface);
+            border-radius: var(--r);
+            border: 1px solid var(--line);
+            padding: 24px 28px;
+            transition: box-shadow 0.2s ease;
+        }
+        .guide-item:hover {
+            box-shadow: 0 8px 24px -10px rgba(16, 20, 27, 0.10);
+        }
+        .guide-item .guide-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin: 0 0 10px;
+            font-family: 'Noto Serif SC', serif;
+            letter-spacing: 0.2px;
+        }
+        .guide-item .guide-desc {
+            margin: 0 0 16px;
+            color: var(--text-soft);
+            font-size: 15px;
+            line-height: 1.7;
+            max-width: 60ch;
+        }
+        .guide-item .guide-link-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .guide-item .guide-link-wrap .guide-link-icon { display: none; }
+        .guide-item .guide-link-wrap a.guide-link {
+            color: var(--text-soft);
+            text-decoration: underline;
+            font-weight: 400;
+            font-size: 14px;
+            transition: color .15s ease;
+        }
+        .guide-item .guide-link-wrap a.guide-link:hover { color: var(--text); }
+
+        /* ===== 联系表单（独立页面） ===== */
+        .contact-form {
+            background: var(--surface);
+            border-radius: var(--r);
+            border: 1px solid var(--line);
+            padding: 24px 28px;
+            margin-bottom: 40px;
+        }
+        .contact-form label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-soft);
+            margin-bottom: 4px;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            background: var(--bg);
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+            font-family: inherit;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--accent);
+        }
+        .contact-form textarea { resize: vertical; }
+        .contact-form .field-group { margin-bottom: 16px; }
+        .contact-form .file-input { padding: 8px; }
+        .contact-form .file-name {
+            font-size: 12.5px;
+            color: var(--text-soft);
+            margin-top: 6px;
+            word-break: break-all;
+        }
+        .contact-form .submit-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: var(--r);
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+        .contact-form .submit-btn:hover { background: #1f3145; }
+
+        /* ===== 成功提示浮层 ===== */
+        .success-toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--surface);
+            border: 1px solid var(--accent);
+            border-radius: var(--r);
+            padding: 16px 28px;
+            box-shadow: 0 8px 24px rgba(16,20,27,0.15);
+            z-index: 200;
+            font-size: 16px;
+            color: var(--text);
+            display: none;
+            max-width: 90%;
+        }
+        .success-toast.show {
+            display: block;
+            animation: fadeDown 0.4s ease;
+        }
+        @keyframes fadeDown {
+            0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 760px) {
+            .profile {
+                flex-direction: row;
+                align-items: center;
+                gap: 20px;
+                padding: 56px 0 32px;
+            }
+            .avatar { width: 80px; height: 80px; font-size: 32px; }
+            .profile h1 { font-size: 22px; margin-bottom: 4px; }
+            .profile .bio { font-size: 14px; margin-bottom: 10px; }
+            .game-card { height: 120px; }
+            .game-card .card-img { flex: 0 0 120px; }
+            .game-card .card-body .card-title { font-size: 16px; }
+            .game-card .card-body { padding: 14px 16px; }
+            .detail-header .detail-game-title { font-size: 26px; }
+            .timeline-item .tl-media .tl-shot { width: 140px; }
+            .wrap { padding: 0 18px; }
+            header {
+                padding-left: 18px;
+                padding-right: 18px;
+                margin: 0 -18px;
+            }
+            .section-head h2 { font-size: 22px; }
+            .guide-item { padding: 20px 18px; }
+            .guide-item .guide-title { font-size: 18px; }
+            .guide-item .guide-desc { font-size: 14px; }
+            .back { top: 68px; padding: 10px 14px; font-size: 13px; }
+            .contact-form { padding: 20px 18px; }
+        }
+        @media (max-width: 480px) {
+            .profile { gap: 14px; padding: 40px 0 24px; }
+            .avatar { width: 64px; height: 64px; font-size: 26px; }
+            .profile h1 { font-size: 18px; }
+            .profile .bio { font-size: 13px; margin-bottom: 8px; }
+            .tags .tag { font-size: 11px; padding: 4px 10px; }
+            .game-card { height: 100px; flex-direction: row; }
+            .game-card .card-img { flex: 0 0 90px; }
+            .game-card .card-body .card-title { font-size: 14px; }
+            .game-card .card-body .card-sub { font-size: 12px; }
+            .game-card .card-body .card-tags span { font-size: 10px; padding: 2px 10px; }
+            .detail-header .detail-game-title { font-size: 22px; }
+            .timeline-item .tl-media .tl-shot { width: 100%; aspect-ratio: 16 / 9; }
+            .guide-item .guide-title { font-size: 16px; }
+            .guide-item .guide-desc { font-size: 13px; }
+            .guide-item .guide-link-wrap a.guide-link { font-size: 13px; }
+            .navlinks { gap: 16px; font-size: 13px; }
+            .back { top: 62px; padding: 8px 12px; font-size: 12px; }
+            .contact-form { padding: 16px 14px; }
+        }
+
+        .message-hero{padding:38px 0 18px}.message-hero h1{font-size:30px;margin:0 0 6px}.message-hero p{color:var(--text-soft);margin:0;font-size:14px}
+        .message-layout{display:grid;grid-template-columns:minmax(280px,.85fr) minmax(0,1.15fr);gap:22px;align-items:start;padding:8px 0 56px}
+        .message-panel{min-width:0}.message-panel>h2{font-size:18px;margin:0 0 12px}.message-panel .contact-form{margin:0}.message-panel .msg-list{display:grid;gap:12px}.message-panel .msg{margin:0}.message-panel .msg-more{text-align:center;margin-top:14px}
+        .message-topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}.message-topbar a{text-decoration:none;color:var(--text-soft);font-size:13px}
+        .message-layout .gb-wrap{display:contents}
+        @media(max-width:760px){.message-layout{grid-template-columns:1fr;gap:26px}.message-hero{padding:28px 0 14px}.message-hero h1{font-size:25px}}
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; scroll-behavior: auto !important; }
+        }
+
+        /* ===== 个人主页新增：攻略 / 下载 / 留言板 ===== */
+        .section-head { scroll-margin-top: 64px; flex-wrap: wrap; gap: 6px 16px; }
+        [hidden] { display: none !important; }
+        .section-sub { font-size: 13px; color: var(--text-soft); }
+        /* 攻略卡片：简介长度不定，高度随内容撑开，最低与原卡片一致 */
+        .game-card.auto { height: auto; min-height: 150px; }
+        .game-card.auto .card-img { min-height: 150px; }
+        .game-card .card-body .card-sub.clamp {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .game-card .card-body .card-url {
+            font-size: 12px;
+            color: var(--accent);
+            margin-top: 8px;
+            opacity: .85;
+        }
+        .empty {
+            color: var(--text-soft);
+            font-size: 14px;
+            padding: 18px 0 8px;
+        }
+
+        /* 下载区 */
+        .dl-list { display: flex; flex-direction: column; gap: 14px; padding-bottom: 60px; }
+        .dl-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            padding: 20px 24px;
+            box-shadow: 0 4px 14px rgba(16, 20, 27, 0.04);
+            transition: box-shadow .2s ease;
+        }
+        .dl-item:hover { box-shadow: 0 8px 24px -10px rgba(16, 20, 27, 0.10); }
+        .dl-info { flex: 1; min-width: 0; }
+        .dl-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 17px;
+            font-weight: 500;
+            margin: 0 0 4px;
+            letter-spacing: .2px;
+        }
+        .dl-desc { margin: 0 0 8px; font-size: 14px; color: var(--text-soft); line-height: 1.65; }
+        .dl-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 12.5px; color: var(--text-soft); align-items: center; }
+        .dl-meta .chip {
+            font-size: 11.5px;
+            padding: 2px 10px;
+            border-radius: 100px;
+            border: 1px solid var(--line);
+            background: var(--bg);
+        }
+        .btn {
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: var(--r);
+            font-size: 14.5px;
+            font-family: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background .2s;
+            white-space: nowrap;
+        }
+        .btn:hover { background: #1f3145; }
+        .btn[aria-disabled="true"] { background: #a6b0be; cursor: not-allowed; }
+        .btn.ghost {
+            background: transparent;
+            color: var(--text-soft);
+            border: 1px solid var(--line);
+        }
+        .btn.ghost:hover { color: var(--text); background: var(--surface); }
+        .btn:disabled { opacity: .6; cursor: default; }
+
+        /* 留言板 */
+        .gb-wrap { padding-bottom: 60px; }
+        .contact-form .seg {
+            display: inline-flex;
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            background: var(--bg);
+            padding: 3px;
+            gap: 3px;
+        }
+        .contact-form .seg .seg-opt {
+            position: relative;
+            margin: 0;
+            cursor: pointer;
+            color: var(--text-soft);
+        }
+        .contact-form .seg .seg-opt input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            padding: 0;
+            border: 0;
+        }
+        .contact-form .seg .seg-opt span {
+            display: block;
+            padding: 7px 18px;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background .15s, color .15s;
+        }
+        .contact-form .seg .seg-opt input:checked + span {
+            background: var(--accent);
+            color: #fff;
+        }
+        .contact-form .seg .seg-opt input:focus-visible + span {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .form-note { font-size: 13px; color: var(--text-soft); margin: 10px 0 18px; }
+        .form-error { font-size: 14px; color: #a8372f; margin: 0 0 14px; min-height: 0; }
+        .form-error:empty { display: none; }
+        .contact-form .req { color: var(--text-soft); font-weight: 400; }
+        .contact-form .hp {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        .contact-form .form-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .contact-form .cf-turnstile-box { margin-bottom: 16px; }
+        .contact-form.disabled { opacity: .6; pointer-events: none; }
+        .gb-offline {
+            font-size: 14px;
+            color: var(--text-soft);
+            background: var(--surface);
+            border: 1px dashed var(--line);
+            border-radius: var(--r);
+            padding: 14px 18px;
+            margin-bottom: 28px;
+        }
+
+        .msg-list { display: flex; flex-direction: column; gap: 12px; }
+        .msg {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            padding: 16px 22px;
+        }
+        .msg-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+        .msg-name { font-weight: 600; font-size: 14.5px; word-break: break-all; }
+        .msg-date { font-size: 12.5px; color: var(--text-soft); flex: none; }
+        .msg-body { margin: 0; font-size: 15px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
+        .msg-reply {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-left: 2px solid var(--accent);
+            background: var(--bg);
+            border-radius: 0 4px 4px 0;
+            font-size: 14px;
+            color: var(--text-soft);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .msg-reply b { color: var(--accent); font-weight: 600; margin-right: 6px; }
+        .reply-edited { display: inline-block; margin-left: 6px; color: var(--text-soft); font-size: 11px; }
+        .msg-more { margin-top: 16px; text-align: center; }
+
+        @media (max-width: 760px) {
+            .dl-item { padding: 16px 18px; gap: 14px; }
+            .dl-title { font-size: 16px; }
+            .msg { padding: 14px 16px; }
+        }
+        @media (max-width: 760px) {
+            .game-card.auto { min-height: 120px; }
+            .game-card.auto .card-img { min-height: 120px; }
+        }
+        @media (max-width: 480px) {
+            .game-card.auto { min-height: 100px; }
+            .game-card.auto .card-img { min-height: 100px; }
+            .dl-item { flex-direction: column; align-items: stretch; }
+            .dl-item .btn { width: 100%; }
+            .game-card .card-body .card-url { display: none; }
+            .section-sub { font-size: 12px; }
+            .contact-form .seg { display: flex; }
+            .contact-form .seg .seg-opt { flex: 1; text-align: center; }
+        }
+
+
+        /* ===== YUU editorial polish · adapted with unslop ===== */
+        :root {
+            --bg: #F5F7FA;
+            --surface: #FFFFFF;
+            --ink: #111827;
+            --text: #17202B;
+            --text-soft: #596575;
+            --line: rgba(23, 32, 43, .10);
+            --accent: #344B63;
+            --ice: #DCE4EC;
+            --max: 1040px;
+            --r: 12px;
+        }
+        body { background: var(--bg); color: var(--text); }
+        .glow { display: none; }
+        .wrap { max-width: var(--max); }
+        header { background: rgba(245,247,250,.96); }
+        nav { padding-bottom: 12px; }
+        .brand.serif { font-size: 20px; color: var(--text); }
+        .navlinks { gap: 24px; }
+        .navlinks a { padding: 4px 0; }
+        .profile { gap: 24px; padding: 48px 0 32px; }
+        .avatar { width: 88px; height: 88px; box-shadow: 0 1px 3px rgba(17,24,39,.10); }
+        .profile h1 { font-size: 26px; }
+        .profile .bio { font-size: 14px; line-height: 1.65; }
+        .tag { background: #F8FAFC; padding: 4px 10px; border-radius: 6px; }
+        .section-head {
+            padding-top: 32px;
+            margin-bottom: 16px;
+            border-top-color: rgba(23,32,43,.10);
+        }
+        .section-head h2 { font-size: 24px; }
+        .section-sub { font-size: 12px; }
+        .cardlist {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            padding-bottom: 36px;
+        }
+        .game-card.auto {
+            min-width: 0;
+            min-height: 0;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            box-shadow: 0 1px 2px rgba(17,24,39,.035);
+            overflow: hidden;
+            background: var(--surface);
+            transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+        }
+        .game-card.auto:hover {
+            transform: none;
+            border-color: rgba(52,75,99,.28);
+            box-shadow: 0 5px 16px rgba(17,24,39,.07);
+        }
+        .game-card.auto .card-img {
+            flex: none;
+            width: 100%;
+            height: 116px;
+            min-height: 116px;
+            background-size: cover;
+            background-position: center 38%;
+        }
+        .game-card.auto .card-body {
+            width: 100%;
+            min-height: 112px;
+            padding: 12px 14px 14px;
+            justify-content: flex-start;
+            gap: 0;
+        }
+        .game-card .card-body .card-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 15px;
+            line-height: 1.45;
+            font-weight: 500;
+            margin: 0 0 5px;
+        }
+        .game-card .card-body .card-sub.clamp {
+            font-size: 12px;
+            line-height: 1.55;
+            -webkit-line-clamp: 2;
+            color: var(--text-soft);
+        }
+        .game-card .card-body .card-tags { gap: 5px; margin-top: 9px; }
+        .game-card .card-body .card-tags span {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: #F5F7FA;
+        }
+        .game-card .card-body .card-url { display: none; }
+        .dl-list { gap: 10px; padding-bottom: 36px; }
+        .dl-item {
+            padding: 14px 18px;
+            gap: 16px;
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgba(17,24,39,.035);
+        }
+        .dl-item:hover { box-shadow: 0 4px 14px rgba(17,24,39,.06); }
+        .dl-title { font-size: 15px; }
+        .dl-desc { font-size: 13px; margin-bottom: 6px; }
+        .btn, .contact-form .submit-btn {
+            border-radius: 8px;
+            padding: 9px 16px;
+            font-size: 13px;
+            transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+        }
+        .contact-form, .msg {
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgba(17,24,39,.025);
+        }
+        .contact-form { padding: 20px 22px; }
+        .contact-form input, .contact-form textarea { border-radius: 8px; background: #FAFBFC; }
+        .msg { padding: 14px 18px; }
+        .msg-list { gap: 8px; }
+        footer { padding: 28px 0 40px; }
+        footer .copy { font-size: 12px; }
+        .unslop-credit { display: block; margin-top: 5px; color: #7A8491; font-size: 11px; }
+        .unslop-credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+        @media (max-width: 760px) {
+            .wrap { padding: 0 20px; }
+            header { margin: 0 -20px; padding-left: 20px; padding-right: 20px; }
+            .profile { padding: 40px 0 28px; }
+            .avatar { width: 76px; height: 76px; }
+            .cardlist { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .game-card.auto .card-img { height: 108px; min-height: 108px; }
+            .game-card.auto .card-body { min-height: 108px; padding: 11px 12px 12px; }
+            .section-head { padding-top: 28px; margin-bottom: 14px; }
+            .dl-item { padding: 13px 15px; }
+        }
+        @media (max-width: 480px) {
+            .wrap { padding: 0 16px; }
+            header { margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+            .navlinks { gap: 14px; font-size: 12px; }
+            .profile { gap: 14px; padding: 32px 0 24px; }
+            .avatar { width: 64px; height: 64px; }
+            .profile h1 { font-size: 20px; }
+            .profile .bio { font-size: 12px; margin-bottom: 7px; }
+            .tags { gap: 5px; }
+            .tags .tag { font-size: 10px; padding: 3px 7px; }
+            .cardlist { grid-template-columns: 1fr; gap: 10px; }
+            .game-card.auto { flex-direction: row; min-height: 100px; }
+            .game-card.auto .card-img { width: 112px; height: auto; min-height: 100px; flex: 0 0 112px; }
+            .game-card.auto .card-body { min-height: 100px; padding: 11px 12px; justify-content: center; }
+            .game-card .card-body .card-title { font-size: 14px; }
+            .game-card .card-body .card-sub.clamp { font-size: 11px; -webkit-line-clamp: 2; }
+            .game-card .card-body .card-tags { margin-top: 6px; }
+            .game-card .card-body .card-tags span { font-size: 9px; }
+            .section-head h2 { font-size: 21px; }
+            .section-sub { font-size: 11px; }
+            .dl-item { flex-direction: row; align-items: center; gap: 10px; }
+            .dl-item .btn { width: auto; padding: 8px 11px; font-size: 12px; }
+            .dl-title { font-size: 14px; }
+            .dl-desc { font-size: 12px; }
+            .contact-form { padding: 16px 14px; }
+            .msg { padding: 12px 14px; }
+        }
+
+        .message-hero{padding:38px 0 18px}.message-hero h1{font-size:30px;margin:0 0 6px}.message-hero p{color:var(--text-soft);margin:0;font-size:14px}
+        .message-layout{display:grid;grid-template-columns:minmax(280px,.85fr) minmax(0,1.15fr);gap:22px;align-items:start;padding:8px 0 56px}
+        .message-panel{min-width:0}.message-panel>h2{font-size:18px;margin:0 0 12px}.message-panel .contact-form{margin:0}.message-panel .msg-list{display:grid;gap:12px}.message-panel .msg{margin:0}.message-panel .msg-more{text-align:center;margin-top:14px}
+        .message-topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}.message-topbar a{text-decoration:none;color:var(--text-soft);font-size:13px}
+        .message-layout .gb-wrap{display:contents}
+        @media(max-width:760px){.message-layout{grid-template-columns:1fr;gap:26px}.message-hero{padding:28px 0 14px}.message-hero h1{font-size:25px}}
+        @media (prefers-reduced-motion: reduce) {
+            .game-card.auto, .dl-item, .btn { transition: none !important; }
+        }
+    
+        /* ===== Restore original YUU background palette and glow rendering ===== */
+        :root {
+            --bg: #EEF2F7;
+            --surface: #FFFFFF;
+            --ink: #10141B;
+            --text: #12151C;
+            --text-soft: #626E7E;
+            --line: rgba(16, 20, 27, 0.09);
+            --accent: #32475F;
+            --ice: #A9BED4;
+            --r: 6px;
+        }
+        body { background: var(--bg); color: var(--text); }
+        .glow { display: block; opacity: .55; filter: blur(70px); }
+        .glow.g1 {
+            background: radial-gradient(circle, rgba(50, 71, 95, 0.55), transparent 65%);
+        }
+        .glow.g2 {
+            background: radial-gradient(circle, rgba(34, 80, 95, 0.4), transparent 65%);
+        }
+        header { background-color: rgba(238, 242, 247, 0.94); }
+        .back { background: rgba(238, 242, 247, 0.82); }
+        .back:hover { background: rgba(238, 242, 247, 0.94); }
+    </style></head><body>
+<div id="successToast" class="success-toast" role="status" aria-live="polite"></div><div class="glow g1"></div><div class="glow g2"></div><div class="wrap">
+<header><nav><a class="brand serif" href="index.html">YUU</a><div class="navlinks"><a href="index.html">返回首页</a><a href="admin.html">管理入口</a></div></nav></header>
+<div class="message-topbar"><a href="index.html">← 返回首页</a><span class="section-sub">GUESTBOOK · 留言交流</span></div><section class="message-hero"><h1 class="serif">留言板</h1><p>欢迎留下想说的话。公开留言会展示在这里，私密留言只有管理员可见。</p></section><div id="home">
+            <!-- 留言板 -->
+            <div class="message-layout"><section class="message-panel"><h2 class="serif">发表留言</h2>
+            <div class="gb-wrap">
+                <div class="gb-offline" id="gbOffline" hidden>留言板还在搭建中，暂时不能留言。想联系我可以发邮件，或者去微博找我。</div>
+                <div class="contact-form" id="gbBox">
+                    <form id="gbForm" novalidate>
+                        <div class="field-group">
+                            <div class="seg" role="radiogroup" aria-label="留言可见范围">
+                                <label class="seg-opt"><input type="radio" name="visibility" value="public" checked /><span>公开留言</span></label>
+                                <label class="seg-opt"><input type="radio" name="visibility" value="private" /><span>私密留言</span></label>
+                            </div>
+                            <p class="form-note" id="gbVisNote"></p>
+                        </div>
+                        <div class="field-group">
+                            <label for="gbName">你的名字 <span class="req">（必填）</span></label>
+                            <input type="text" id="gbName" name="name" maxlength="30" placeholder="想让大家怎么称呼你" autocomplete="nickname" required />
+                        </div>
+                        <div class="field-group">
+                            <label for="gbContact" id="gbContactLabel">你的邮箱</label>
+                            <input type="text" id="gbContact" name="contact" maxlength="100" placeholder="example@mail.com" autocomplete="email" />
+                        </div>
+                        <div class="field-group">
+                            <label for="gbContent">留言内容 <span class="req">（必填）</span></label>
+                            <textarea id="gbContent" name="content" rows="4" maxlength="2000" placeholder="想说的话……" required></textarea>
+                        </div>
+                        <div class="field-group" id="gbFileGroup" hidden>
+                            <label for="gbFiles">附件 <span class="req">（选填，最多 3 个，总共不超过 10MB；图片、PDF、Word、压缩包等）</span></label>
+                            <input type="file" id="gbFiles" class="file-input" multiple accept="image/*,.pdf,.doc,.docx,.txt,.zip,.rar,.7z" />
+                            <div class="file-name" id="gbFileName"></div>
+                        </div>
+                        <!-- 蜜罐：真人看不到，别填 -->
+                        <div class="hp" aria-hidden="true">
+                            <label>请勿填写 <input type="text" name="hp_q7x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore /></label>
+                        </div>
+                        <div class="cf-turnstile-box" id="gbTurnstile"></div>
+                        <p class="form-error" id="gbError" role="alert"></p>
+                        <div class="form-actions">
+                            <button type="submit" class="submit-btn" id="gbSubmit">发送</button>
+                        </div>
+                    </form>
+                </div>
+
+              </section><section class="message-panel"><h2 class="serif">公开留言</h2>
+                <div class="msg-list" id="msgList" aria-live="polite"></div>
+                <div class="msg-more"><button type="button" class="btn ghost" id="msgMore" hidden>加载更多</button></div>
+              </section></div>
+
+<footer><div class="links"><a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">微博</a><a href="mailto:yuunaovo@outlook.com">邮箱</a></div><div class="copy">© 2026 YUU<span class="unslop-credit">UI refinement based on <a href="https://github.com/heydamir/unslop" target="_blank" rel="noopener">unslop</a> by Damir Sokolovsky · CC BY 4.0</span></div></footer></div></div>
+<script src="site-config.js"></script><script>var SITE = window.SITE || {};
+        var API = (SITE.apiBase || '').replace(/\/+$/, '');
+
+        function el(tag, cls, text) {
+            var e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text !== undefined && text !== null) e.textContent = text;
+            return e;
+        }
+
+        function showToast(text) {
+            var toast = document.getElementById('successToast');
+            if (!toast) return;
+            toast.textContent = text;
+            toast.classList.add('show');
+            clearTimeout(showToast._t);
+            showToast._t = setTimeout(function () { toast.classList.remove('show'); }, 5000);
+        }
+
+        function fmtDate(ms) {
+            var d = new Date(ms);
+            var p = function (n) { return String(n).padStart(2, '0'); };
+            return d.getFullYear() + '.' + p(d.getMonth() + 1) + '.' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+        }
+
+        // 只放行 http(s) 和站内相对路径，避免配置里混进 javascript: 之类的链接
+        function safeUrl(u) {
+            if (!u) return '';
+            if (/^[a-z][a-z0-9+.-]*:/i.test(u)) return /^https?:/i.test(u) ? u : '';
+            return u;
+        }
+        function isExternal(u) { return /^https?:\/\//i.test(u); }
+
+        // ===== 攻略网站卡片 =====
+        function renderGuides() {
+            var box = document.getElementById('guideCards');
+            var list = SITE.guides || [];
+            if (!list.length) { box.appendChild(el('p', 'empty', '攻略网站整理中，敬请期待。')); return; }
+            list.forEach(function (g) {
+                var href = safeUrl(g.url);
+                var a = el('a', 'game-card auto');
+                if (href) {
+                    a.href = href;
+                    if (isExternal(href)) { a.target = '_blank'; a.rel = 'noopener'; }
+                }
+                var img = el('div', 'card-img');
+                if (g.cover) {
+                    img.style.backgroundImage = 'url("' + String(g.cover).replace(/["\\\n]/g, '') + '")';
+                } else {
+                    img.style.backgroundColor = 'var(--ice)';
+                }
+                var body = el('div', 'card-body');
+                body.appendChild(el('div', 'card-title', g.title || ''));
+                if (g.desc) body.appendChild(el('div', 'card-sub clamp', g.desc));
+                if (g.tags && g.tags.length) {
+                    var tags = el('div', 'card-tags');
+                    g.tags.forEach(function (t) { tags.appendChild(el('span', null, t)); });
+                    body.appendChild(tags);
+                }
+                if (href && isExternal(href)) {
+                    body.appendChild(el('div', 'card-url', href.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗'));
+                }
+                a.appendChild(img);
+                a.appendChild(body);
+                box.appendChild(a);
+            });
+        }
+
+        // ===== 下载区 =====
+        function downloadHref(d) {
+            if (d.file) {
+                if (!API) return '';
+                var parts = String(d.file).split('/').map(encodeURIComponent).join('/');
+                return API + '/dl/' + parts;
+            }
+            return safeUrl(d.url);
+        }
+        function renderDownloads() {
+            var box = document.getElementById('dlList');
+            var list = SITE.downloads || [];
+            if (!list.length) { box.appendChild(el('p', 'empty', '暂时还没有可下载的文件。')); return; }
+            list.forEach(function (d) {
+                var item = el('div', 'dl-item');
+                var info = el('div', 'dl-info');
+                info.appendChild(el('h3', 'dl-title', d.title || d.file || ''));
+                if (d.desc) info.appendChild(el('p', 'dl-desc', d.desc));
+                var meta = el('div', 'dl-meta');
+                (d.tags || []).forEach(function (t) { meta.appendChild(el('span', 'chip', t)); });
+                if (d.size) meta.appendChild(el('span', null, d.size));
+                if (d.updated) meta.appendChild(el('span', null, '更新于 ' + d.updated));
+                if (meta.childNodes.length) info.appendChild(meta);
+
+                var href = downloadHref(d);
+                var ext = isExternal(href) && !d.file;
+                var btn = el('a', 'btn', d.placeholder ? '即将开放' : (ext ? '前往下载 ↗' : '↓ 下载'));
+                if (d.placeholder) {
+                    btn.setAttribute('aria-disabled', 'true');
+                    btn.title = '补丁下载入口暂未开放';
+                    btn.addEventListener('click', function (e) { e.preventDefault(); });
+                } else if (href) {
+                    btn.href = href;
+                    if (ext) { btn.target = '_blank'; btn.rel = 'noopener'; }
+                    else btn.setAttribute('download', '');
+                } else {
+                    btn.setAttribute('aria-disabled', 'true');
+                    btn.title = '暂时不可用';
+                    btn.textContent = '暂不可用';
+                    btn.addEventListener('click', function (e) { e.preventDefault(); });
+                }
+                item.appendChild(info);
+                item.appendChild(btn);
+                box.appendChild(item);
+            });
+        }
+
+        // ===== 留言板 =====
+        var ALLOWED_EXT = ['jpg','jpeg','png','gif','webp','pdf','txt','zip','rar','7z','doc','docx'];
+        var MAX_FILES = 3, MAX_TOTAL = 10 * 1024 * 1024;
+        var nextBefore = null;
+        var turnstileId = null;
+
+        function updateVisibilityUI() {
+            var form = document.getElementById('gbForm');
+            var isPrivate = form.visibility.value === 'private';
+            document.getElementById('gbFileGroup').hidden = !isPrivate;
+            if (!isPrivate) { document.getElementById('gbFiles').value = ''; document.getElementById('gbFileName').textContent = ''; }
+            document.getElementById('gbVisNote').textContent = isPrivate
+                ? '私密留言不会显示在页面上，只有我能看到。需要留下邮箱，我会回复你（例如提供购买记录截图领取字幕密码）。'
+                : '公开留言会显示在下方，邮箱不会公开，可以不填。';
+            document.getElementById('gbContactLabel').innerHTML = isPrivate
+                ? '你的邮箱 <span class="req">（必填）</span>'
+                : '你的邮箱 <span class="req">（选填，不会公开）</span>';
+        }
+
+        function renderMessages(list, append) {
+            var box = document.getElementById('msgList');
+            if (!append) box.textContent = '';
+            list.forEach(function (m) {
+                var card = el('article', 'msg');
+                var head = el('div', 'msg-head');
+                head.appendChild(el('span', 'msg-name', m.name));
+                head.appendChild(el('span', 'msg-date', fmtDate(m.created_at)));
+                card.appendChild(head);
+                card.appendChild(el('p', 'msg-body', m.content));
+                if (m.reply) {
+                    var r = el('div', 'msg-reply');
+                    r.appendChild(el('b', null, 'YUU 回复'));
+                    r.appendChild(document.createTextNode(m.reply));
+                    if (m.reply_edited_at) r.appendChild(el('span', 'reply-edited', ' · 已修改回复'));
+                    card.appendChild(r);
+                }
+                box.appendChild(card);
+            });
+            if (!append && !list.length) box.appendChild(el('p', 'empty', '还没有公开留言，来当第一个吧。'));
+        }
+
+        function loadMessages(append) {
+            if (!API) return Promise.resolve();
+            var more = document.getElementById('msgMore');
+            var url = API + '/api/messages?limit=20' + (append && nextBefore ? '&before=' + nextBefore : '');
+            more.disabled = true;
+            return fetch(url)
+                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+                .then(function (data) {
+                    renderMessages(data.messages, append);
+                    nextBefore = data.messages.length ? data.messages[data.messages.length - 1].id : null;
+                    more.hidden = !data.hasMore;
+                })
+                .catch(function () {
+                    if (!append) {
+                        var box = document.getElementById('msgList');
+                        box.textContent = '';
+                        box.appendChild(el('p', 'empty', '留言加载失败，请稍后刷新重试。'));
+                    }
+                })
+                .then(function () { more.disabled = false; });
+        }
+
+        function setupTurnstile() {
+            if (!SITE.turnstileSiteKey) return;
+            var s = document.createElement('script');
+            s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+            s.async = true;
+            s.onload = function () {
+                turnstileId = window.turnstile.render('#gbTurnstile', { sitekey: SITE.turnstileSiteKey });
+            };
+            document.head.appendChild(s);
+        }
+
+        function setupGuestbook() {
+            var form = document.getElementById('gbForm');
+            var errEl = document.getElementById('gbError');
+            var submit = document.getElementById('gbSubmit');
+            var fileInput = document.getElementById('gbFiles');
+            var fileName = document.getElementById('gbFileName');
+
+            updateVisibilityUI();
+            Array.prototype.forEach.call(form.querySelectorAll('input[name=visibility]'), function (r) {
+                r.addEventListener('change', updateVisibilityUI);
+            });
+
+            if (!API) {
+                document.getElementById('gbOffline').hidden = false;
+                document.getElementById('gbBox').classList.add('disabled');
+                document.getElementById('msgList').appendChild(el('p', 'empty', ''));
+                return;
+            }
+
+            fileInput.addEventListener('change', function () {
+                var files = Array.prototype.slice.call(fileInput.files || []);
+                errEl.textContent = '';
+                if (!files.length) { fileName.textContent = ''; return; }
+                var msg = checkFiles(files);
+                if (msg) { errEl.textContent = msg; fileInput.value = ''; fileName.textContent = ''; return; }
+                fileName.textContent = '已选择：' + files.map(function (f) {
+                    return f.name + '（' + (f.size / 1024 / 1024).toFixed(2) + 'MB）';
+                }).join('，');
+            });
+
+            function checkFiles(files) {
+                if (files.length > MAX_FILES) return '最多只能选 ' + MAX_FILES + ' 个附件。';
+                var total = 0;
+                for (var i = 0; i < files.length; i++) {
+                    var ext = files[i].name.split('.').pop().toLowerCase();
+                    if (ALLOWED_EXT.indexOf(ext) < 0) return '不支持的文件类型：' + files[i].name;
+                    total += files[i].size;
+                }
+                if (total > MAX_TOTAL) return '附件总共不能超过 10MB。';
+                return '';
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                errEl.textContent = '';
+                var isPrivate = form.visibility.value === 'private';
+                var name = form.name.value.trim();
+                var contact = form.contact.value.trim();
+                var content = form.content.value.trim();
+                if (!name) { errEl.textContent = '请填写名字。'; form.name.focus(); return; }
+                if (isPrivate && !contact) { errEl.textContent = '私密留言请留下邮箱，方便我回复你。'; form.contact.focus(); return; }
+                if (!content) { errEl.textContent = '请填写留言内容。'; form.content.focus(); return; }
+
+                var files = isPrivate ? Array.prototype.slice.call(fileInput.files || []) : [];
+                var fmsg = checkFiles(files);
+                if (fmsg) { errEl.textContent = fmsg; return; }
+
+                var fd = new FormData();
+                fd.append('name', name);
+                fd.append('contact', contact);
+                fd.append('content', content);
+                fd.append('visibility', isPrivate ? 'private' : 'public');
+                fd.append('hp_q7x', form.hp_q7x.value);
+                files.forEach(function (f) { fd.append('files', f); });
+                if (turnstileId !== null) {
+                    fd.append('cf-turnstile-response', window.turnstile.getResponse(turnstileId) || '');
+                }
+
+                submit.disabled = true;
+                submit.textContent = '发送中…';
+                var ctrl = new AbortController();
+                var timer = setTimeout(function () { ctrl.abort(); }, 60000);
+
+                fetch(API + '/api/messages', { method: 'POST', body: fd, signal: ctrl.signal })
+                    .then(function (r) {
+                        return r.json().catch(function () { return {}; }).then(function (data) {
+                            if (!r.ok) throw new Error(data.error || ('发送失败（' + r.status + '）'));
+                            return data;
+                        });
+                    })
+                    .then(function (data) {
+                        form.reset();
+                        updateVisibilityUI();
+                        fileName.textContent = '';
+                        if (isPrivate) showToast('私密留言已发送，只有我能看到，请等待回复！');
+                        else if (data.pending) showToast('留言已提交，审核通过后会显示出来。');
+                        else { showToast('留言成功！'); loadMessages(false); }
+                    })
+                    .catch(function (err) {
+                        errEl.textContent = err.name === 'AbortError'
+                            ? '发送超时了，请检查网络后重试。'
+                            : (err.message === 'Failed to fetch' ? '网络连接失败，请稍后重试。' : err.message);
+                    })
+                    .then(function () {
+                        clearTimeout(timer);
+                        submit.disabled = false;
+                        submit.textContent = '发送';
+                        if (turnstileId !== null) window.turnstile.reset(turnstileId);
+                    });
+            });
+
+            document.getElementById('msgMore').addEventListener('click', function () { loadMessages(true); });
+            setupTurnstile();
+            loadMessages(false);
+        }
+
+        setupGuestbook();
+
+        // ===== 图片放大 =====
+        function openImage(src) {
+            var overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0,0,0,0.85)';
+            overlay.style.display = 'flex';
+            overlay.style.alignItems = 'center';
+            overlay.style.justifyContent = 'center';
+            overlay.style.zIndex = '9999';
+            overlay.style.cursor = 'pointer';
+            var img = document.createElement('img');
+            img.src = src;
+            img.style.maxWidth = '90%';
+            img.style.maxHeight = '90%';
+            img.style.objectFit = 'contain';
+            img.style.borderRadius = '6px';
+            overlay.appendChild(img);
+            overlay.onclick = function() {
+                document.body.removeChild(overlay);
+            };
+            document.body.appendChild(overlay);
+        }
+
+        // ===== 页面切换 =====
+        function activate(id) {
+            var isHome = (id === 'home');
+            var homeEl = document.getElementById('home');
+            if (homeEl) {
+                homeEl.classList.toggle('hidden', !isHome);
+            }
+            var details = document.querySelectorAll('.detail');
+            for (var i = 0; i < details.length; i++) {
+                details[i].classList.toggle('active', details[i].id === id);
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goHome(evt) {
+            if (evt) evt.preventDefault();
+            activate('home');
+        }
+
+        function goDetail(id, evt) {
+            if (evt) evt.preventDefault();
+            activate(id);
+        }
+
+        function smartScroll(targetId, evt) {
+            if (evt) evt.preventDefault();
+            var homeEl = document.getElementById('home');
+            var isHomeVisible = homeEl && !homeEl.classList.contains('hidden');
+            if (isHomeVisible) {
+                var el = document.getElementById(targetId);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            } else {
+                activate('home');
+                setTimeout(function() {
+                    var el = document.getElementById(targetId);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 180);
+            }
+        }
+
+        window.openImage = openImage;
+        window.goHome = goHome;
+        window.goDetail = goDetail;
+        window.smartScroll = smartScroll;
+        window.activate = activate;</script></body></html>
