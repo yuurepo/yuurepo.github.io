@@ -863,7 +863,7 @@
                         </div>
                         <!-- 蜜罐：真人看不到，别填 -->
                         <div class="hp" aria-hidden="true">
-                            <label>网站 <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+                            <label>请勿填写 <input type="text" name="hp_q7x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore /></label>
                         </div>
                         <div class="cf-turnstile-box" id="gbTurnstile"></div>
                         <p class="form-error" id="gbError" role="alert"></p>
@@ -1193,7 +1193,7 @@
                 fd.append('contact', contact);
                 fd.append('content', content);
                 fd.append('visibility', isPrivate ? 'private' : 'public');
-                fd.append('website', form.website.value);
+                fd.append('hp_q7x', form.hp_q7x.value);
                 files.forEach(function (f) { fd.append('files', f); });
                 if (turnstileId !== null) {
                     fd.append('cf-turnstile-response', window.turnstile.getResponse(turnstileId) || '');
