@@ -68,7 +68,6 @@
             position: relative;
         }
 
-        /* ===== 固定表头 ===== */
         header {
             position: sticky;
             top: 0;
@@ -106,7 +105,6 @@
         .navlinks a { text-decoration: none; transition: color .15s ease; cursor: pointer; }
         .navlinks a:hover { color: var(--text); }
 
-        /* ===== 返回按钮 ===== */
         .back {
             position: sticky;
             top: 72px;
@@ -358,7 +356,6 @@
             background-color: var(--line);
         }
 
-        /* ===== 攻略页面 ===== */
         .guide-list {
             display: flex;
             flex-direction: column;
@@ -403,7 +400,6 @@
         }
         .guide-item .guide-link-wrap a.guide-link:hover { color: var(--text); }
 
-        /* ===== 联系表单（独立页面） ===== */
         .contact-form {
             background: var(--surface);
             border-radius: var(--r);
@@ -455,7 +451,6 @@
         }
         .contact-form .submit-btn:hover { background: #1f3145; }
 
-        /* ===== 成功提示浮层 ===== */
         .success-toast {
             position: fixed;
             top: 80px;
@@ -481,7 +476,6 @@
             100% { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
-        /* ===== 响应式 ===== */
         @media (max-width: 760px) {
             .profile {
                 flex-direction: row;
@@ -542,11 +536,9 @@
             * { transition: none !important; scroll-behavior: auto !important; }
         }
 
-        /* ===== 个人主页新增：攻略 / 下载 / 留言板 ===== */
         .section-head { scroll-margin-top: 64px; flex-wrap: wrap; gap: 6px 16px; }
         [hidden] { display: none !important; }
         .section-sub { font-size: 13px; color: var(--text-soft); }
-        /* 攻略卡片：简介长度不定，高度随内容撑开，最低与原卡片一致 */
         .game-card.auto { height: auto; min-height: 150px; }
         .game-card.auto .card-img { min-height: 150px; }
         .game-card .card-body .card-sub.clamp {
@@ -567,7 +559,6 @@
             padding: 18px 0 8px;
         }
 
-        /* 下载区 */
         .dl-list { display: flex; flex-direction: column; gap: 14px; padding-bottom: 60px; }
         .dl-item {
             display: flex;
@@ -626,7 +617,6 @@
         .btn.ghost:hover { color: var(--text); background: var(--surface); }
         .btn:disabled { opacity: .6; cursor: default; }
 
-        /* 留言板 */
         .gb-wrap { padding-bottom: 60px; }
         .contact-form .seg {
             display: inline-flex;
@@ -735,8 +725,6 @@
             .contact-form .seg .seg-opt { flex: 1; text-align: center; }
         }
 
-
-        /* ===== YUU editorial polish · adapted with unslop ===== */
         :root {
             --bg: #F5F7FA;
             --surface: #FFFFFF;
@@ -907,7 +895,6 @@
             .game-card.auto, .dl-item, .btn { transition: none !important; }
         }
     
-        /* ===== Restore original YUU background palette and glow rendering ===== */
         :root {
             --bg: #EEF2F7;
             --surface: #FFFFFF;
@@ -934,7 +921,6 @@
 <div id="successToast" class="success-toast" role="status" aria-live="polite"></div><div class="glow g1"></div><div class="glow g2"></div><div class="wrap">
 <header><nav><a class="brand serif" href="index.html">YUU</a><div class="navlinks"><a href="index.html">返回首页</a></div></nav></header>
 <div class="message-topbar"><a href="index.html">← 返回首页</a><span class="section-sub">GUESTBOOK · 留言交流</span></div><section class="message-hero"><h1 class="serif">留言板</h1><p>欢迎留下想说的话。公开留言会展示在这里，私密留言只有管理员可见。</p></section><div id="home">
-            <!-- 留言板 -->
             <div class="message-layout"><section class="message-panel"><h2 class="serif">发表留言</h2>
             <div class="gb-wrap">
                 <div class="gb-offline" id="gbOffline" hidden>留言板还在搭建中，暂时不能留言。想联系我可以发邮件，或者去微博找我。</div>
@@ -964,7 +950,6 @@
                             <input type="file" id="gbFiles" class="file-input" multiple accept="image/*,.pdf,.doc,.docx,.txt,.zip,.rar,.7z" />
                             <div class="file-name" id="gbFileName"></div>
                         </div>
-                        <!-- 蜜罐：真人看不到，别填 -->
                         <div class="hp" aria-hidden="true">
                             <label>请勿填写 <input type="text" name="hp_q7x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore /></label>
                         </div>
@@ -1007,7 +992,6 @@
             return d.getFullYear() + '.' + p(d.getMonth() + 1) + '.' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
         }
 
-        // 只放行 http(s) 和站内相对路径，避免配置里混进 javascript: 之类的链接
         function safeUrl(u) {
             if (!u) return '';
             if (/^[a-z][a-z0-9+.-]*:/i.test(u)) return /^https?:/i.test(u) ? u : '';
@@ -1015,7 +999,6 @@
         }
         function isExternal(u) { return /^https?:\/\//i.test(u); }
 
-        // ===== 攻略网站卡片 =====
         function renderGuides() {
             var box = document.getElementById('guideCards');
             var list = SITE.guides || [];
@@ -1050,7 +1033,6 @@
             });
         }
 
-        // ===== 下载区 =====
         function downloadHref(d) {
             if (d.file) {
                 if (!API) return '';
@@ -1097,7 +1079,6 @@
             });
         }
 
-        // ===== 留言板 =====
         var ALLOWED_EXT = ['jpg','jpeg','png','gif','webp','pdf','txt','zip','rar','7z','doc','docx'];
         var MAX_FILES = 3, MAX_TOTAL = 10 * 1024 * 1024;
         var nextBefore = null;
@@ -1279,7 +1260,6 @@
 
         setupGuestbook();
 
-        // ===== 图片放大 =====
         function openImage(src) {
             var overlay = document.createElement('div');
             overlay.style.position = 'fixed';
@@ -1306,7 +1286,6 @@
             document.body.appendChild(overlay);
         }
 
-        // ===== 页面切换 =====
         function activate(id) {
             var isHome = (id === 'home');
             var homeEl = document.getElementById('home');
