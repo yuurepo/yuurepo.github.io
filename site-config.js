@@ -3,9 +3,9 @@
  */
 window.SITE = {
   // Cloudflare Worker 的地址（部署后填，末尾不要带 /）。
-  // 例：'https://api.example.com' 或 'https://yuu-site.你的账号.workers.dev'
+  // 例：'https://api.yuuna.online'
   // 留空时：留言板显示"暂未开放"，下载区里托管在 Worker 的文件不可用。
-  apiBase: 'https://yuu-site.yuurepo.workers.dev',
+  apiBase: 'https://api.yuuna.online',
 
   // （可选）Cloudflare Turnstile 的 Site Key，填了之后留言前会出现人机验证。
   // 需要和 Worker 里的 TURNSTILE_SECRET 配套使用。
@@ -23,7 +23,7 @@ window.SITE = {
       title: 'BUSTAFELLOWS Season2 攻略',
       desc: 'Steam全线路中英对照攻略，点击立绘进入对应线路，包含推荐攻略顺序与序章选择说明。',
       url: 'https://bfseason2.yuuna.online/',
-      cover: 'images/BUSTAFELLOWS SEASON 2/bf.png"', 
+      cover: 'images/BUSTAFELLOWS SEASON 2/bf.png', 
       tags: ['攻略', '乙女', '中英对照','STEAM'],
     },
 
