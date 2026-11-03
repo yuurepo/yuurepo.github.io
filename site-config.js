@@ -42,6 +42,9 @@ window.SITE = {
       size: '170.01 KB',
       updated: '2026.09.09',
       tags: ['字幕'],
+      // 网盘备用下载：填入链接后显示按钮，留空则不显示
+      altUrl: 'https://yuurepo.lanzouq.com/iElPQ47knfqb',
+      altLabel: '网盘下载',
     },
     {
       title: 'BUSTAFELLOWS Season2 Steam版英文汉化补丁下载',
@@ -50,6 +53,21 @@ window.SITE = {
       size: '195.86 MB',
       updated: '2026.11.02',
       tags: ['汉化补丁'],
+      // 网盘备用下载：把链接填到下面，留空则不显示按钮。altLabel 可改按钮文字（如“百度网盘”）
+      altUrl: 'https://www.icloud.com.cn/iclouddrive/0f00N9wbdS1Moh043SdumRg4g',
+      altLabel: '网盘下载',
+      // 显示在这个补丁卡片下方的详细内容（补丁计划）。不需要就删掉整个 detail。
+      // status 可选：done（已完成）/ doing（进行中）/ todo（计划中）。以下为示例，请改成你的实际计划。
+      detail: {
+        title: '补丁计划',
+        desc: '后续更新安排',
+        updated: '2026.11.03',
+        steps: [
+          { status: 'done',  text: 'v1.0.1 已发布' },
+          { status: 'doing', text: '修正错字与漏译' },
+          { status: 'todo',  text: '有空的时候会更新一版由日文翻译的补丁' },
+        ],
+      },
     },
     // 例：托管在 R2 的文件（先把文件上传到 R2 的 public/ 目录）
     // {

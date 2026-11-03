@@ -178,7 +178,7 @@
         head.appendChild(el('div', 'when', '#' + m.id + ' · ' + fmt(m.created_at)));
         c.appendChild(head);
         c.appendChild(el('p', 'body', m.content));
-        c.appendChild(el('div', 'ipline', '访客 IP：' + (m.ip_address || '旧留言未记录 / 不可用')));
+        c.appendChild(el('div', 'ipline', '访客 IP：' + (m.ip_address || '旧留言未记录 / 不可用') + (m.ip_location ? '　地区：' + m.ip_location : '')));
 
         if (m.attachments && m.attachments.length) {
             var files = el('div', 'files');

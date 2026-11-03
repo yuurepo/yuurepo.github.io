@@ -834,6 +834,26 @@
             background: #F5F7FA;
         }
         .game-card .card-body .card-url { display: none; }
+        /* 下载区：多按钮 & 补丁计划卡片 */
+        .dl-actions { display: flex; flex: none; flex-wrap: wrap; gap: 8px; align-items: center; }
+        .dl-item .btn.btn-alt { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+        .dl-item .btn.btn-alt:hover { background: var(--accent); color: #fff; }
+        .dl-plan { align-items: flex-start; border-style: dashed; }
+        .dl-plan-list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+        .dl-plan-list li { display: flex; align-items: baseline; gap: 10px; font-size: 13.5px; line-height: 1.6; color: var(--text); }
+        .dl-plan-list .st { flex: none; font-size: 11.5px; padding: 1px 9px; border-radius: 100px; border: 1px solid var(--line); background: var(--bg); color: var(--text-soft); }
+        .dl-plan-list .st.done { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .dl-plan-list .st.doing { border-color: var(--accent); color: var(--accent); }
+        /* 有两个按钮时，窄屏改为上下排列，按钮并排占满一行 */
+        .dl-item.has-alt, .dl-item.has-detail { flex-wrap: wrap; }
+        .dl-detail { flex: 0 0 100%; border-top: 1px dashed var(--line); padding-top: 12px; margin-top: 2px; }
+        .dl-detail-title { margin: 0 0 6px; font-size: 14px; font-weight: 600; color: var(--text); }
+        .dl-detail .dl-meta { margin-top: 8px; }
+        @media (max-width: 640px) {
+            .dl-item.has-alt { flex-direction: column; align-items: stretch; }
+            .dl-item.has-alt .dl-actions { width: 100%; }
+            .dl-item.has-alt .dl-actions .btn { flex: 1; width: auto; }
+        }
         .dl-list { gap: 10px; padding-bottom: 36px; }
         .dl-item {
             padding: 14px 18px;
@@ -1082,6 +1102,7 @@
             var list = SITE.downloads || [];
             if (!list.length) { box.appendChild(el('p', 'empty', '暂时还没有可下载的文件。')); return; }
             list.forEach(function (d) {
+                if (d.plan) { renderPlanCard(box, d); return; }
                 var item = el('div', 'dl-item');
                 var info = el('div', 'dl-info');
                 info.appendChild(el('h3', 'dl-title', d.title || d.file || ''));
@@ -1094,7 +1115,7 @@
 
                 var href = downloadHref(d);
                 var ext = isExternal(href) && !d.file;
-                var btn = el('a', 'btn', d.placeholder ? '即将开放' : (ext ? '前往下载 ↗' : '↓ 下载'));
+                var btn = el('a', 'btn', d.placeholder ? '即将开放' : (ext ? '前往下载 ↗' : (d.btnLabel || '直接下载')));
                 if (d.placeholder) {
                     btn.setAttribute('aria-disabled', 'true');
                     btn.title = '补丁下载入口暂未开放';
@@ -1109,10 +1130,53 @@
                     btn.textContent = '暂不可用';
                     btn.addEventListener('click', function (e) { e.preventDefault(); });
                 }
+                var actions = el('div', 'dl-actions');
+                actions.appendChild(btn);
+                // 备用下载：网盘链接（altUrl 留空则不显示）
+                var alt = safeUrl(d.altUrl);
+                if (alt && !d.placeholder) {
+                    var altBtn = el('a', 'btn btn-alt', (d.altLabel || '网盘下载') + ' ↗');
+                    altBtn.href = alt; altBtn.target = '_blank'; altBtn.rel = 'noopener';
+                    actions.appendChild(altBtn);
+                    item.classList.add('has-alt');
+                }
                 item.appendChild(info);
-                item.appendChild(btn);
+                item.appendChild(actions);
+                // 条目下方的详细内容（如补丁计划）：d.detail = { title, desc, steps, updated }
+                if (d.detail) {
+                    var det = el('div', 'dl-detail');
+                    buildPlanBody(det, d.detail);
+                    item.appendChild(det);
+                    item.classList.add('has-detail');
+                }
                 box.appendChild(item);
             });
+        }
+
+        function buildPlanBody(parent, d) {
+            if (d.title) parent.appendChild(el('h4', 'dl-detail-title', d.title));
+            if (d.desc) parent.appendChild(el('p', 'dl-desc', d.desc));
+            var ul = el('ul', 'dl-plan-list');
+            var label = { done: '已完成', doing: '进行中', todo: '计划中' };
+            (d.steps || []).forEach(function (st) {
+                var key = label[st.status] ? st.status : 'todo';
+                var li = el('li');
+                li.appendChild(el('span', 'st ' + key, label[key]));
+                li.appendChild(el('span', null, st.text || ''));
+                ul.appendChild(li);
+            });
+            if (ul.childNodes.length) parent.appendChild(ul);
+            if (d.updated) parent.appendChild(el('div', 'dl-meta', '更新于 ' + d.updated));
+        }
+
+        // 独立的补丁计划卡片：{ plan: true, title, desc, steps: [{ text, status: 'done'|'doing'|'todo' }] }
+        function renderPlanCard(box, d) {
+            var item = el('div', 'dl-item dl-plan');
+            var info = el('div', 'dl-info');
+            if (!d.title) d.title = '补丁计划';
+            buildPlanBody(info, d);
+            item.appendChild(info);
+            box.appendChild(item);
         }
 
         // ===== 留言板 =====
