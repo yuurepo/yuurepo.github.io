@@ -952,6 +952,17 @@
         header { background-color: rgba(238, 242, 247, 0.94); }
         .back { background: rgba(238, 242, 247, 0.82); }
         .back:hover { background: rgba(238, 242, 247, 0.94); }
+    
+        /* ===== 游戏 / 广播剧 介绍页 ===== */
+        .pg-back { display: inline-block; margin: 6px 0 18px; font-size: 14px; color: var(--text-soft); text-decoration: none; cursor: pointer; }
+        .pg-back:hover { color: var(--text); }
+        #pageDetail .tags { margin: 10px 0 0; }
+        .pg-desc { color: var(--text-soft); max-width: 62ch; margin: 14px 0 0; }
+        .pg-body { max-width: 62ch; margin: 26px 0 0; }
+        .pg-body p { margin: 0 0 14px; font-size: 15.5px; line-height: 1.85; }
+        .pg-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 26px 0 0; }
+        .pg-gallery img { width: 100%; height: 100%; max-height: 360px; object-fit: cover; border-radius: 6px; cursor: zoom-in; background: var(--ice); display: block; }
+        .pg-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 0; }
     </style>
 </head>
 <body>
@@ -966,6 +977,7 @@
                 <a class="brand serif" href="#" onclick="goHome(event)">YUU</a>
                 <div class="navlinks">
                     <a href="#guides" onclick="smartScroll('guides', event)">攻略</a>
+                    <a href="#pages" id="navPages" hidden onclick="smartScroll('pages', event)">游戏/广播剧</a>
                     <a href="#downloads" onclick="smartScroll('downloads', event)">下载</a>
                     <a href="message.html">留言板</a>
                 </div>
@@ -997,6 +1009,14 @@
             </div>
             <div class="cardlist" id="guideCards"></div>
 
+            <!-- 游戏 / 广播剧（由后台维护，没有内容时不显示） -->
+            <div id="pagesBlock" hidden>
+                <div class="section-head" id="pages">
+                    <h2 class="serif">游戏 / 广播剧</h2>
+                </div>
+                <div class="cardlist" id="pageCards"></div>
+            </div>
+
             <!-- 下载区 -->
             <div class="section-head" id="downloads">
                 <h2 class="serif">下载</h2>
@@ -1015,6 +1035,8 @@
             </footer>
         </div>
 
+        <!-- 游戏 / 广播剧 详情页 -->
+        <div class="detail" id="pageDetail"></div>
 
     </div>
 
@@ -1022,6 +1044,8 @@
     <script>
         var SITE = window.SITE || {};
         var API = (SITE.apiBase || '').replace(/\/+$/, '');
+        // 内容来源：优先用后台（数据库）里的内容，读不到时退回 site-config.js
+        var CONTENT = { guides: SITE.guides || [], downloads: SITE.downloads || [], pages: [] };
 
         function el(tag, cls, text) {
             var e = document.createElement(tag);
@@ -1055,8 +1079,8 @@
 
         // ===== 攻略网站卡片 =====
         function renderGuides() {
-            var box = document.getElementById('guideCards');
-            var list = SITE.guides || [];
+            var box = document.getElementById('guideCards'); box.textContent = '';
+            var list = CONTENT.guides || [];
             if (!list.length) { box.appendChild(el('p', 'empty', '攻略网站整理中，敬请期待。')); return; }
             list.forEach(function (g) {
                 var href = safeUrl(g.url);
@@ -1098,8 +1122,8 @@
             return safeUrl(d.url);
         }
         function renderDownloads() {
-            var box = document.getElementById('dlList');
-            var list = SITE.downloads || [];
+            var box = document.getElementById('dlList'); box.textContent = '';
+            var list = CONTENT.downloads || [];
             if (!list.length) { box.appendChild(el('p', 'empty', '暂时还没有可下载的文件。')); return; }
             list.forEach(function (d) {
                 if (d.plan) { renderPlanCard(box, d); return; }
@@ -1359,8 +1383,108 @@
             loadMessages(false);
         }
 
-        renderGuides();
-        renderDownloads();
+
+        // ===== 游戏 / 广播剧 =====
+        function renderPages() {
+            var list = CONTENT.pages || [];
+            document.getElementById('pagesBlock').hidden = !list.length;
+            document.getElementById('navPages').hidden = !list.length;
+            var box = document.getElementById('pageCards'); box.textContent = '';
+            list.forEach(function (p) {
+                var a = el('a', 'game-card auto');
+                a.href = '#page-' + p.id;
+                a.addEventListener('click', function (e) { e.preventDefault(); openPage(p.id); });
+                var img = el('div', 'card-img');
+                if (p.cover) img.style.backgroundImage = 'url("' + String(p.cover).replace(/["\\\n]/g, '') + '")';
+                else img.style.backgroundColor = 'var(--ice)';
+                var body = el('div', 'card-body');
+                body.appendChild(el('div', 'card-title', p.title || ''));
+                var sub = p.desc || p.subtitle;
+                if (sub) body.appendChild(el('div', 'card-sub clamp', sub));
+                if (p.tags && p.tags.length) {
+                    var tags = el('div', 'card-tags');
+                    p.tags.forEach(function (t) { tags.appendChild(el('span', null, t)); });
+                    body.appendChild(tags);
+                }
+                a.appendChild(img); a.appendChild(body); box.appendChild(a);
+            });
+        }
+
+        function openPage(id, silent) {
+            var p = (CONTENT.pages || []).filter(function (x) { return String(x.id) === String(id); })[0];
+            if (!p) return false;
+            var box = document.getElementById('pageDetail'); box.textContent = '';
+            var back = el('a', 'pg-back', '← 返回首页'); back.href = '#';
+            back.addEventListener('click', function (e) { goHome(e); });
+            box.appendChild(back);
+            var head = el('div', 'detail-header');
+            head.appendChild(el('h2', 'detail-game-title', p.title || ''));
+            var meta = [p.subtitle, p.date].filter(Boolean).join(' · ');
+            if (meta) head.appendChild(el('div', 'detail-game-meta', meta));
+            if (p.tags && p.tags.length) {
+                var tg = el('div', 'tags'); p.tags.forEach(function (t) { tg.appendChild(el('span', 'tag', t)); }); head.appendChild(tg);
+            }
+            if (p.desc) head.appendChild(el('p', 'pg-desc', p.desc));
+            box.appendChild(head);
+            if (p.body) {
+                var b = el('div', 'pg-body');
+                String(p.body).split(/\n{2,}/).forEach(function (para) {
+                    para = para.trim(); if (!para) return;
+                    var pe = el('p'); pe.style.whiteSpace = 'pre-line'; pe.textContent = para; b.appendChild(pe);
+                });
+                box.appendChild(b);
+            }
+            if (p.images && p.images.length) {
+                var g = el('div', 'pg-gallery');
+                p.images.forEach(function (u) {
+                    var href = safeUrl(u); if (!href) return;
+                    var im = document.createElement('img'); im.src = href; im.loading = 'lazy'; im.alt = p.title || '';
+                    im.addEventListener('click', function () { openImage(href); });
+                    g.appendChild(im);
+                });
+                box.appendChild(g);
+            }
+            if (p.links && p.links.length) {
+                var l = el('div', 'pg-links');
+                p.links.forEach(function (x) {
+                    var href = safeUrl(x.url); if (!href) return;
+                    var a = el('a', 'btn', (x.label || '打开链接') + (isExternal(href) ? ' ↗' : ''));
+                    a.href = href; if (isExternal(href)) { a.target = '_blank'; a.rel = 'noopener'; }
+                    l.appendChild(a);
+                });
+                box.appendChild(l);
+            }
+            activate('pageDetail');
+            if (!silent) { try { history.replaceState(null, '', '#page-' + p.id); } catch (e) {} }
+            document.title = (p.title || '') + ' · YUU';
+            return true;
+        }
+
+        // ===== 从后台（Worker）读取内容 =====
+        var BASE_TITLE = document.title;
+        function renderAll() { renderGuides(); renderPages(); renderDownloads(); }
+        function loadRemoteContent() {
+            if (!API || !window.fetch) return Promise.resolve(false);
+            var ctrl = window.AbortController ? new AbortController() : null;
+            var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 6000);
+            return fetch(API + '/api/content', { signal: ctrl ? ctrl.signal : undefined })
+                .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+                .then(function (d) {
+                    var n = (d.guides || []).length + (d.downloads || []).length + (d.pages || []).length;
+                    if (!n) return false; // 后台还没有内容：继续用 site-config.js
+                    CONTENT = { guides: d.guides || [], downloads: d.downloads || [], pages: d.pages || [] };
+                    return true;
+                })
+                .catch(function () { return false; })
+                .then(function (ok) { clearTimeout(timer); return ok; });
+        }
+        function openFromHash() {
+            var m = /^#page-(\d+)$/.exec(location.hash || '');
+            if (m) openPage(m[1], true);
+        }
+
+        renderAll(); // 先用 site-config.js 立刻显示，后台内容读到后再刷新
+        loadRemoteContent().then(function (ok) { if (ok) renderAll(); openFromHash(); });
         // 留言板已移至独立页面 message.html
 
         // ===== 图片放大 =====
@@ -1407,6 +1531,8 @@
         function goHome(evt) {
             if (evt) evt.preventDefault();
             activate('home');
+            try { if (/^#page-/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+            if (typeof BASE_TITLE !== 'undefined') document.title = BASE_TITLE;
         }
 
         function goDetail(id, evt) {
