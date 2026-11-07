@@ -917,10 +917,32 @@
         header { background-color: rgba(238, 242, 247, 0.94); }
         .back { background: rgba(238, 242, 247, 0.82); }
         .back:hover { background: rgba(238, 242, 247, 0.94); }
+    </style><link rel="stylesheet" href="rococo.css"><style>
+        /* 装饰图不拦点击；发送按钮靠右，避开左下角的花枝 */
+        .contact-form::before, .contact-form::after { pointer-events: none; }
+        .contact-form .form-actions { position: relative; z-index: 3; justify-content: flex-end; }
     </style></head><body>
+<span id="top"></span>
+<div class="deco" aria-hidden="true">
+  <i class="fx lily-l"></i><i class="fx lily-r"></i><i class="fx gate"></i>
+  <i class="fx bf bf1"></i><i class="fx bf bf2"></i><i class="fx bf bf3"></i><i class="fx bf bf4"></i>
+  <i class="fx dv dv1"></i><i class="fx dv dv2"></i><i class="fx dv dv3"></i>
+  <i class="fx sk sk-moon"></i><i class="fx sk sk-forget"></i>
+</div>
+<nav class="rail" aria-label="快捷导航">
+  <a href="index.html#top" style="--t:url(images/rococo/t_new.webp)"><b>回到顶部</b></a>
+  <a href="index.html#guides" style="--t:url(images/rococo/t_search.webp)"><b>攻略网站</b></a>
+  <a href="index.html#downloads" style="--t:url(images/rococo/t_files.webp)"><b>下载</b></a>
+  <a href="message.html" style="--t:url(images/rococo/t_account.webp)"><b>留言板</b></a>
+  <a href="mailto:yuunaovo@outlook.com" style="--t:url(images/rococo/t_model.webp)"><b>邮箱</b></a>
+  <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener" style="--t:url(images/rococo/t_browser.webp)"><b>微博</b></a>
+  <a href="index.html#foot" style="--t:url(images/rococo/t_terminal.webp)"><b>页脚</b></a>
+  <button type="button" id="railToggle" aria-pressed="false" style="--t:url(images/rococo/t_settings.webp)"><b>装饰 开/关</b></button>
+</nav>
+
 <div id="successToast" class="success-toast" role="status" aria-live="polite"></div><div class="glow g1"></div><div class="glow g2"></div><div class="wrap">
 <header><nav><a class="brand serif" href="index.html">YUU</a><div class="navlinks"><a href="index.html">返回首页</a></div></nav></header>
-<div class="message-topbar"><a href="index.html">← 返回首页</a><span class="section-sub">GUESTBOOK · 留言交流</span></div><section class="message-hero"><h1 class="serif">留言板</h1><p>欢迎留下想说的话。公开留言会展示在这里，私密留言只有管理员可见。</p></section><div id="home">
+<div class="message-topbar"><a href="index.html">← 返回首页</a><span class="section-sub">GUESTBOOK · 留言交流</span></div><section class="message-hero"><i class="o o-mwave" aria-hidden="true"></i><i class="o o-mquills" aria-hidden="true"></i><i class="o o-mcrest" aria-hidden="true"></i><h1 class="serif">留言板</h1><p>欢迎留下想说的话。公开留言会展示在这里，私密留言只有管理员可见。</p></section><div id="home">
             <div class="message-layout"><section class="message-panel"><h2 class="serif">发表留言</h2>
             <div class="gb-wrap">
                 <div class="gb-offline" id="gbOffline" hidden>留言板还在搭建中，暂时不能留言。想联系我可以发邮件，或者去微博找我。</div>
@@ -962,11 +984,11 @@
                 </div>
 
               </section><section class="message-panel"><h2 class="serif">公开留言</h2>
-                <div class="msg-list" id="msgList" aria-live="polite"></div>
+                <div class="msg-list" id="msgList" aria-live="polite"><p class="empty loading">信笺正在寄来……</p></div>
                 <div class="msg-more"><button type="button" class="btn ghost" id="msgMore" hidden>加载更多</button></div>
               </section></div>
 
-<footer><div class="links"><a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">微博</a><a href="mailto:yuunaovo@outlook.com">邮箱</a></div><div class="copy">© 2026 YUU</div></footer></div></div>
+<footer id="foot"><div class="links"><a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">微博</a><a href="mailto:yuunaovo@outlook.com">邮箱</a></div><i class="o o-doze" aria-hidden="true"></i><div class="copy">© 2026 YUU</div></footer></div></div>
 <script src="site-config.js"></script><script>var SITE = window.SITE || {};
         var API = (SITE.apiBase || '').replace(/\/+$/, '');
 
@@ -977,10 +999,17 @@
             return e;
         }
 
-        function showToast(text) {
+        function showToast(text, kind) {
             var toast = document.getElementById('successToast');
             if (!toast) return;
-            toast.textContent = text;
+            var heads = { ok: 'Merci', private: 'Confidentiel', pending: 'Patience' };
+            kind = heads[kind] ? kind : 'ok';
+            toast.className = 'success-toast kind-' + kind;
+            toast.textContent = '';
+            var h = document.createElement('span'); h.className = 't-head'; h.textContent = heads[kind];
+            var b = document.createElement('span'); b.className = 't-body'; b.textContent = text;
+            toast.appendChild(h); toast.appendChild(b);
+            void toast.offsetWidth;
             toast.classList.add('show');
             clearTimeout(showToast._t);
             showToast._t = setTimeout(function () { toast.classList.remove('show'); }, 5000);
@@ -1135,7 +1164,7 @@
                     if (!append) {
                         var box = document.getElementById('msgList');
                         box.textContent = '';
-                        box.appendChild(el('p', 'empty', '留言加载失败，请稍后刷新重试。'));
+                        box.appendChild(el('p', 'empty err', '留言加载失败，请稍后刷新重试。'));
                     }
                 })
                 .then(function () { more.disabled = false; });
@@ -1167,7 +1196,7 @@
             if (!API) {
                 document.getElementById('gbOffline').hidden = false;
                 document.getElementById('gbBox').classList.add('disabled');
-                document.getElementById('msgList').appendChild(el('p', 'empty', ''));
+                document.getElementById('msgList').textContent = '';
                 return;
             }
 
@@ -1236,8 +1265,8 @@
                         form.reset();
                         updateVisibilityUI();
                         fileName.textContent = '';
-                        if (isPrivate) showToast('私密留言已发送，只有我能看到，请等待回复！');
-                        else if (data.pending) showToast('留言已提交，审核通过后会显示出来。');
+                        if (isPrivate) showToast('私密留言已发送，只有我能看到，请等待回复！', 'private');
+                        else if (data.pending) showToast('留言已提交，审核通过后会显示出来。', 'pending');
                         else { showToast('留言成功！'); loadMessages(false); }
                     })
                     .catch(function (err) {
@@ -1333,4 +1362,5 @@
         window.goHome = goHome;
         window.goDetail = goDetail;
         window.smartScroll = smartScroll;
-        window.activate = activate;</script></body></html>
+        window.activate = activate;</script><script src="rococo.js"></script>
+</body></html>

@@ -963,9 +963,391 @@
         .pg-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 26px 0 0; }
         .pg-gallery img { width: 100%; height: 100%; max-height: 360px; object-fit: cover; border-radius: 6px; cursor: zoom-in; background: var(--ice); display: block; }
         .pg-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 0; }
+    
+
+        /* 首页装饰素材带：让原有插画自然融入主界面 */
+        .home-ornaments {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: clamp(12px, 2.4vw, 30px);
+            min-height: 116px;
+            margin: 8px 0 52px;
+            padding: 16px 22px 12px;
+            border-top: 1px solid rgba(126, 137, 158, .22);
+            border-bottom: 1px solid rgba(126, 137, 158, .22);
+            background:
+                linear-gradient(90deg, transparent, rgba(222, 225, 234, .32) 18%, rgba(222, 225, 234, .32) 82%, transparent);
+            overflow: hidden;
+        }
+        .home-ornaments::before, .home-ornaments::after {
+            content: "✧";
+            position: absolute;
+            top: 5px;
+            color: var(--gold, #9b8a68);
+            opacity: .55;
+            font-size: 13px;
+        }
+        .home-ornaments::before { left: 5px; }
+        .home-ornaments::after { right: 5px; }
+        .home-ornaments img {
+            display: block;
+            width: auto;
+            max-width: 10%;
+            height: 58px;
+            object-fit: contain;
+            opacity: .88;
+            filter: drop-shadow(0 5px 5px rgba(40, 46, 66, .12));
+            transition: transform .35s ease, opacity .35s ease;
+        }
+        .home-ornaments img:nth-of-type(2n) { height: 72px; }
+        .home-ornaments img:nth-of-type(3n) { height: 48px; }
+        .home-ornaments img:hover { transform: translateY(-5px) rotate(-3deg); opacity: 1; }
+        .ornament-note {
+            flex: none;
+            color: var(--text-soft, #777);
+            font-family: var(--latin, Georgia, serif);
+            font-size: 10px;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            opacity: .72;
+            white-space: nowrap;
+        }
+        @media (max-width: 760px) {
+            .home-ornaments {
+                gap: 12px;
+                min-height: 88px;
+                margin: 0 0 38px;
+                padding: 12px 8px;
+                justify-content: center;
+            }
+            .home-ornaments img { height: 44px; max-width: 13%; }
+            .home-ornaments img:nth-of-type(2n) { height: 52px; }
+            .home-ornaments img:nth-of-type(3n) { height: 36px; }
+            .ornament-note { display: none; }
+        }
+
+    </style>
+    <link rel="stylesheet" href="rococo.css">
+    <style>
+        /* ===== 攻略：去掉封面图，改成带纸纹、花饰与手绘线的文字卡 ===== */
+        .cardlist.guide-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+        .cardlist .game-card.guide-card {
+            position: relative;
+            display: block;
+            min-width: 0;
+            min-height: 0;
+            height: auto;
+            padding: 19px 24px 30px;
+            border: 1.5px solid rgba(42, 49, 80, .5);
+            border-radius: 18px;
+            background:
+                linear-gradient(rgba(251, 249, 244, .84), rgba(251, 249, 244, .84)),
+                url('images/rococo/paper.webp') center / cover,
+                var(--surface);
+            box-shadow: inset 0 0 0 4px var(--ring), 0 12px 26px -22px rgba(22, 26, 60, .55);
+            transform: none;
+            overflow: hidden;
+            transition: transform .35s cubic-bezier(.18, 1.5, .3, 1), border-color .3s ease, box-shadow .3s ease;
+        }
+        .cardlist .game-card.guide-card:hover {
+            transform: translateY(-4px) !important;
+            border-color: var(--accent);
+            box-shadow: inset 0 0 0 4px var(--ring), 0 22px 34px -24px rgba(22, 26, 60, .6);
+        }
+        /* 右下角淡淡的压花水印 */
+        .cardlist .game-card.guide-card::before {
+            content: '';
+            position: absolute;
+            right: -28px;
+            bottom: -26px;
+            width: 180px;
+            height: 146px;
+            background: var(--gflora, url('images/rococo/s_camellia.webp')) center / contain no-repeat;
+            opacity: .18;
+            transform: rotate(9deg);
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* 卡片底部的手绘墨水线 */
+        .cardlist .game-card.guide-card::after {
+            content: '';
+            position: absolute;
+            left: 24px;
+            right: 24px;
+            bottom: 11px;
+            height: 9px;
+            background: url('images/rococo/inkline.webp') center / 100% 100% no-repeat;
+            opacity: .3;
+            pointer-events: none;
+        }
+        .cardlist .game-card.guide-card:nth-child(4n+1) { --gflora: url('images/rococo/s_camellia.webp'); }
+        .cardlist .game-card.guide-card:nth-child(4n+2) { --gflora: url('images/rococo/w_rose.webp'); }
+        .cardlist .game-card.guide-card:nth-child(4n+3) { --gflora: url('images/rococo/k_lotus.webp'); }
+        .cardlist .game-card.guide-card:nth-child(4n+4) { --gflora: url('images/rococo/k_pinkbow.webp'); }
+
+        .cardlist .game-card.guide-card .card-body {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            width: auto;
+            min-height: 0;
+            padding: 0;
+            background: transparent;
+        }
+        .guide-card .guide-top {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 13px;
+            padding-bottom: 9px;
+            border-bottom: 1px solid rgba(42, 49, 80, .16);
+        }
+        .guide-card .guide-no {
+            font-family: var(--mono, 'Courier Prime', monospace);
+            font-size: 11px;
+            letter-spacing: .16em;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+        .guide-card .guide-no::before {
+            content: '✧';
+            margin-right: 8px;
+            color: var(--gold);
+            font-size: 12px;
+        }
+        .guide-card .guide-no::after {
+            content: 'Guide';
+            margin-left: 9px;
+            font-family: var(--script, 'Pinyon Script', cursive);
+            font-size: 15px;
+            letter-spacing: .02em;
+            color: var(--gold);
+        }
+        .guide-card .guide-go {
+            font-family: var(--serif);
+            font-size: 12.5px;
+            letter-spacing: .08em;
+            color: var(--indigo);
+            border-bottom: 1px dashed var(--champ);
+            padding-bottom: 1px;
+            white-space: nowrap;
+        }
+        .cardlist .game-card.guide-card .card-title {
+            font-size: 19px;
+            line-height: 1.5;
+            letter-spacing: .04em;
+            margin: 0 0 7px;
+        }
+        .cardlist .game-card.guide-card .card-sub.clamp {
+            font-size: 13px;
+            line-height: 1.75;
+            -webkit-line-clamp: 3;
+            margin: 0;
+        }
+        .cardlist .game-card.guide-card .card-tags {
+            margin-top: 13px;
+            gap: 6px;
+        }
+        .cardlist .game-card.guide-card .card-tags span {
+            font-size: 10.5px;
+            padding: 2px 10px;
+            border-radius: 999px;
+        }
+        .guide-card .guide-seal {
+            position: absolute;
+            right: 18px;
+            bottom: 12px;
+            width: 34px;
+            height: 35px;
+            background: url('images/rococo/seal_blue.webp') center / contain no-repeat;
+            opacity: .85;
+            transform: rotate(-8deg);
+            filter: drop-shadow(0 3px 3px rgba(30, 40, 80, .25));
+            pointer-events: none;
+            z-index: 2;
+        }
+        .cardlist.guide-grid .empty { grid-column: 1 / -1; }
+
+        /* ===== 补丁进度：纸笺小框 + 羽毛笔 + 火漆 + 花朵进度条 ===== */
+        .dl-detail {
+            position: relative;
+            flex: 0 0 100%;
+            margin-top: 16px;
+            padding: 18px 124px 18px 22px;
+            border: 1.5px solid rgba(42, 49, 80, .5);
+            border-radius: 18px;
+            background:
+                linear-gradient(rgba(251, 249, 244, .86), rgba(251, 249, 244, .86)),
+                url('images/rococo/paper.webp') center / cover,
+                var(--surface);
+            box-shadow: inset 0 0 0 4px var(--ring), 0 10px 22px -20px rgba(22, 26, 60, .5);
+        }
+        .dl-detail::before {
+            content: '';
+            position: absolute;
+            right: 24px;
+            top: 52px;
+            width: 96px;
+            height: 50px;
+            background: url('images/rococo/w_quills.webp') center / contain no-repeat;
+            opacity: .7;
+            transform: rotate(-7deg);
+            filter: drop-shadow(0 4px 4px rgba(30, 40, 80, .16));
+            pointer-events: none;
+        }
+        .dl-detail::after {
+            content: '';
+            position: absolute;
+            right: 24px;
+            bottom: 13px;
+            width: 38px;
+            height: 39px;
+            background: url('images/rococo/seal_blue.webp') center / contain no-repeat;
+            opacity: .85;
+            transform: rotate(-8deg);
+            filter: drop-shadow(0 3px 3px rgba(30, 40, 80, .28));
+            pointer-events: none;
+        }
+        .dl-detail .plan-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .dl-detail > * {
+            position: relative;
+            z-index: 1;
+        }
+        .dl-detail .plan-kicker {
+            display: block;
+            font-family: var(--script, 'Pinyon Script', cursive);
+            font-size: 17px;
+            line-height: 1.15;
+            color: var(--gold);
+            letter-spacing: .02em;
+        }
+        .dl-detail .dl-detail-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 2px 0 0;
+            font-size: 15.5px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            color: var(--indigo);
+        }
+        .dl-detail .dl-detail-title::before {
+            content: '';
+            flex: none;
+            width: 21px;
+            height: 29px;
+            background: url('images/rococo/t_files.webp') center / contain no-repeat;
+            transform: rotate(-6deg);
+        }
+        .dl-detail .dl-desc {
+            margin: 8px 0 0;
+            font-size: 13px;
+        }
+        .dl-detail .plan-count {
+            flex: none;
+            margin-top: 2px;
+            padding: 2px 10px;
+            border: 1px dashed rgba(42, 49, 80, .35);
+            border-radius: 999px;
+            background: rgba(251, 248, 241, .7);
+            font-family: var(--mono, 'Courier Prime', monospace);
+            font-size: 11px;
+            letter-spacing: .06em;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+        .plan-meter {
+            position: relative;
+            height: 7px;
+            margin: 13px 2px 15px;
+            border-radius: 999px;
+            background: rgba(42, 49, 80, .1);
+            box-shadow: inset 0 0 0 1px rgba(42, 49, 80, .14);
+        }
+        .plan-meter-fill {
+            position: relative;
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--accent), #93A6C8);
+            box-shadow: 0 1px 4px rgba(42, 49, 80, .22);
+            transition: width .8s cubic-bezier(.2, .8, .2, 1);
+        }
+        .plan-meter-fill::after {
+            content: '';
+            position: absolute;
+            right: -9px;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            transform: translateY(-50%) rotate(8deg);
+            background: url('images/rococo/s_camellia.webp') center / contain no-repeat;
+            filter: drop-shadow(0 2px 2px rgba(30, 40, 80, .25));
+        }
+        .plan-meter-fill.is-empty {
+            background: transparent;
+            box-shadow: none;
+        }
+        .plan-meter-fill.is-empty::after { display: none; }
+        .dl-detail .dl-plan-list { margin-top: 0; gap: 8px; }
+        .dl-detail .plan-updated {
+            margin-top: 12px;
+            padding-top: 9px;
+            border-top: 1px dashed rgba(42, 49, 80, .22);
+        }
+        .dl-item.has-detail::after { display: none; }
+
+        @media (max-width: 760px) {
+            .cardlist.guide-grid { gap: 13px; }
+            .cardlist .game-card.guide-card { padding: 17px 18px 28px; border-radius: 16px; }
+            .cardlist .game-card.guide-card::before { width: 142px; height: 116px; right: -22px; bottom: -20px; }
+            .cardlist .game-card.guide-card::after { left: 18px; right: 18px; }
+            .cardlist .game-card.guide-card .card-title { font-size: 17px; }
+            .guide-card .guide-seal { right: 14px; bottom: 9px; width: 28px; height: 29px; }
+            .dl-detail { padding: 16px 18px 48px; }
+            .dl-detail::before { width: 66px; height: 35px; right: 12px; top: 44px; opacity: .4; }
+            .dl-detail::after { width: 32px; height: 33px; right: 16px; bottom: 10px; }
+            .dl-detail .plan-head { flex-wrap: wrap; gap: 6px 12px; }
+        }
+        @media (max-width: 560px) {
+            .cardlist.guide-grid { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .cardlist .game-card.guide-card, .plan-meter-fill { transition: none !important; }
+        }
     </style>
 </head>
 <body>
+<span id="top"></span>
+<div class="deco" aria-hidden="true">
+  <i class="fx lily-l"></i><i class="fx lily-r"></i><i class="fx gate"></i>
+  <i class="fx bf bf1"></i><i class="fx bf bf2"></i><i class="fx bf bf3"></i><i class="fx bf bf4"></i>
+  <i class="fx dv dv1"></i><i class="fx dv dv2"></i><i class="fx dv dv3"></i>
+  <i class="fx sk sk-moon"></i><i class="fx sk sk-forget"></i>
+</div>
+<nav class="rail" aria-label="快捷导航">
+  <a href="#top" style="--t:url(images/rococo/t_new.webp)"><b>回到顶部</b></a>
+  <a href="#guides" style="--t:url(images/rococo/t_search.webp)"><b>攻略网站</b></a>
+  <a href="#downloads" style="--t:url(images/rococo/t_files.webp)"><b>下载</b></a>
+  <a href="message.html" style="--t:url(images/rococo/t_account.webp)"><b>留言板</b></a>
+  <a href="mailto:yuunaovo@outlook.com" style="--t:url(images/rococo/t_model.webp)"><b>邮箱</b></a>
+  <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener" style="--t:url(images/rococo/t_browser.webp)"><b>微博</b></a>
+  <a href="#foot" style="--t:url(images/rococo/t_terminal.webp)"><b>页脚</b></a>
+  <button type="button" id="railToggle" aria-pressed="false" style="--t:url(images/rococo/t_settings.webp)"><b>装饰 开/关</b></button>
+</nav>
+
     <!-- 提示浮层 -->
     <div id="successToast" class="success-toast" role="status" aria-live="polite"></div>
 
@@ -986,6 +1368,7 @@
 
         <!-- 个人头像与简介：保留原主页资料 -->
         <section class="profile">
+                <i class="o o-crest" aria-hidden="true"></i><i class="o o-avbow" aria-hidden="true"></i><i class="o o-avseal" aria-hidden="true"></i><i class="o o-camellia" aria-hidden="true"></i><i class="o o-hello" aria-hidden="true"></i>
                 <div class="avatar">
                     <span class="serif">YUU</span>
                     <img src="images/system/touxiang.jpg" alt="YUU" onerror="this.style.display='none'" />
@@ -1001,13 +1384,27 @@
                 </div>
             </section>
 
+        <!-- 首页装饰素材：以文具、花饰与古典器物丰富主界面 -->
+        <div class="home-ornaments" aria-hidden="true">
+            <span class="ornament-note">Petits objets · Souvenirs</span>
+            <img src="images/rococo/w_candle.webp" alt="" loading="lazy">
+            <img src="images/rococo/w_quills.webp" alt="" loading="lazy">
+            <img src="images/rococo/w_teacup.webp" alt="" loading="lazy">
+            <img src="images/rococo/w_dove.webp" alt="" loading="lazy">
+            <img src="images/rococo/w_lamp.webp" alt="" loading="lazy">
+            <img src="images/rococo/s_camellia.webp" alt="" loading="lazy">
+            <img src="images/rococo/w_key.webp" alt="" loading="lazy">
+            <img src="images/rococo/w_bow_white.webp" alt="" loading="lazy">
+            <span class="ornament-note ornament-end">Collection privée</span>
+        </div>
+
         <!-- ===== 首页 ===== -->
         <div id="home">
             <!-- 我做的攻略网站 -->
-            <div class="section-head" id="guides">
+            <div class="section-head" id="guides"><i class="o o-peek" aria-hidden="true"></i>
                 <h2 class="serif">攻略网站</h2>
             </div>
-            <div class="cardlist" id="guideCards"></div>
+            <div class="cardlist guide-grid" id="guideCards"></div>
 
             <!-- 游戏 / 广播剧（由后台维护，没有内容时不显示） -->
             <div id="pagesBlock" hidden>
@@ -1018,20 +1415,21 @@
             </div>
 
             <!-- 下载区 -->
-            <div class="section-head" id="downloads">
+            <div class="section-head" id="downloads"><i class="o o-walk" aria-hidden="true"></i>
                 <h2 class="serif">下载</h2>
                 <span class="section-sub">点击即可下载</span>
             </div>
             <div class="dl-list" id="dlList"></div>
 
-            <div class="message-entry"><a class="btn" href="message.html">进入留言板 ↗</a><p class="section-sub">发表留言、查看公开留言及 YUU的回复</p></div>
+            <div class="message-entry"><i class="o o-me-dove" aria-hidden="true"></i><i class="o o-me-nib" aria-hidden="true"></i><i class="o o-me-stand" aria-hidden="true"></i><a class="btn" href="message.html">进入留言板 ↗</a><p class="section-sub">发表留言、查看公开留言及 YUU的回复</p></div>
 
-            <footer>
+            
+<footer id="foot">
                 <div class="links">
                     <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">微博</a>
                     <a href="mailto:yuunaovo@outlook.com">邮箱</a>
                 </div>
-                <div class="copy">© 2026 YUU</div>
+                <i class="o o-doze" aria-hidden="true"></i><div class="copy">© 2026 YUU</div>
             </footer>
         </div>
 
@@ -1054,10 +1452,17 @@
             return e;
         }
 
-        function showToast(text) {
+        function showToast(text, kind) {
             var toast = document.getElementById('successToast');
             if (!toast) return;
-            toast.textContent = text;
+            var heads = { ok: 'Merci', private: 'Confidentiel', pending: 'Patience' };
+            kind = heads[kind] ? kind : 'ok';
+            toast.className = 'success-toast kind-' + kind;
+            toast.textContent = '';
+            var h = document.createElement('span'); h.className = 't-head'; h.textContent = heads[kind];
+            var b = document.createElement('span'); b.className = 't-body'; b.textContent = text;
+            toast.appendChild(h); toast.appendChild(b);
+            void toast.offsetWidth;
             toast.classList.add('show');
             clearTimeout(showToast._t);
             showToast._t = setTimeout(function () { toast.classList.remove('show'); }, 5000);
@@ -1082,20 +1487,18 @@
             var box = document.getElementById('guideCards'); box.textContent = '';
             var list = CONTENT.guides || [];
             if (!list.length) { box.appendChild(el('p', 'empty', '攻略网站整理中，敬请期待。')); return; }
-            list.forEach(function (g) {
+            list.forEach(function (g, i) {
                 var href = safeUrl(g.url);
-                var a = el('a', 'game-card auto');
+                var a = el('a', 'game-card auto guide-card');
                 if (href) {
                     a.href = href;
                     if (isExternal(href)) { a.target = '_blank'; a.rel = 'noopener'; }
                 }
-                var img = el('div', 'card-img');
-                if (g.cover) {
-                    img.style.backgroundImage = 'url("' + String(g.cover).replace(/["\\\n]/g, '') + '")';
-                } else {
-                    img.style.backgroundColor = 'var(--ice)';
-                }
                 var body = el('div', 'card-body');
+                var top = el('div', 'guide-top');
+                top.appendChild(el('span', 'guide-no', 'N° ' + String(i + 1).padStart(2, '0')));
+                if (href) top.appendChild(el('span', 'guide-go', '前往攻略 ↗'));
+                body.appendChild(top);
                 body.appendChild(el('div', 'card-title', g.title || ''));
                 if (g.desc) body.appendChild(el('div', 'card-sub clamp', g.desc));
                 if (g.tags && g.tags.length) {
@@ -1103,11 +1506,10 @@
                     g.tags.forEach(function (t) { tags.appendChild(el('span', null, t)); });
                     body.appendChild(tags);
                 }
-                if (href && isExternal(href)) {
-                    body.appendChild(el('div', 'card-url', href.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗'));
-                }
-                a.appendChild(img);
                 a.appendChild(body);
+                var seal = el('span', 'guide-seal');
+                seal.setAttribute('aria-hidden', 'true');
+                a.appendChild(seal);
                 box.appendChild(a);
             });
         }
@@ -1178,11 +1580,34 @@
         }
 
         function buildPlanBody(parent, d) {
-            if (d.title) parent.appendChild(el('h4', 'dl-detail-title', d.title));
+            var steps = d.steps || [];
+            var done = 0;
+            steps.forEach(function (st) { if (st.status === 'done') done++; });
+
+            var head = el('div', 'plan-head');
+            var titleWrap = el('div', 'plan-title-wrap');
+            titleWrap.appendChild(el('span', 'plan-kicker', 'Feuille de route'));
+            if (d.title) titleWrap.appendChild(el('h4', 'dl-detail-title', d.title));
+            head.appendChild(titleWrap);
+            if (steps.length) head.appendChild(el('span', 'plan-count', done + ' / ' + steps.length + ' 已完成'));
+            parent.appendChild(head);
+
             if (d.desc) parent.appendChild(el('p', 'dl-desc', d.desc));
+
+            if (steps.length) {
+                var meter = el('div', 'plan-meter');
+                meter.setAttribute('role', 'img');
+                meter.setAttribute('aria-label', '补丁进度：已完成 ' + done + ' / ' + steps.length);
+                var fill = el('span', 'plan-meter-fill');
+                fill.style.width = Math.round(done / steps.length * 100) + '%';
+                if (!done) fill.classList.add('is-empty');
+                meter.appendChild(fill);
+                parent.appendChild(meter);
+            }
+
             var ul = el('ul', 'dl-plan-list');
             var label = { done: '已完成', doing: '进行中', todo: '计划中' };
-            (d.steps || []).forEach(function (st) {
+            steps.forEach(function (st) {
                 var key = label[st.status] ? st.status : 'todo';
                 var li = el('li');
                 li.appendChild(el('span', 'st ' + key, label[key]));
@@ -1190,7 +1615,7 @@
                 ul.appendChild(li);
             });
             if (ul.childNodes.length) parent.appendChild(ul);
-            if (d.updated) parent.appendChild(el('div', 'dl-meta', '更新于 ' + d.updated));
+            if (d.updated) parent.appendChild(el('div', 'dl-meta plan-updated', '更新于 ' + d.updated));
         }
 
         // 独立的补丁计划卡片：{ plan: true, title, desc, steps: [{ text, status: 'done'|'doing'|'todo' }] }
@@ -1260,7 +1685,7 @@
                     if (!append) {
                         var box = document.getElementById('msgList');
                         box.textContent = '';
-                        box.appendChild(el('p', 'empty', '留言加载失败，请稍后刷新重试。'));
+                        box.appendChild(el('p', 'empty err', '留言加载失败，请稍后刷新重试。'));
                     }
                 })
                 .then(function () { more.disabled = false; });
@@ -1361,8 +1786,8 @@
                         form.reset();
                         updateVisibilityUI();
                         fileName.textContent = '';
-                        if (isPrivate) showToast('私密留言已发送，只有我能看到，请等待回复！');
-                        else if (data.pending) showToast('留言已提交，审核通过后会显示出来。');
+                        if (isPrivate) showToast('私密留言已发送，只有我能看到，请等待回复！', 'private');
+                        else if (data.pending) showToast('留言已提交，审核通过后会显示出来。', 'pending');
                         else { showToast('留言成功！'); loadMessages(false); }
                     })
                     .catch(function (err) {
@@ -1566,5 +1991,6 @@
         window.smartScroll = smartScroll;
         window.activate = activate;
     </script>
+<script src="rococo.js"></script>
 </body>
 </html>

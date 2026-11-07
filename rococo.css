@@ -1,0 +1,445 @@
+/* ==========================================================
+   蓝色洛可可主题 · 基于 Trianon（MIT）的视觉语言
+   雾蓝渐变、纸纹、双线边框、香槟金细线、花体字、满满的小物件。
+   只覆盖外观；图片素材来自 Trianon（CC0），字体见 fonts/ 里的 OFL 许可。
+   ========================================================== */
+@font-face { font-family: 'Pinyon Script'; src: url('fonts/PinyonScript.woff') format('woff'); font-display: swap; }
+@font-face { font-family: 'TrianonBaskerville'; src: url('fonts/Baskerville-Regular.woff') format('woff'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'TrianonBaskerville'; src: url('fonts/Baskerville-Bold.woff') format('woff'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Courier Prime'; src: url('fonts/CourierPrime-Regular.woff') format('woff'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Courier Prime'; src: url('fonts/CourierPrime-Bold.woff') format('woff'); font-weight: 700; font-display: swap; }
+
+:root {
+    --bg: #DFE4EE;
+    --surface: rgba(250, 251, 253, .88);
+    --ink: #161A24;
+    --text: #232A44;
+    --text-soft: #5C6788;
+    --line: rgba(42, 49, 80, .16);
+    --accent: #4E5E8E;
+    --ice: #B9BDD8;
+    --r: 18px;
+
+    --frame: #2A3150;
+    --ring: #FBF8F1;
+    --mist: #E6EBF6;
+    --indigo: #26305A;
+    --gold: #A8874A;
+    --rose: #A9607A;
+    --champ: rgba(180, 150, 90, .45);
+    --champ-s: rgba(180, 150, 90, .28);
+    --serif: 'Noto Serif CJK SC', 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
+    --script: 'Pinyon Script', 'Snell Roundhand', 'Brush Script MT', cursive;
+    --latin: 'TrianonBaskerville', 'Libre Baskerville', Georgia, serif;
+    --mono: 'Courier Prime', 'Courier New', monospace;
+    --a: 'images/rococo/';
+
+    /* 蝴蝶光标（Trianon），带多档回退 */
+    --cu-default: -webkit-image-set(url(images/rococo/cur/default_48.png) 1x, url(images/rococo/cur/default_96.png) 2x) 2 3, url(images/rococo/cur/default_48.png) 2 3, auto;
+    --cu-pointer: -webkit-image-set(url(images/rococo/cur/pointer_48.png) 1x, url(images/rococo/cur/pointer_96.png) 2x) 3 2, url(images/rococo/cur/pointer_48.png) 3 2, pointer;
+    --cu-text: url(images/rococo/cur/text_48.png) 24 24, text;
+    --cu-no: -webkit-image-set(url(images/rococo/cur/not-allowed_48.png) 1x, url(images/rococo/cur/not-allowed_96.png) 2x) 2 2, url(images/rococo/cur/not-allowed_48.png) 2 2, not-allowed;
+    --cu-wait: url(images/rococo/cur/wait_48.png) 22 28, wait;
+    --cu-progress: url(images/rococo/cur/progress_48.png) 2 2, progress;
+    --cu-grab: url(images/rococo/cur/grab_48.png) 24 20, grab;
+}
+html, body { cursor: var(--cu-default); }
+a, button, .btn, .game-card, label, .seg-opt, summary, [role=button] { cursor: var(--cu-pointer); }
+input[type=text], input:not([type]), textarea { cursor: var(--cu-text); }
+button:disabled, .btn:disabled, .btn[aria-disabled="true"], .contact-form.disabled * { cursor: var(--cu-no); }
+.contact-form [aria-busy=true], button:disabled#gbSubmit { cursor: var(--cu-wait); }
+.pol, .stk, .sh, .at, .sk { cursor: var(--cu-grab); }
+.pol:active, .stk:active, .sh:active, .at:active, .sk:active { cursor: url(images/rococo/cur/grabbing_48.png) 22 18, grabbing; }
+.empty.loading { cursor: var(--cu-progress) !important; }
+
+/* ---------- 背景：雾蓝渐变 + 纸纹 ---------- */
+html { background: #DFE4EE; scroll-padding-top: 96px; overflow-x: clip; }
+body {
+    background: linear-gradient(168deg, #B9BDD8 0%, #DFE4EE 55%, #EFF1EC 100%) fixed;
+    color: var(--text);
+    font-family: var(--serif);
+}
+body::before {
+    content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background: url('images/rococo/grain.png'); mix-blend-mode: soft-light; opacity: .28;
+}
+.glow { display: none; }
+::selection { background: var(--accent); color: #fff; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.serif, h1, h2, h3 { font-family: var(--serif); }
+.o, .fx { display: block; pointer-events: none; background-repeat: no-repeat; background-position: center; background-size: contain; }
+#top { position: absolute; top: 0; }
+
+/* ---------- 背景装饰层：飘动的蝴蝶、飞过的鸽子、垂下的丝带、花枝 ---------- */
+.deco { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.deco::before, .deco::after {
+    content: ''; position: absolute; top: 0; width: 34px; height: 260px; opacity: .85;
+    background: url('images/rococo/ribbon.webp') top center / contain no-repeat;
+    filter: drop-shadow(0 4px 4px rgba(30, 40, 80, .18));
+}
+.deco::before { right: 6%; }
+.deco::after { left: 5%; width: 22px; height: 200px; background-image: url('images/rococo/w_rd_tail.webp'); }
+.fx { position: absolute; }
+.fx.lily-l { left: -30px; bottom: 60px; width: 300px; height: 380px; background-image: url('images/rococo/lily_lt.webp'); opacity: .55; }
+.fx.lily-r { right: -20px; bottom: 0; width: 340px; height: 420px; background-image: url('images/rococo/wl_lily.webp'); opacity: .6; }
+.fx.gate { left: 50%; bottom: 0; width: min(1500px, 120vw); height: 260px; transform: translateX(-50%); background-image: url('images/rococo/gate_lt.webp'); background-position: bottom center; opacity: .4; }
+.fx.sk-moon { right: 3%; top: 120px; width: 120px; height: 120px; background-image: url('images/rococo/sk_moon.webp'); opacity: .55; animation: sway 9s ease-in-out infinite; }
+.fx.sk-forget { left: 2%; top: 56vh; width: 170px; height: 90px; background-image: url('images/rococo/sk_forgetmenot.webp'); opacity: .6; transform: rotate(-24deg); }
+
+.fx.bf { width: 74px; height: 56px; left: 0; top: 0; }
+.fx.bf::before { content: ''; position: absolute; inset: 0; background: var(--bfi) center / contain no-repeat; animation: flap .9s ease-in-out infinite; filter: drop-shadow(0 6px 5px rgba(30, 40, 80, .22)); }
+.bf1 { --bfi: url('images/rococo/fly.webp'); animation: flutter1 62s ease-in-out infinite; }
+.bf2 { --bfi: url('images/rococo/sk_butterfly.webp'); width: 60px; height: 46px; animation: flutter2 78s ease-in-out -20s infinite; }
+.bf3 { --bfi: url('images/rococo/fly.webp'); width: 52px; height: 40px; animation: flutter3 90s ease-in-out -50s infinite; }
+.bf4 { --bfi: url('images/rococo/sk_butterfly.webp'); width: 44px; height: 34px; animation: flutter1 110s ease-in-out -70s infinite reverse; }
+@keyframes flap { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(.5); } }
+@keyframes flutter1 { 0% { transform: translate(8vw, 70vh) rotate(8deg); } 20% { transform: translate(30vw, 30vh) rotate(-10deg); } 45% { transform: translate(60vw, 55vh) rotate(12deg); } 70% { transform: translate(82vw, 18vh) rotate(-8deg); } 100% { transform: translate(8vw, 70vh) rotate(8deg); } }
+@keyframes flutter2 { 0% { transform: translate(90vw, 30vh) rotate(-6deg); } 30% { transform: translate(64vw, 75vh) rotate(10deg); } 60% { transform: translate(25vw, 40vh) rotate(-12deg); } 100% { transform: translate(90vw, 30vh) rotate(-6deg); } }
+@keyframes flutter3 { 0% { transform: translate(45vw, 85vh); } 50% { transform: translate(15vw, 20vh) rotate(14deg); } 100% { transform: translate(45vw, 85vh); } }
+@keyframes sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); } }
+
+.fx.dv { width: 150px; height: 90px; left: 0; opacity: 0; background-size: contain; filter: drop-shadow(0 8px 8px rgba(30, 40, 80, .2)); }
+.dv1 { top: 22vh; background-image: url('images/rococo/dove1.webp'); animation: dvfly 70s linear 6s infinite; }
+.dv2 { top: 48vh; width: 120px; height: 72px; background-image: url('images/rococo/dove3.webp'); animation: dvfly 90s linear 38s infinite; }
+.dv3 { top: 70vh; width: 130px; height: 80px; background-image: url('images/rococo/dove2.webp'); animation: dvfly 110s linear 70s infinite; }
+@keyframes dvfly {
+    0% { transform: translate(-200px, 0); opacity: 0; }
+    2% { opacity: .9; }
+    16% { transform: translate(calc(50vw), -40px); }
+    30% { transform: translate(calc(100vw + 200px), 20px); opacity: .9; }
+    31%, 100% { transform: translate(calc(100vw + 200px), 20px); opacity: 0; }
+}
+
+/* ---------- 左侧吊牌导航 ---------- */
+.rail {
+    position: fixed; left: 10px; top: 50%; transform: translateY(-50%); z-index: 90;
+    display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 0;
+    max-height: 100vh; width: 48px;
+    background: url('images/rococo/w_rd_tail.webp') center / 14px 100% no-repeat;
+}
+.rail a, .rail button {
+    position: relative; display: block; width: 40px; height: 57px; padding: 0; border: 0; background: var(--t) center / contain no-repeat;
+    filter: drop-shadow(0 4px 4px rgba(30, 40, 80, .25));
+    transition: transform .45s cubic-bezier(.18, 1.5, .3, 1);
+}
+.rail a:hover, .rail button:hover, .rail a:focus-visible, .rail button:focus-visible { transform: translateX(6px) rotate(-4deg) scale(1.1); outline: none; }
+.rail b {
+    position: absolute; left: 50px; top: 50%; transform: translate(-6px, -50%); white-space: nowrap; pointer-events: none;
+    padding: 3px 12px; border-radius: 999px; background: var(--ring); border: .5px solid var(--champ); color: var(--indigo);
+    font: 400 12.5px/1.6 var(--serif); letter-spacing: .12em; opacity: 0; transition: opacity .25s, transform .25s;
+    box-shadow: 0 6px 14px -6px rgba(22, 26, 60, .4);
+}
+.rail a:hover b, .rail button:hover b, .rail a:focus-visible b, .rail button:focus-visible b { opacity: 1; transform: translate(0, -50%); }
+.rail button[aria-pressed="true"] { filter: grayscale(1) opacity(.6); }
+@media (max-width: 1180px), (max-height: 740px) { .rail { display: none; } }
+
+/* ---------- 表头 ---------- */
+header {
+    background: rgba(244, 246, 250, .55) !important;
+    backdrop-filter: blur(20px) saturate(1.3); -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    box-shadow: 0 10px 30px -24px rgba(22, 26, 60, .4);
+}
+header::after { height: 18px; bottom: -9px; background: url('images/rococo/inkline.webp') center / 100% 100% no-repeat; opacity: .55; }
+.brand.serif { font-family: var(--script); font-style: normal; font-size: 36px; line-height: 1; letter-spacing: .02em; color: var(--indigo); }
+.navlinks { letter-spacing: .14em; color: var(--text-soft); }
+.navlinks a { position: relative; padding-bottom: 2px; }
+.navlinks a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: linear-gradient(90deg, var(--champ), transparent); transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
+.navlinks a:hover { color: var(--indigo); }
+.navlinks a:hover::after { transform: scaleX(1); }
+.back, .message-topbar a {
+    background: rgba(244, 246, 250, .7) !important; border: .5px solid var(--champ);
+    box-shadow: 0 3px 14px rgba(22, 26, 60, .08); border-radius: 999px !important; letter-spacing: .08em; padding: 6px 16px !important;
+}
+
+/* ---------- 个人简介 ---------- */
+.profile { position: relative; }
+.profile > div:not(.avatar) { position: relative; z-index: 2; }
+.o-crest { position: absolute; left: 44%; top: 30px; width: 300px; height: 218px; background-image: url('images/rococo/crest.webp'); opacity: .12; z-index: 0; }
+.avatar {
+    border: 2.4px solid var(--frame);
+    box-shadow: 0 0 0 5px var(--ring), 0 0 0 6px var(--champ), 0 16px 30px -14px rgba(22, 26, 60, .5) !important;
+    background: radial-gradient(circle at 35% 30%, #7C8AB4, #3C4870); margin: 6px;
+}
+.o-avbow { position: absolute; left: -26px; top: 50px; width: 82px; height: 84px; background-image: url('images/rococo/w_bow_white.webp'); transform: rotate(-20deg); filter: drop-shadow(0 4px 5px rgba(30, 40, 80, .3)); z-index: 3; }
+.o-avseal { position: absolute; left: 70px; top: 150px; width: 46px; height: 52px; background-image: url('images/rococo/seal_blue.webp'); filter: drop-shadow(0 4px 4px rgba(30, 40, 80, .35)); z-index: 3; }
+.o-camellia { position: absolute; right: 150px; bottom: 6px; width: 84px; height: 84px; background-image: url('images/rococo/s_camellia.webp'); transform: rotate(10deg); filter: drop-shadow(0 6px 6px rgba(30, 40, 80, .25)); }
+.o-hello { position: absolute; right: 34px; bottom: 0; width: 100px; height: 184px; background-image: url('images/rococo/b_hello.webp'); background-position: bottom; filter: drop-shadow(0 8px 8px rgba(30, 40, 80, .25)); transform-origin: 50% 100%; animation: bob 4.5s ease-in-out infinite; }
+.profile::after { content: ''; position: absolute; right: -6px; top: 20px; width: 230px; height: 112px; background: url('images/rococo/vine.webp') no-repeat center / contain; opacity: .9; pointer-events: none; }
+@keyframes bob { 0%, 100% { transform: rotate(-1.5deg); } 50% { transform: rotate(1.5deg) translateY(-3px); } }
+.profile h1.serif { font-family: var(--script); font-weight: 400; font-size: 64px; line-height: 1; letter-spacing: .02em; color: var(--indigo); margin: 0 0 14px; position: relative; }
+.profile h1.serif::before { content: ''; position: absolute; left: -26px; top: -6px; width: 190px; height: 90px; background: url('images/rococo/wash.webp') center / 100% 100% no-repeat; opacity: .6; z-index: -1; mix-blend-mode: multiply; -webkit-mask: radial-gradient(ellipse at center, #000 45%, transparent 72%); mask: radial-gradient(ellipse at center, #000 45%, transparent 72%); }
+.profile h1.serif::after { content: 'bienvenue'; font-family: var(--script); font-size: 22px; letter-spacing: .02em; color: var(--gold); margin-left: 12px; }
+.profile .bio { color: var(--text-soft); letter-spacing: .04em; }
+.tag { background: var(--mist); border: .5px solid var(--champ); color: var(--indigo); border-radius: 999px; letter-spacing: .12em; font-size: 12px; font-family: var(--latin); }
+
+/* ---------- 分区标题（吊牌 + 花体副标 + 蓝墨水线） ---------- */
+.section-head { position: relative; padding-bottom: 14px; margin-bottom: 30px; scroll-margin-top: 90px; }
+.section-head::after { content: ''; order: 5; width: 100%; height: 18px; background: url('images/rococo/inkline.webp') left center / 100% 100% no-repeat; }
+.section-head h2 { display: flex; align-items: center; gap: 14px; font-weight: 700; letter-spacing: .14em; color: #232A3E; }
+.section-head h2::before { content: ''; flex: none; width: 36px; height: 51px; background: var(--ti) center / contain no-repeat; filter: drop-shadow(0 4px 4px rgba(30, 40, 80, .22)); transform: rotate(-4deg); }
+.section-head h2::after { font-family: var(--script); font-weight: 400; font-size: 28px; letter-spacing: .02em; color: var(--accent); }
+#guides h2 { --ti: url('images/rococo/t_search.webp'); } #guides h2::after { content: 'Guides'; }
+#pages h2 { --ti: url('images/rococo/t_fav.webp'); } #pages h2::after { content: 'Jeux'; }
+#downloads h2 { --ti: url('images/rococo/t_files.webp'); } #downloads h2::after { content: 'Téléchargements'; }
+.cab-head h2 { --ti: url('images/rococo/t_look.webp'); } .cab-head h2::after { content: 'Cabinet de curiosités'; }
+.section-sub { color: var(--text-soft); letter-spacing: .1em; }
+.o-peek { position: absolute; right: 330px; bottom: 6px; width: 70px; height: 124px; background-image: url('images/rococo/b_peek.webp'); background-position: bottom; z-index: 5; filter: drop-shadow(0 6px 6px rgba(30, 40, 80, .25)); animation: bob 5s ease-in-out infinite; }
+.o-walk { position: absolute; bottom: 8px; left: 0; width: 58px; height: 106px; background-image: url('images/rococo/b_walk1.webp'); background-position: bottom; z-index: 5; filter: drop-shadow(0 6px 6px rgba(30, 40, 80, .22)); animation: stroll 42s linear infinite, step .8s steps(1) infinite; }
+@keyframes step { 0% { background-image: url('images/rococo/b_walk1.webp'); } 50% { background-image: url('images/rococo/b_walk2.webp'); } }
+@keyframes stroll { 0% { left: 340px; transform: scaleX(1); } 49% { left: calc(100% - 150px); transform: scaleX(1); } 50% { left: calc(100% - 150px); transform: scaleX(-1); } 99% { left: 340px; transform: scaleX(-1); } 100% { left: 340px; transform: scaleX(1); } }
+
+/* ---------- 攻略卡片：带回形针和小贴纸的明信片 ---------- */
+.game-card {
+    position: relative; padding: 8px; border: 2.4px solid var(--frame); border-radius: 24px; background: var(--surface);
+    box-shadow: inset 0 0 0 4px var(--ring), 0 16px 32px -20px rgba(22, 26, 60, .5); overflow: visible;
+    transition: transform .45s cubic-bezier(.18, 1.5, .3, 1), box-shadow .3s ease;
+}
+.cardlist > .game-card:nth-child(odd) { transform: rotate(-.6deg); }
+.cardlist > .game-card:nth-child(even) { transform: rotate(.5deg); }
+.game-card:hover { transform: rotate(0) translateY(-4px) !important; box-shadow: inset 0 0 0 4px var(--ring), 0 22px 36px -18px rgba(22, 26, 60, .55); }
+.game-card .card-img { border-radius: 14px; margin: 4px 0 0 4px; height: auto; border: .5px solid var(--champ); }
+.game-card .card-body { background: transparent; padding-left: 20px; }
+.game-card .card-body .card-title { font-weight: 700; color: var(--indigo); letter-spacing: .06em; }
+.game-card .card-body .card-sub { color: var(--text-soft); }
+.game-card .card-body .card-tags span, .dl-meta .chip { background: var(--mist); border: .5px solid var(--champ); color: var(--indigo); letter-spacing: .08em; font-family: var(--latin); }
+.game-card .card-body .card-url { color: var(--accent); font-family: var(--script); font-size: 17px; letter-spacing: .02em; }
+.game-card::before { content: ''; position: absolute; top: -22px; right: 26px; width: 18px; height: 78px; background: url('images/rococo/clip.webp') no-repeat center / contain; transform: rotate(8deg); filter: drop-shadow(0 3px 3px rgba(30, 40, 80, .25)); z-index: 2; pointer-events: none; }
+.cardlist > .game-card:nth-child(even)::before { right: auto; left: 26px; transform: rotate(-8deg); }
+.game-card::after { content: ''; position: absolute; right: -20px; bottom: -22px; width: 70px; height: 70px; background: var(--st) center / contain no-repeat; filter: drop-shadow(0 6px 6px rgba(30, 40, 80, .28)); transform: rotate(12deg); z-index: 3; pointer-events: none; }
+.cardlist > .game-card:nth-child(4n+1) { --st: url('images/rococo/s_camellia.webp'); }
+.cardlist > .game-card:nth-child(4n+2) { --st: url('images/rococo/k_pinkbow.webp'); }
+.cardlist > .game-card:nth-child(4n+3) { --st: url('images/rococo/w_rose.webp'); }
+.cardlist > .game-card:nth-child(4n+4) { --st: url('images/rococo/k_lotus.webp'); }
+
+/* ---------- 下载：带编号和旧物的信笺 ---------- */
+.dl-list { counter-reset: dl; gap: 26px; }
+.dl-item {
+    position: relative; counter-increment: dl; padding: 26px 28px; border: 2.4px solid var(--frame); border-radius: 26px;
+    background: var(--surface); box-shadow: inset 0 0 0 4px var(--ring), 0 14px 30px -18px rgba(22, 26, 60, .45);
+}
+.dl-item:hover { box-shadow: inset 0 0 0 4px var(--ring), 0 20px 34px -16px rgba(22, 26, 60, .5); }
+.dl-item::before {
+    content: 'N° ' counter(dl, decimal-leading-zero); position: absolute; top: -14px; left: 30px; padding: 1px 16px;
+    background: var(--ring) url('images/rococo/glassine.webp') center / cover; border: .5px solid var(--champ); border-radius: 999px;
+    font-family: var(--mono); font-size: 13px; letter-spacing: .14em; line-height: 1.7; color: var(--accent); z-index: 2;
+}
+.dl-item.dl-plan::before { content: 'Plan'; }
+.dl-item::after { content: ''; position: absolute; right: 250px; top: 50%; width: 92px; height: 92px; transform: translateY(-50%) rotate(-6deg); background: var(--ob) center / contain no-repeat; opacity: .3; pointer-events: none; }
+.dl-item:nth-child(12n+1) { --ob: url('images/rococo/floppy.webp'); } .dl-item:nth-child(12n+2) { --ob: url('images/rococo/typewriter.webp'); }
+.dl-item:nth-child(12n+3) { --ob: url('images/rococo/punchcard.webp'); } .dl-item:nth-child(12n+4) { --ob: url('images/rococo/reel.webp'); }
+.dl-item:nth-child(12n+5) { --ob: url('images/rococo/tape.webp'); } .dl-item:nth-child(12n+6) { --ob: url('images/rococo/telegraph.webp'); }
+.dl-item:nth-child(12n+7) { --ob: url('images/rococo/gear.webp'); } .dl-item:nth-child(12n+8) { --ob: url('images/rococo/tube.webp'); }
+.dl-item:nth-child(12n+9) { --ob: url('images/rococo/compass.webp'); } .dl-item:nth-child(12n+10) { --ob: url('images/rococo/keycaps.webp'); }
+.dl-item:nth-child(12n+11) { --ob: url('images/rococo/lamp.webp'); } .dl-item:nth-child(12n+12) { --ob: url('images/rococo/key.webp'); }
+.dl-plan { border-style: solid; }
+.dl-title { font-weight: 700; color: var(--indigo); letter-spacing: .06em; }
+.dl-desc, .dl-meta { color: var(--text-soft); }
+.dl-meta { font-family: var(--mono); letter-spacing: .02em; }
+.dl-plan-list .st { background: var(--mist); border: .5px solid var(--champ); color: var(--text-soft); letter-spacing: .08em; }
+.dl-plan-list .st.done { background: var(--accent); border-color: var(--frame); color: #fff; }
+.dl-plan-list .st.doing { background: var(--ring); border-color: var(--accent); color: var(--accent); }
+
+/* ---------- 按钮：吊牌式 ---------- */
+.btn, .contact-form .submit-btn {
+    background: var(--accent); color: #F4F6FB; border: 2.4px solid var(--frame); border-radius: 999px;
+    box-shadow: inset 0 0 0 3px var(--ring), 0 8px 18px -8px rgba(22, 26, 60, .5); padding: 9px 24px; letter-spacing: .12em; font-family: var(--serif);
+    transition: transform .3s cubic-bezier(.18, 1.5, .3, 1), background .2s;
+}
+.btn:hover, .contact-form .submit-btn:hover { background: #3C4870; transform: translateY(-2px); }
+.btn:disabled, .submit-btn:disabled { opacity: .7; }
+.btn[aria-disabled="true"] { background: #9AA3BE; }
+.btn.ghost { background: rgba(251, 248, 241, .8); color: var(--indigo); border: 2.4px solid var(--frame); box-shadow: inset 0 0 0 3px var(--mist), 0 8px 18px -10px rgba(22, 26, 60, .4); }
+.btn.ghost:hover { background: var(--ring); color: var(--indigo); }
+
+/* ---------- 留言入口：信封 + 鸽子 + 羽毛笔 + 小兔 ---------- */
+.message-entry {
+    position: relative; margin: 44px 0 10px; padding: 30px 150px 30px 150px; border: 2.4px solid var(--frame) !important; border-radius: 26px;
+    background: linear-gradient(rgba(250, 251, 253, .6), rgba(250, 251, 253, .6)), url('images/rococo/w_rd_board.webp') center / cover !important; box-shadow: inset 0 0 0 4px var(--ring), 0 14px 30px -18px rgba(22, 26, 60, .45);
+}
+.message-entry::before { content: ''; position: absolute; left: 24px; top: 50%; width: 100px; height: 72px; transform: translateY(-50%) rotate(-6deg); background: url('images/rococo/env.webp') no-repeat center / contain; filter: drop-shadow(0 6px 8px rgba(30, 40, 80, .25)); }
+.o-me-dove { position: absolute; right: 190px; top: -46px; width: 120px; height: 72px; background-image: url('images/rococo/dove2.webp'); animation: sway 6s ease-in-out infinite; }
+.o-me-nib { position: absolute; right: 108px; bottom: 4px; width: 84px; height: 44px; background-image: url('images/rococo/nib.webp'); transform: rotate(8deg) scaleX(-1); filter: drop-shadow(0 4px 4px rgba(30, 40, 80, .25)); }
+.o-me-stand { position: absolute; right: 22px; bottom: 0; width: 70px; height: 130px; background-image: url('images/rococo/b_stand.webp'); background-position: bottom; filter: drop-shadow(0 6px 6px rgba(30, 40, 80, .25)); }
+
+/* ---------- 小陈列室 ---------- */
+.cabinet { position: relative; margin: 70px 0 40px; padding: 34px 30px 40px; border: 2.4px solid var(--frame); border-radius: 30px; background: url('images/rococo/paper.webp') center / cover, var(--surface); box-shadow: inset 0 0 0 4px var(--ring), 0 18px 40px -22px rgba(22, 26, 60, .5); }
+.cabinet::before { content: ''; position: absolute; right: 24px; top: 14px; width: 150px; height: 68px; background: url('images/rococo/n11.webp') center / contain no-repeat; opacity: .35; pointer-events: none; }
+.cabinet::after { content: ''; position: absolute; left: 24px; right: 24px; bottom: 8px; height: 22px; background: url('images/rococo/fence_lt.webp') center / auto 100% repeat-x; opacity: .7; pointer-events: none; }
+.cab-head { margin-bottom: 20px; }
+.cab-head::after { background-image: url('images/rococo/band.webp'); height: 12px; background-size: 100% 100%; opacity: .8; }
+.cab-block { position: relative; margin: 0 0 40px; }
+.cab-block:last-child { margin-bottom: 0; }
+.cab-title { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 0 0 20px; font-family: var(--script); font-weight: 400; font-size: 34px; letter-spacing: .02em; color: var(--accent); }
+.cab-title::before, .cab-title::after { content: ''; width: 90px; height: 38px; background: url('images/rococo/leaf.webp') center / contain no-repeat; opacity: .9; }
+.cab-title::before { transform: scaleX(-1); }
+.pols { display: flex; flex-wrap: wrap; justify-content: center; gap: 26px 22px; }
+.pol { position: relative; margin: 0; padding: 10px 10px 8px; background: url('images/rococo/w_rd_card_plan.webp') center / 100% 100% no-repeat, var(--ring); border: .5px solid var(--champ); box-shadow: 0 14px 22px -14px rgba(22, 26, 60, .5); text-align: center; transform: rotate(var(--r, 0deg)); transition: transform .5s cubic-bezier(.18, 1.5, .3, 1); }
+.pol::before { content: ''; position: absolute; top: -12px; left: 50%; width: 64px; height: 24px; transform: translateX(-50%) rotate(-3deg); background: url('images/rococo/w_rd_band.webp') center / 100% 100% no-repeat; opacity: .9; }
+.pol:hover { transform: rotate(0) translateY(-6px) scale(1.04); z-index: 3; }
+.pol img, .print img { display: block; margin: 0 auto; height: 150px; width: auto; max-width: 100%; }
+figcaption { font-family: var(--script); font-size: 19px; line-height: 1.5; color: var(--accent); margin-top: 4px; }
+.prints { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 18px 24px; margin-top: 34px; }
+.print { margin: 0; padding: 10px 12px 4px; background: url('images/rococo/w_rd_pocket.webp') center / 100% 100% no-repeat; border-radius: 6px; text-align: center; transition: transform .4s cubic-bezier(.18, 1.5, .3, 1); }
+.print:hover { transform: translateY(-5px) rotate(-1.5deg); }
+.print img { height: auto; max-height: 150px; }
+.shelf-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: 12px 16px; padding: 0 10px; }
+.sh { display: block; width: auto; filter: drop-shadow(0 10px 8px rgba(30, 40, 80, .28)); transition: transform .45s cubic-bezier(.18, 1.5, .3, 1); }
+.sh:hover { transform: translateY(-8px) rotate(-3deg); }
+.rail-bar { display: block; height: 34px; margin-top: -4px; background: url('images/rococo/fence_ink.webp') center / auto 100% repeat-x; opacity: .85; }
+.sky { padding: 26px 20px 18px; border-radius: 26px; background: url('images/rococo/skylight.webp') center / cover, linear-gradient(180deg, #C9D3E8, #EEF1F6); border: .5px solid var(--champ); overflow: hidden; }
+.sky .cab-title { color: var(--indigo); }
+.sky-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: 10px 24px; }
+.sk { display: block; width: auto; filter: drop-shadow(0 8px 8px rgba(30, 40, 80, .22)); transition: transform .5s ease; }
+.sk:hover { transform: translateY(-6px); }
+.at-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 28px; }
+.at { display: block; width: auto; filter: drop-shadow(0 8px 6px rgba(30, 40, 80, .25)); transition: transform .45s cubic-bezier(.18, 1.5, .3, 1); }
+.at:nth-child(odd) { transform: rotate(-4deg); } .at:nth-child(even) { transform: rotate(3deg); }
+.at:hover { transform: rotate(0) scale(1.12) !important; }
+.tickets { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 26px; padding: 14px; border-radius: 18px; background: url('images/rococo/w_rd_cover.webp') center / cover; }
+.tk { display: inline-flex; align-items: center; gap: 10px; padding: 7px 18px 7px 12px; border-radius: 12px; background: url('images/rococo/w_rd_card_chg.webp') center / 100% 100% no-repeat, var(--mist); border: 1px dashed rgba(42, 49, 80, .35); }
+.tk img { display: block; }
+.tk b { font-family: var(--script); font-weight: 400; font-size: 20px; color: var(--indigo); }
+.st-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 16px; padding: 18px; border-radius: 20px; background: linear-gradient(rgba(251,251,253,.62), rgba(251,251,253,.62)), url('images/rococo/vellum.webp') center / cover; border: .5px solid var(--champ); }
+.stk { display: block; width: auto; filter: drop-shadow(0 6px 5px rgba(30, 40, 80, .25)); transition: transform .45s cubic-bezier(.18, 1.5, .3, 1); }
+.stk:nth-child(3n+1) { transform: rotate(-7deg); } .stk:nth-child(3n+2) { transform: rotate(5deg); } .stk:nth-child(3n) { transform: rotate(-2deg); }
+.stk:hover { transform: rotate(0) scale(1.15) !important; }
+/* 渐显 */
+html.js .pol, html.js .print, html.js .sh, html.js .sk, html.js .at, html.js .tk, html.js .stk { opacity: 0; translate: 0 18px; transition: opacity .7s ease var(--d, 0ms), translate .7s ease var(--d, 0ms), transform .45s cubic-bezier(.18, 1.5, .3, 1); }
+html.js .pol.in, html.js .print.in, html.js .sh.in, html.js .sk.in, html.js .at.in, html.js .tk.in, html.js .stk.in { opacity: 1; translate: 0 0; }
+
+/* ---------- 页脚 ---------- */
+footer { border-top: 0; position: relative; padding-top: 56px; }
+footer::before { content: ''; position: absolute; top: 0; left: 50%; width: 52px; height: 52px; transform: translateX(-50%); background: url('images/rococo/w_rd_seal.webp') center / contain no-repeat; filter: drop-shadow(0 4px 4px rgba(30, 40, 80, .3)); }
+footer::after { content: ''; position: absolute; top: 18px; left: 0; right: 0; height: 18px; background: url('images/rococo/inkline.webp') center / 100% 100% no-repeat; z-index: -1; }
+footer .links a { color: var(--text-soft); text-decoration: none; letter-spacing: .1em; border-bottom: 1px dashed var(--champ); }
+footer .links a:hover { color: var(--indigo); }
+footer .copy { font-family: var(--script); font-size: 20px; color: var(--accent); }
+.o-doze { position: absolute; left: 50%; bottom: 20px; width: 78px; height: 96px; margin-left: 120px; background-image: url('images/rococo/b_doze1.webp'); background-position: bottom; animation: doze 4.5s steps(1) infinite; filter: drop-shadow(0 6px 6px rgba(30, 40, 80, .22)); }
+@keyframes doze { 0% { background-image: url('images/rococo/b_doze1.webp'); } 33% { background-image: url('images/rococo/b_doze2.webp'); } 66% { background-image: url('images/rococo/b_doze3.webp'); } }
+
+/* ---------- 留言板 ---------- */
+.message-topbar { border-color: var(--champ) !important; }
+.message-hero { position: relative; }
+.message-hero h1.serif { font-family: var(--serif); font-weight: 700; font-size: 24px !important; letter-spacing: .3em; color: #232A3E; line-height: 1.3; }
+.message-hero h1.serif::before { content: 'Livre d\2019 or'; display: block; font-family: var(--script); font-weight: 400; font-size: 64px; line-height: 1.1; letter-spacing: .02em; color: var(--indigo); }
+.message-hero p { color: var(--text-soft); letter-spacing: .04em; }
+.o-mwave { position: absolute; right: 40px; bottom: -6px; width: 88px; height: 160px; background-image: url('images/rococo/b_wave.webp'); background-position: bottom; filter: drop-shadow(0 6px 6px rgba(30, 40, 80, .25)); animation: bob 5s ease-in-out infinite; }
+.o-mquills { position: absolute; right: 150px; top: 24px; width: 150px; height: 80px; background-image: url('images/rococo/w_quills.webp'); transform: rotate(-8deg); filter: drop-shadow(0 6px 6px rgba(30, 40, 80, .22)); }
+.o-mcrest { position: absolute; left: 36%; top: -10px; width: 280px; height: 204px; background-image: url('images/rococo/crest.webp'); opacity: .14; z-index: -1; }
+.message-panel > h2 { font-weight: 700; letter-spacing: .14em; color: #232A3E; display: flex; align-items: center; gap: 10px; }
+.message-panel > h2::before { content: ''; width: 28px; height: 40px; background: url('images/rococo/t_account.webp') center / contain no-repeat; }
+.contact-form { position: relative; border: 2.4px solid var(--frame) !important; border-radius: 26px !important; background: var(--surface) !important; box-shadow: inset 0 0 0 4px var(--ring), 0 14px 30px -18px rgba(22, 26, 60, .45) !important; }
+.contact-form::before { content: ''; position: absolute; right: -16px; top: -26px; width: 70px; height: 70px; background: url('images/rococo/w_rd_bow.webp') center / contain no-repeat; transform: rotate(14deg); filter: drop-shadow(0 4px 5px rgba(30, 40, 80, .3)); pointer-events: none; }
+.contact-form::after { content: ''; position: absolute; left: -30px; bottom: -28px; width: 130px; height: 82px; background: url('images/rococo/lily.webp') center / contain no-repeat; transform: rotate(-8deg); pointer-events: none; filter: drop-shadow(0 4px 5px rgba(30, 40, 80, .2)); }
+.contact-form label { color: var(--indigo); letter-spacing: .06em; }
+.contact-form input[type="text"], .contact-form input[type="email"], .contact-form textarea, .contact-form input:not([type]) { background: rgba(255, 255, 255, .7) !important; border: 1px dashed rgba(42, 49, 80, .35) !important; border-radius: 16px !important; color: var(--text); font-family: var(--serif); }
+.contact-form input:focus, .contact-form textarea:focus { border-style: solid !important; border-color: var(--accent) !important; outline: none; box-shadow: 0 0 0 3px rgba(78, 94, 142, .18) !important; }
+.contact-form ::placeholder { color: rgba(92, 103, 136, .6); }
+.contact-form .seg { background: var(--mist) !important; border: .5px solid var(--champ) !important; border-radius: 999px !important; padding: 3px; }
+.contact-form .seg .seg-opt span { border-radius: 999px !important; letter-spacing: .1em; color: var(--text-soft); }
+.contact-form .seg .seg-opt input:checked + span { background: var(--accent) !important; color: #fff !important; box-shadow: 0 0 0 2px var(--ring), 0 0 0 3px var(--frame); }
+.form-note, .contact-form .req { color: var(--text-soft); }
+
+.msg { position: relative; border: 1.5px solid var(--frame) !important; border-radius: 22px !important; background: var(--surface) !important; box-shadow: inset 0 0 0 3px var(--ring), 0 10px 22px -16px rgba(22, 26, 60, .45) !important; padding-left: 26px !important; }
+.msg::before { content: ''; position: absolute; left: 6px; top: 16px; bottom: 16px; width: 8px; background: url('images/rococo/w_rd_spine.webp') center / 100% 100% no-repeat; opacity: .8; }
+.msg::after { content: ''; position: absolute; right: -10px; top: -12px; width: 30px; height: 28px; background: url('images/rococo/heart.webp') center / contain no-repeat; transform: rotate(14deg); filter: drop-shadow(0 3px 3px rgba(30, 40, 80, .25)); }
+.msg-name { color: var(--indigo); letter-spacing: .06em; }
+.msg-date { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+.msg-reply { position: relative; background: linear-gradient(rgba(230, 235, 246, .78), rgba(230, 235, 246, .78)), url('images/rococo/letter.webp') center / cover !important; border: 1px dashed rgba(42, 49, 80, .3) !important; border-radius: 16px !important; padding-left: 52px !important; }
+.msg-reply::before { content: ''; position: absolute; left: 10px; top: 8px; width: 30px; height: 34px; background: url('images/rococo/seal_blue.webp') center / contain no-repeat; }
+.msg-reply b { color: var(--accent); font-family: var(--script); font-size: 19px; font-weight: 400; }
+
+/* ---------- 系统提示 ---------- */
+/* 1) 提交成功等：一封带火漆的信，从上方落下 */
+.success-toast {
+    position: fixed !important; top: 84px !important; left: 50% !important; z-index: 300 !important;
+    display: block !important; visibility: hidden; opacity: 0; pointer-events: none;
+    width: min(440px, 92vw); max-width: none !important; padding: 26px 30px 24px 104px !important;
+    border: 2.4px solid var(--frame) !important; border-radius: 22px !important;
+    background: url('images/rococo/paper.webp') center / cover, var(--ring) !important;
+    box-shadow: inset 0 0 0 4px var(--ring), 0 24px 40px -18px rgba(22, 26, 60, .6) !important;
+    color: var(--text) !important; font-size: 15px !important; line-height: 1.75; letter-spacing: .04em;
+    transform: translate(-50%, -30px) rotate(-1.5deg); animation: none !important;
+}
+.success-toast.show { visibility: visible; opacity: 1; pointer-events: auto; transform: translate(-50%, 0) rotate(-.6deg); transition: opacity .35s ease, transform .6s cubic-bezier(.18, 1.4, .3, 1); }
+.success-toast::before { /* 火漆 */
+    content: ''; position: absolute; left: 14px; top: 50%; width: 76px; height: 86px; transform: translateY(-50%) rotate(-8deg); background: var(--sl, url('images/rococo/seal_blue.webp')) center / contain no-repeat;
+    filter: drop-shadow(0 6px 6px rgba(30, 40, 80, .4));
+}
+.success-toast.show::before { animation: stamp .7s cubic-bezier(.2, 1.6, .3, 1) .15s both; }
+@keyframes stamp { 0% { transform: translateY(-50%) rotate(-8deg) scale(1.9); opacity: 0; } 70% { opacity: 1; } 100% { transform: translateY(-50%) rotate(-8deg) scale(1); opacity: 1; } }
+.success-toast::after { /* 丝带 + 飞走的鸽子 */
+    content: ''; position: absolute; right: -30px; top: -46px; width: 120px; height: 72px; background: var(--dv, url('images/rococo/dove3.webp')) center / contain no-repeat;
+    filter: drop-shadow(0 6px 6px rgba(30, 40, 80, .25)); transform: rotate(8deg);
+}
+.success-toast.show::after { animation: fly 3.2s ease-in-out .3s both; }
+@keyframes fly { 0% { transform: translate(-30px, 14px) rotate(8deg) scale(.7); opacity: 0; } 25% { opacity: 1; } 100% { transform: translate(8px, -4px) rotate(8deg) scale(1); opacity: 1; } }
+.success-toast .t-head { display: block; position: relative; font-family: var(--script); font-size: 34px; line-height: 1.1; color: var(--indigo); margin-bottom: 4px; }
+.success-toast .t-head::before { content: ''; position: absolute; left: -12px; top: 0; width: 120px; height: 44px; background: url('images/rococo/wash.webp') center / 100% 100% no-repeat; opacity: .65; z-index: -1; mix-blend-mode: multiply; -webkit-mask: radial-gradient(ellipse at center, #000 45%, transparent 72%); mask: radial-gradient(ellipse at center, #000 45%, transparent 72%); }
+.success-toast .t-body { display: block; border-top: 1px dashed rgba(42, 49, 80, .3); padding-top: 8px; }
+.success-toast.kind-private { --sl: url('images/rococo/seal_ivory.webp'); --dv: url('images/rococo/w_key.webp'); }
+.success-toast.kind-pending { --sl: url('images/rococo/w_rd_seal.webp'); --dv: url('images/rococo/w_hourglass.webp'); }
+.success-toast.kind-pending::after { width: 46px; height: 64px; right: -14px; top: -34px; }
+.success-toast.kind-private::after { width: 96px; height: 40px; }
+
+/* 2) 表单报错：一张小纸条 + 铃铛 */
+.form-error { position: relative; min-height: 0; margin: 0 0 16px !important; padding: 10px 14px 10px 54px; border: 1px dashed rgba(169, 96, 122, .7); border-radius: 16px; background: rgba(255, 250, 250, .85) url('images/rococo/glassine.webp') center / cover; color: #8C3F57 !important; font-size: 14px; line-height: 1.7; }
+.form-error::before { content: ''; position: absolute; left: 10px; top: 50%; width: 32px; height: 38px; transform: translateY(-50%) rotate(-10deg); background: url('images/rococo/w_bell.webp') center / contain no-repeat; filter: drop-shadow(0 3px 3px rgba(30, 40, 80, .25)); animation: ring 1.4s ease-in-out 2; transform-origin: 50% 10%; }
+@keyframes ring { 0%, 100% { transform: translateY(-50%) rotate(-10deg); } 25% { transform: translateY(-50%) rotate(14deg); } 50% { transform: translateY(-50%) rotate(-14deg); } 75% { transform: translateY(-50%) rotate(8deg); } }
+.form-error:empty { display: none; }
+
+/* 3) 空状态 / 加载中 / 失败 / 未开放：睡着的小兔、沙漏、信封 */
+.empty, .gb-offline {
+    position: relative; margin: 0; padding: 112px 24px 22px; text-align: center; border: 1px dashed rgba(42, 49, 80, .3); border-radius: 22px;
+    background: var(--empty, url('images/rococo/empty.webp')) center 14px / auto 92px no-repeat, rgba(230, 235, 246, .7); color: var(--text-soft); letter-spacing: .06em;
+}
+.empty:empty { display: none; }
+.empty.loading { --empty: url('images/rococo/v_hourglass.webp'); animation: breathe 2.4s ease-in-out infinite; cursor: var(--cu-wait); }
+.empty.err { --empty: url('images/rococo/w_candle.webp'); border-color: rgba(169, 96, 122, .55); color: #8C3F57; }
+.gb-offline { --empty: url('images/rococo/envelope.webp'); }
+@keyframes breathe { 0%, 100% { opacity: 1; } 50% { opacity: .6; } }
+.contact-form.disabled { opacity: .6; }
+#gbSubmit:disabled { background: url('images/rococo/wax.webp') center / cover; color: #fff; text-shadow: 0 1px 2px rgba(22, 26, 60, .5); }
+
+/* ---------- 装饰开关 / 手机 / 减少动效 ---------- */
+html.no-decor .deco, html.no-decor .o, html.no-decor .cabinet, html.no-decor .contact-form::before, html.no-decor .contact-form::after, html.no-decor .game-card::before, html.no-decor .game-card::after, html.no-decor .profile::after, html.no-decor .message-entry::before { display: none !important; }
+@media (max-width: 900px) {
+    .o-crest, .o-camellia, .fx.lily-l, .fx.sk-forget, .o-mquills, .o-mcrest { display: none; }
+    .dl-item::after { right: 20px; top: 14px; transform: rotate(8deg); width: 56px; height: 56px; }
+    .cabinet { padding: 24px 16px 28px; }
+}
+@media (max-width: 720px) {
+    .profile::after, .o-hello { display: none; }
+    .profile h1.serif { font-size: 48px; } .profile h1.serif::after { display: none; }
+    .brand.serif { font-size: 30px; }
+    .section-head h2::after { font-size: 22px; }
+    .o-peek, .o-walk { display: none; }
+    .message-entry { padding: 24px 20px 24px 112px; }
+    .message-entry::before { left: 14px; width: 80px; height: 58px; }
+    .o-me-dove { right: 14px; top: -40px; } .o-me-nib, .o-me-stand { display: none; }
+    .dl-item { padding: 26px 18px 18px; }
+    .game-card::before { right: 16px; }
+    .message-hero h1.serif::before { font-size: 48px; }
+    .o-mwave { right: 4px; width: 64px; height: 116px; }
+    .o-doze { position: static; margin: 0 auto 8px; order: -1; }
+    .fx.lily-r { opacity: .35; }
+    .cab-title::before, .cab-title::after { width: 44px; }
+    .pol img { height: 110px; }
+    .success-toast { padding: 22px 20px 20px 88px !important; top: 72px !important; }
+    .success-toast::before { width: 62px; height: 70px; left: 12px; }
+}
+@media (max-width: 480px) {
+    .o-mwave, .o-avseal { display: none; }
+    .o-avbow { width: 56px; height: 58px; left: -14px; top: 62px; }
+    .profile h1.serif { font-size: 40px !important; }
+    .game-card { padding: 6px; } .game-card .card-img { margin: 2px 0 0 2px; }
+    .section-head h2::after { display: none; }
+    .game-card::after { width: 52px; height: 52px; right: -10px; }
+    .cabinet { margin-left: -6px; margin-right: -6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+    .cardlist > .game-card { transform: none !important; }
+    .fx.dv, .fx.bf { display: none; }
+    html.js .pol, html.js .print, html.js .sh, html.js .sk, html.js .at, html.js .tk, html.js .stk { opacity: 1; translate: 0 0; }
+}

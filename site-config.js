@@ -11,6 +11,7 @@ window.SITE = {
   // 需要和 Worker 里的 TURNSTILE_SECRET 配套使用。
   turnstileSiteKey: '',
 
+  // 攻略卡片改为纯文字样式（标题 / 简介 / 标签），cover 字段不再显示。
   guides: [
     {
       title: '学园祭的王子们 攻略',
