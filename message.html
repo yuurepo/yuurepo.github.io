@@ -1054,7 +1054,7 @@
                     body.appendChild(tags);
                 }
                 if (href && isExternal(href)) {
-                    body.appendChild(el('div', 'card-url', href.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗'));
+                    body.appendChild(el('div', 'card-url', href.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' →'));
                 }
                 a.appendChild(img);
                 a.appendChild(body);
@@ -1087,7 +1087,7 @@
 
                 var href = downloadHref(d);
                 var ext = isExternal(href) && !d.file;
-                var btn = el('a', 'btn', d.placeholder ? '即将开放' : (ext ? '前往下载 ↗' : '↓ 下载'));
+                var btn = el('a', 'btn', d.placeholder ? '即将开放' : (ext ? '前往下载 →' : '↓ 下载'));
                 if (d.placeholder) {
                     btn.setAttribute('aria-disabled', 'true');
                     btn.title = '补丁下载入口暂未开放';

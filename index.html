@@ -965,68 +965,7 @@
         .pg-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 0; }
     
 
-        /* 首页装饰素材带：让原有插画自然融入主界面 */
-        .home-ornaments {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: clamp(12px, 2.4vw, 30px);
-            min-height: 116px;
-            margin: 8px 0 52px;
-            padding: 16px 22px 12px;
-            border-top: 1px solid rgba(126, 137, 158, .22);
-            border-bottom: 1px solid rgba(126, 137, 158, .22);
-            background:
-                linear-gradient(90deg, transparent, rgba(222, 225, 234, .32) 18%, rgba(222, 225, 234, .32) 82%, transparent);
-            overflow: hidden;
-        }
-        .home-ornaments::before, .home-ornaments::after {
-            content: "✧";
-            position: absolute;
-            top: 5px;
-            color: var(--gold, #9b8a68);
-            opacity: .55;
-            font-size: 13px;
-        }
-        .home-ornaments::before { left: 5px; }
-        .home-ornaments::after { right: 5px; }
-        .home-ornaments img {
-            display: block;
-            width: auto;
-            max-width: 10%;
-            height: 58px;
-            object-fit: contain;
-            opacity: .88;
-            filter: drop-shadow(0 5px 5px rgba(40, 46, 66, .12));
-            transition: transform .35s ease, opacity .35s ease;
-        }
-        .home-ornaments img:nth-of-type(2n) { height: 72px; }
-        .home-ornaments img:nth-of-type(3n) { height: 48px; }
-        .home-ornaments img:hover { transform: translateY(-5px) rotate(-3deg); opacity: 1; }
-        .ornament-note {
-            flex: none;
-            color: var(--text-soft, #777);
-            font-family: var(--latin, Georgia, serif);
-            font-size: 10px;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            opacity: .72;
-            white-space: nowrap;
-        }
-        @media (max-width: 760px) {
-            .home-ornaments {
-                gap: 12px;
-                min-height: 88px;
-                margin: 0 0 38px;
-                padding: 12px 8px;
-                justify-content: center;
-            }
-            .home-ornaments img { height: 44px; max-width: 13%; }
-            .home-ornaments img:nth-of-type(2n) { height: 52px; }
-            .home-ornaments img:nth-of-type(3n) { height: 36px; }
-            .ornament-note { display: none; }
-        }
+        /* 大理石柱列 / 神庙水印：建筑感装饰直接进入版面 */
 
     </style>
     <link rel="stylesheet" href="rococo.css">
@@ -1043,13 +982,13 @@
             min-height: 0;
             height: auto;
             padding: 19px 24px 30px;
-            border: 1.5px solid rgba(42, 49, 80, .5);
+            border: 1px solid rgba(42, 49, 80, .4);
             border-radius: 18px;
             background:
                 linear-gradient(rgba(251, 249, 244, .84), rgba(251, 249, 244, .84)),
                 url('images/rococo/paper.webp') center / cover,
                 var(--surface);
-            box-shadow: inset 0 0 0 4px var(--ring), 0 12px 26px -22px rgba(22, 26, 60, .55);
+            box-shadow: inset 0 0 0 2px var(--ring), 0 12px 26px -22px rgba(22, 26, 60, .55);
             transform: none;
             overflow: hidden;
             transition: transform .35s cubic-bezier(.18, 1.5, .3, 1), border-color .3s ease, box-shadow .3s ease;
@@ -1057,7 +996,7 @@
         .cardlist .game-card.guide-card:hover {
             transform: translateY(-4px) !important;
             border-color: var(--accent);
-            box-shadow: inset 0 0 0 4px var(--ring), 0 22px 34px -24px rgba(22, 26, 60, .6);
+            box-shadow: inset 0 0 0 2px var(--ring), 0 22px 34px -24px rgba(22, 26, 60, .6);
         }
         /* 右下角淡淡的压花水印 */
         .cardlist .game-card.guide-card::before {
@@ -1085,10 +1024,10 @@
             opacity: .3;
             pointer-events: none;
         }
-        .cardlist .game-card.guide-card:nth-child(4n+1) { --gflora: url('images/rococo/s_camellia.webp'); }
-        .cardlist .game-card.guide-card:nth-child(4n+2) { --gflora: url('images/rococo/w_rose.webp'); }
-        .cardlist .game-card.guide-card:nth-child(4n+3) { --gflora: url('images/rococo/k_lotus.webp'); }
-        .cardlist .game-card.guide-card:nth-child(4n+4) { --gflora: url('images/rococo/k_pinkbow.webp'); }
+        .cardlist .game-card.guide-card:nth-child(4n+1) { --gflora: url('images/rococo/sk_lily.webp'); --gseal: url('images/rococo/seal_ivory.webp'); }
+        .cardlist .game-card.guide-card:nth-child(4n+2) { --gflora: url('images/rococo/w_rose.webp'); --gseal: url('images/rococo/w_rd_seal.webp'); }
+        .cardlist .game-card.guide-card:nth-child(4n+3) { --gflora: url('images/rococo/k_lotus.webp'); --gseal: url('images/rococo/seal_blue.webp'); }
+        .cardlist .game-card.guide-card:nth-child(4n+4) { --gflora: url('images/rococo/k_pinkbow.webp'); --gseal: url('images/rococo/w_rd_seal.webp'); }
 
         .cardlist .game-card.guide-card .card-body {
             position: relative;
@@ -1102,7 +1041,7 @@
         }
         .guide-card .guide-top {
             display: flex;
-            align-items: baseline;
+            align-items: flex-start;
             justify-content: space-between;
             gap: 12px;
             margin-bottom: 13px;
@@ -1131,13 +1070,39 @@
             color: var(--gold);
         }
         .guide-card .guide-go {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 1px;
+            padding-left: 10px;
+            border-left: 1px solid rgba(168, 135, 74, .3);
+            text-align: right;
+            white-space: nowrap;
+        }
+        .guide-card .guide-go-label {
             font-family: var(--serif);
             font-size: 12.5px;
             letter-spacing: .08em;
             color: var(--indigo);
             border-bottom: 1px dashed var(--champ);
             padding-bottom: 1px;
-            white-space: nowrap;
+        }
+        .guide-card .guide-go-site {
+            max-width: 190px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-family: var(--mono, 'Courier Prime', monospace);
+            font-size: 9px;
+            letter-spacing: .02em;
+            color: var(--text-soft);
+            opacity: .8;
+        }
+        .guide-card .guide-go-site::before {
+            content: '◇';
+            margin-right: 5px;
+            font-size: 7px;
+            color: var(--gold);
+            opacity: .8;
         }
         .cardlist .game-card.guide-card .card-title {
             font-size: 19px;
@@ -1166,9 +1131,9 @@
             bottom: 12px;
             width: 34px;
             height: 35px;
-            background: url('images/rococo/seal_blue.webp') center / contain no-repeat;
+            background: var(--gseal, url('images/rococo/seal_ivory.webp')) center / contain no-repeat;
             opacity: .85;
-            transform: rotate(-8deg);
+            rotate: -8deg;
             filter: drop-shadow(0 3px 3px rgba(30, 40, 80, .25));
             pointer-events: none;
             z-index: 2;
@@ -1181,13 +1146,13 @@
             flex: 0 0 100%;
             margin-top: 16px;
             padding: 18px 124px 18px 22px;
-            border: 1.5px solid rgba(42, 49, 80, .5);
+            border: 1px solid rgba(42, 49, 80, .4);
             border-radius: 18px;
             background:
                 linear-gradient(rgba(251, 249, 244, .86), rgba(251, 249, 244, .86)),
-                url('images/rococo/paper.webp') center / cover,
+                url('images/rococo/vellum.webp') center / cover,
                 var(--surface);
-            box-shadow: inset 0 0 0 4px var(--ring), 0 10px 22px -20px rgba(22, 26, 60, .5);
+            box-shadow: inset 0 0 0 3px var(--ring), 0 10px 22px -20px rgba(22, 26, 60, .5);
         }
         .dl-detail::before {
             content: '';
@@ -1208,10 +1173,10 @@
             right: 24px;
             bottom: 13px;
             width: 38px;
-            height: 39px;
-            background: url('images/rococo/seal_blue.webp') center / contain no-repeat;
-            opacity: .85;
-            transform: rotate(-8deg);
+            height: 40px;
+            background: url('images/rococo/w_rd_bow.webp') center / contain no-repeat;
+            opacity: .9;
+            rotate: -8deg;
             filter: drop-shadow(0 3px 3px rgba(30, 40, 80, .28));
             pointer-events: none;
         }
@@ -1248,7 +1213,7 @@
             flex: none;
             width: 21px;
             height: 29px;
-            background: url('images/rococo/t_files.webp') center / contain no-repeat;
+            background: url('images/rococo/t_history.webp') center / contain no-repeat;
             transform: rotate(-6deg);
         }
         .dl-detail .dl-desc {
@@ -1293,7 +1258,7 @@
             width: 20px;
             height: 20px;
             transform: translateY(-50%) rotate(8deg);
-            background: url('images/rococo/s_camellia.webp') center / contain no-repeat;
+            background: url('images/rococo/leaf.webp') center / contain no-repeat;
             filter: drop-shadow(0 2px 2px rgba(30, 40, 80, .25));
         }
         .plan-meter-fill.is-empty {
@@ -1309,12 +1274,132 @@
         }
         .dl-item.has-detail::after { display: none; }
 
+        /* ===== 大理石柱、神庙水印与器物点缀：不做素材架，直接融进版式 ===== */
+        #guides .o-col-l, #guides .o-col-r {
+            position: absolute;
+            bottom: -56px;
+            width: 112px;
+            height: 224px;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            background-size: contain;
+            opacity: .78;
+            filter: drop-shadow(0 12px 14px rgba(22, 26, 60, .18));
+            pointer-events: none;
+            z-index: 0;
+        }
+        #guides .o-col-l { left: -124px; background-image: url('images/rococo/w_column.webp'); }
+        #guides .o-col-r { right: -124px; background-image: url('images/rococo/column.webp'); }
+        #guideCards { position: relative; }
+        #guideCards::before {
+            content: '';
+            position: absolute;
+            right: -82px;
+            top: -80px;
+            width: 470px;
+            height: 330px;
+            background: url('images/rococo/temple.webp') center / contain no-repeat;
+            opacity: .1;
+            pointer-events: none;
+            z-index: 0;
+        }
+        #guides .o-books {
+            position: absolute;
+            right: 24px;
+            bottom: 1px;
+            width: 50px;
+            height: 56px;
+            background: url('images/rococo/w_clockbooks.webp') center bottom / contain no-repeat;
+            opacity: .85;
+            filter: drop-shadow(0 5px 5px rgba(30, 40, 80, .2));
+            pointer-events: none;
+            z-index: 4;
+        }
+        #downloads .o-gramo {
+            position: absolute;
+            right: 120px;
+            bottom: 0;
+            width: 56px;
+            height: 52px;
+            background: url('images/rococo/w_gramophone.webp') center bottom / contain no-repeat;
+            opacity: .85;
+            filter: drop-shadow(0 5px 5px rgba(30, 40, 80, .2));
+            pointer-events: none;
+            z-index: 4;
+        }
+        .o-foot-bow {
+            position: absolute;
+            left: 112px;
+            bottom: 16px;
+            width: 40px;
+            height: 44px;
+            background: url('images/rococo/w_bow.webp') center / contain no-repeat;
+            opacity: .72;
+            filter: drop-shadow(0 5px 5px rgba(30, 40, 80, .18));
+            pointer-events: none;
+        }
+        .o-foot-candle {
+            position: absolute;
+            right: 190px;
+            bottom: 12px;
+            width: 34px;
+            height: 48px;
+            background: url('images/rococo/w_candle.webp') center bottom / contain no-repeat;
+            opacity: .82;
+            filter: drop-shadow(0 5px 5px rgba(30, 40, 80, .18));
+            pointer-events: none;
+        }
+        .dl-detail .plan-updated::before {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 20px;
+            margin-right: 7px;
+            vertical-align: -5px;
+            background: url('images/rococo/w_hourglass.webp') center / contain no-repeat;
+            opacity: .75;
+        }
+
+        @media (max-width: 1240px) {
+            #guides .o-col-l, #guides .o-col-r { display: none; }
+        }
+        @media (max-width: 900px) {
+            #guideCards::before { display: none; }
+        }
+        @media (max-width: 760px) {
+            #guides .o-books, #downloads .o-gramo, .o-foot-bow, .o-foot-candle { display: none; }
+        }
+
+        /* 桌面端：像 Trianon 的吊牌/摆件一样，只做轻量的位移与摆动 */
+        @media (min-width: 821px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+            .cardlist .game-card.guide-card { animation: guideCardIn .55s cubic-bezier(.2, 1.2, .4, 1) backwards; }
+            .cardlist .game-card.guide-card:nth-child(2) { animation-delay: .06s; }
+            .cardlist .game-card.guide-card:nth-child(3) { animation-delay: .12s; }
+            .cardlist .game-card.guide-card:nth-child(4) { animation-delay: .18s; }
+            .cardlist .game-card.guide-card::before { animation: tokenFloat 8.4s cubic-bezier(.45, 0, .55, 1) infinite; }
+            .guide-card .guide-seal {
+                animation: sealSwingIn 1.15s cubic-bezier(.2, 1.2, .4, 1) .25s both,
+                           tokenFloat 5.8s cubic-bezier(.45, 0, .55, 1) 1.4s infinite;
+            }
+            .dl-detail::before { animation: tokenFloat 7s cubic-bezier(.45, 0, .55, 1) infinite; }
+            .dl-detail::after {
+                animation: bowIn .9s cubic-bezier(.2, 1.2, .4, 1) .3s both,
+                           tokenFloat 6.2s cubic-bezier(.45, 0, .55, 1) 1.3s infinite;
+            }
+            #guides .o-books, #downloads .o-gramo, .o-foot-bow, .o-foot-candle { animation: tokenFloat 7s cubic-bezier(.45, 0, .55, 1) infinite; }
+            #downloads .o-gramo { animation-duration: 8.2s; animation-delay: -2s; }
+            .o-foot-bow { animation-duration: 6.5s; animation-delay: -1.2s; }
+            .o-foot-candle { animation-duration: 7.6s; animation-delay: -3.4s; }
+            .dl-detail .plan-updated::before { animation: tokenFloat 6.6s cubic-bezier(.45, 0, .55, 1) infinite; }
+        }
+
         @media (max-width: 760px) {
             .cardlist.guide-grid { gap: 13px; }
             .cardlist .game-card.guide-card { padding: 17px 18px 28px; border-radius: 16px; }
             .cardlist .game-card.guide-card::before { width: 142px; height: 116px; right: -22px; bottom: -20px; }
             .cardlist .game-card.guide-card::after { left: 18px; right: 18px; }
             .cardlist .game-card.guide-card .card-title { font-size: 17px; }
+            .guide-card .guide-go-site { max-width: 160px; font-size: 8px; }
             .guide-card .guide-seal { right: 14px; bottom: 9px; width: 28px; height: 29px; }
             .dl-detail { padding: 16px 18px 48px; }
             .dl-detail::before { width: 66px; height: 35px; right: 12px; top: 44px; opacity: .4; }
@@ -1384,24 +1469,12 @@
                 </div>
             </section>
 
-        <!-- 首页装饰素材：以文具、花饰与古典器物丰富主界面 -->
-        <div class="home-ornaments" aria-hidden="true">
-            <span class="ornament-note">Petits objets · Souvenirs</span>
-            <img src="images/rococo/w_candle.webp" alt="" loading="lazy">
-            <img src="images/rococo/w_quills.webp" alt="" loading="lazy">
-            <img src="images/rococo/w_teacup.webp" alt="" loading="lazy">
-            <img src="images/rococo/w_dove.webp" alt="" loading="lazy">
-            <img src="images/rococo/w_lamp.webp" alt="" loading="lazy">
-            <img src="images/rococo/s_camellia.webp" alt="" loading="lazy">
-            <img src="images/rococo/w_key.webp" alt="" loading="lazy">
-            <img src="images/rococo/w_bow_white.webp" alt="" loading="lazy">
-            <span class="ornament-note ornament-end">Collection privée</span>
-        </div>
+        <!-- 首页装饰：大理石柱与古典器物直接融进版式，不再做素材架 -->
 
         <!-- ===== 首页 ===== -->
         <div id="home">
             <!-- 我做的攻略网站 -->
-            <div class="section-head" id="guides"><i class="o o-peek" aria-hidden="true"></i>
+            <div class="section-head" id="guides"><i class="o o-col-l" aria-hidden="true"></i><i class="o o-col-r" aria-hidden="true"></i><i class="o o-peek" aria-hidden="true"></i><i class="o o-books" aria-hidden="true"></i>
                 <h2 class="serif">攻略网站</h2>
             </div>
             <div class="cardlist guide-grid" id="guideCards"></div>
@@ -1415,16 +1488,17 @@
             </div>
 
             <!-- 下载区 -->
-            <div class="section-head" id="downloads"><i class="o o-walk" aria-hidden="true"></i>
+            <div class="section-head" id="downloads"><i class="o o-walk" aria-hidden="true"></i><i class="o o-gramo" aria-hidden="true"></i>
                 <h2 class="serif">下载</h2>
                 <span class="section-sub">点击即可下载</span>
             </div>
             <div class="dl-list" id="dlList"></div>
 
-            <div class="message-entry"><i class="o o-me-dove" aria-hidden="true"></i><i class="o o-me-nib" aria-hidden="true"></i><i class="o o-me-stand" aria-hidden="true"></i><a class="btn" href="message.html">进入留言板 ↗</a><p class="section-sub">发表留言、查看公开留言及 YUU的回复</p></div>
+            <div class="message-entry"><i class="o o-me-dove" aria-hidden="true"></i><i class="o o-me-nib" aria-hidden="true"></i><i class="o o-me-stand" aria-hidden="true"></i><a class="btn" href="message.html">进入留言板 →</a><p class="section-sub">发表留言、查看公开留言及 YUU的回复</p></div>
 
             
 <footer id="foot">
+                <i class="o o-foot-bow" aria-hidden="true"></i><i class="o o-foot-candle" aria-hidden="true"></i>
                 <div class="links">
                     <a href="https://weibo.com/u/5837907348" target="_blank" rel="noopener">微博</a>
                     <a href="mailto:yuunaovo@outlook.com">邮箱</a>
@@ -1497,7 +1571,13 @@
                 var body = el('div', 'card-body');
                 var top = el('div', 'guide-top');
                 top.appendChild(el('span', 'guide-no', 'N° ' + String(i + 1).padStart(2, '0')));
-                if (href) top.appendChild(el('span', 'guide-go', '前往攻略 ↗'));
+                if (href) {
+                    var go = el('span', 'guide-go');
+                    go.appendChild(el('span', 'guide-go-label', '前往攻略 →'));
+                    var site = href.replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/$/, '');
+                    go.appendChild(el('span', 'guide-go-site', site));
+                    top.appendChild(go);
+                }
                 body.appendChild(top);
                 body.appendChild(el('div', 'card-title', g.title || ''));
                 if (g.desc) body.appendChild(el('div', 'card-sub clamp', g.desc));
@@ -1541,7 +1621,7 @@
 
                 var href = downloadHref(d);
                 var ext = isExternal(href) && !d.file;
-                var btn = el('a', 'btn', d.placeholder ? '即将开放' : (ext ? '前往下载 ↗' : (d.btnLabel || '直接下载')));
+                var btn = el('a', 'btn', d.placeholder ? '即将开放' : (ext ? '前往下载 →' : (d.btnLabel || '直接下载')));
                 if (d.placeholder) {
                     btn.setAttribute('aria-disabled', 'true');
                     btn.title = '补丁下载入口暂未开放';
@@ -1561,7 +1641,7 @@
                 // 备用下载：网盘链接（altUrl 留空则不显示）
                 var alt = safeUrl(d.altUrl);
                 if (alt && !d.placeholder) {
-                    var altBtn = el('a', 'btn btn-alt', (d.altLabel || '网盘下载') + ' ↗');
+                    var altBtn = el('a', 'btn btn-alt', (d.altLabel || '网盘下载') + ' →');
                     altBtn.href = alt; altBtn.target = '_blank'; altBtn.rel = 'noopener';
                     actions.appendChild(altBtn);
                     item.classList.add('has-alt');
@@ -1873,7 +1953,7 @@
                 var l = el('div', 'pg-links');
                 p.links.forEach(function (x) {
                     var href = safeUrl(x.url); if (!href) return;
-                    var a = el('a', 'btn', (x.label || '打开链接') + (isExternal(href) ? ' ↗' : ''));
+                    var a = el('a', 'btn', (x.label || '打开链接') + (isExternal(href) ? ' →' : ''));
                     a.href = href; if (isExternal(href)) { a.target = '_blank'; a.rel = 'noopener'; }
                     l.appendChild(a);
                 });
